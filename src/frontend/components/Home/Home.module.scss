@@ -1,0 +1,16 @@
+$nocturne:#1a1a1c;
+.Home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  h1{
+    font-size: 5rem;
+    text-shadow: 2px 2px 4px $nocturne;
+    padding: 2rem;
+  }
+  p{
+    font-size: 2rem;
+  }
+}
