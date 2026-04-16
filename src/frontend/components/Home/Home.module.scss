@@ -1,16 +1,33 @@
-$nocturne:#1a1a1c;
+@use 'sass:color';
+
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$grey: #2a2d35;
+$dark-grey: #1a1c22;
+
 .Home {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  h1{
-    font-size: 5rem;
-    text-shadow: 2px 2px 4px $nocturne;
-    padding: 2rem;
-  }
-  p{
-    font-size: 2rem;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    min-height: 80vh;
+    background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
+
+    h1 {
+        font-size: 5rem;
+        color: $white;
+        text-shadow:
+            0 0 20px rgba($blue, 0.6),
+            2px 2px 4px $black;
+        padding: 2rem;
+        letter-spacing: 0.1em;
+    }
+
+    p {
+        font-size: 2rem;
+        color: color.adjust($white, $lightness: -20%);
+        letter-spacing: 0.05em;
+    }
 }
