@@ -5,32 +5,49 @@ $white: #e8edf2;
 $grey: #2a2d35;
 
 .NavBar {
-    background-color: $black;
-    border-bottom: 1px solid rgba($blue, 0.3);
+  background-color: $black;
+  border-bottom: 1px solid rgba($blue, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 7rem;
 
-    &List {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-block: 1.5rem;
-        list-style-type: none;
-        gap: 2rem;
-        font-size: 2.5rem;
+  &Title {
+    font-size: 4rem;
+    padding-left: 1rem;
 
-        &Link {
-            text-decoration: none;
-            color: rgba($white, 0.75);
-            padding: 0.8rem 1.5rem;
-            transition:
-                color 0.25s ease,
-                border-color 0.25s ease;
-            letter-spacing: 0.08em;
-            position: relative;
-            border-bottom: 1px solid transparent;
-
-            &:hover {
-                color: $blue;
-            }
-        }
+    &Link {
+      text-decoration: none;
+      color: rgba($white, 0.75);
+      padding: 0.8rem 1.5rem;
+      letter-spacing: 0.07em;
     }
+  }
+
+  &List {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    list-style-type: none;
+    gap: 2rem;
+    font-size: 2.5rem;
+
+    &Link {
+      display:inline-block;
+      text-decoration: none;
+      color: rgba($white, 0.75);
+      padding: 0.8rem 1.5rem;
+      transition:
+              color 0.3s ease,
+              transform 0.3s ease;
+      letter-spacing: 0.05em;
+      border-radius: 12px;
+
+      &:hover {
+        color: $blue;
+        transform: translateY(-5px);
+      }
+    }
+  }
 }
