@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router'
-import NavBar from './components/NavBar/NavBar.tsx'
+import NavBar from './components/NavBar'
 import Home from './components/Home'
+import Footer from './components/Footer'
 
 function App() {
     return (
@@ -9,6 +10,7 @@ function App() {
             <Routes>
                 <Route index element={<Home />} />
             </Routes>
+            <Footer />
         </>
     )
 }

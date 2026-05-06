@@ -7,12 +7,12 @@ $grey: #2a2d35;
 $dark-grey: #1a1c22;
 
 .Home {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 100%;
-    min-height: 80vh;
     background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
 
     h1 {
