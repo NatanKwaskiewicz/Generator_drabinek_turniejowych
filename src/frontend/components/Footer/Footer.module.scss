@@ -1,0 +1,26 @@
+@use 'sass:color';
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$grey: #2a2d35;
+
+.Footer {
+    background-color: $black;
+    border-top: 1px solid rgba($blue, 0.3);
+    height: 7rem;
+    color: rgba($white, 0.75);
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 3rem;
+    align-items: center;
+    gap: 2rem;
+    font-size: 1.4rem;
+    letter-spacing: 0.05rem;
+
+    &Title {
+        letter-spacing: 0.1rem;
+    }
+    &Copy {
+        text-align: center;
+    }
+}
