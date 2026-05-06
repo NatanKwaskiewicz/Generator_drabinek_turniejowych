@@ -1,0 +1,12 @@
+/node_modules/**
+package.json
+package-lock.json
+eslint.config.js
+.prettierrc
+.gitignore
+LICENSE
+README.md
+tsconfig.app.json
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
