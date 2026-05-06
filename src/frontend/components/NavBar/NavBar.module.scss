@@ -11,6 +11,7 @@ $grey: #2a2d35;
     align-items: center;
     justify-content: space-between;
     height: 7rem;
+    letter-spacing: 0.12rem;
 
     &Title {
         font-size: 4rem;
@@ -20,7 +21,6 @@ $grey: #2a2d35;
             text-decoration: none;
             color: rgba($white, 0.75);
             padding: 0.8rem 1.5rem;
-            letter-spacing: 0.07em;
         }
     }
 
@@ -41,7 +41,6 @@ $grey: #2a2d35;
             transition:
                 color 0.3s ease,
                 transform 0.3s ease;
-            letter-spacing: 0.05em;
             border-radius: 12px;
 
             &:hover {
