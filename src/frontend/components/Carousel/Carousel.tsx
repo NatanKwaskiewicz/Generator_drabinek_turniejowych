@@ -3,7 +3,6 @@ import type { Slide } from '../../types'
 import { useEffect, useState } from 'react'
 
 const Carousel = ({ data }: { data: Slide[] }) => {
-    console.log(data)
     const [slide, setSlide] = useState(0)
 
     useEffect(() => {
