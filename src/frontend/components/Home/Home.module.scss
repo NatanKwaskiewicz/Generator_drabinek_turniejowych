@@ -9,25 +9,70 @@ $dark-grey: #1a1c22;
 .Home {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     width: 100%;
     background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
+    position: relative;
 
-    h1 {
-        font-size: 5rem;
-        color: $white;
-        text-shadow:
-            0 0 20px rgba($blue, 0.6),
-            2px 2px 4px $black;
-        padding: 2rem;
-        letter-spacing: 0.1em;
-    }
+    &Top {
+        display: flex;
+        width: 100%;
+        height: 65vh;
 
-    p {
-        font-size: 2rem;
-        color: color.adjust($white, $lightness: -20%);
-        letter-spacing: 0.05em;
+        &Left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            width: 45%;
+            height: 100%;
+            padding: 10rem;
+            margin-left: 2vw;
+
+            h1 {
+                font-size: 5rem;
+                color: $white;
+                text-shadow:
+                    0 0 20px rgba($blue, 0.6),
+                    2px 2px 4px $black;
+                letter-spacing: 0.1em;
+            }
+
+            p {
+                font-size: 2.2rem;
+                color: color.adjust($white, $lightness: -20%);
+                letter-spacing: 0.06em;
+                padding-top: 2rem;
+                line-height: 3rem;
+            }
+
+            &Link {
+                width: 10rem;
+                font-size: 2.2rem;
+                color: $dark-grey;
+                text-decoration: none;
+                background-color: $white;
+                border-radius: 15px;
+                padding: 1rem;
+                margin-top: 2.5rem;
+                text-align: center;
+                transition:
+                    background-color 0.2s ease-in-out,
+                    color 0.2s ease,
+                    transform 0.3s ease;
+                box-shadow: 0 0 10px rgba($blue, 0.5);
+
+                &:hover {
+                    background-color: $blue;
+                    color: $white;
+                    transform: translateY(-5px);
+                }
+            }
+        }
+
+        &Right {
+            width: 55%;
+            height: 100%;
+            clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
+        }
     }
 }
