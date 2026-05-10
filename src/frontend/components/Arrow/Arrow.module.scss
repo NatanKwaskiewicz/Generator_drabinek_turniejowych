@@ -1,0 +1,26 @@
+@use 'sass:color';
+
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$grey: #2a2d35;
+$dark-grey: #1a1c22;
+
+.Arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-inline: 1.5rem;
+    animation: up-down 1.7s ease-in-out infinite;
+
+    @keyframes up-down {
+        0% {
+            transform: rotate(90deg) translateX(0);
+        }
+        50% {
+            transform: rotate(90deg) translateX(4px);
+        }
+        100% {
+            transform: rotate(90deg) translateX(0);
+        }
+    }
+}
