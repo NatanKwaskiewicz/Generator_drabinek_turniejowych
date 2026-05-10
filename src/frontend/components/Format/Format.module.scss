@@ -14,7 +14,7 @@ $dark-grey: #1a1c22;
     transition:
         transform 0.3s ease,
         box-shadow 0.3s ease;
-    border: 2px solid $blue;
+    border: 2px solid rgba($blue, 0.55);
 
     &:hover {
         transform: translateY(-5px);
@@ -36,7 +36,7 @@ $dark-grey: #1a1c22;
     }
 
     &Info {
-        background-color: $grey;
+        background-color: $black;
         padding: 1.5rem 2rem;
         flex: 1;
         display: flex;
