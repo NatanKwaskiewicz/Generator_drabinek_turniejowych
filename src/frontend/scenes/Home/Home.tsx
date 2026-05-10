@@ -1,9 +1,9 @@
 import styles from './Home.module.scss'
-import Carousel from '../Carousel'
+import Carousel from '../../components/Carousel'
 import carouselData from '../../data/carouselData.ts'
 import { Link } from 'react-router'
-import Arrow from '../Arrow'
-import FormatGrid from '../FormatGrid/FormatGrid.tsx'
+import Arrow from '../../components/Arrow'
+import FormatGrid from '../../components/FormatGrid'
 import formatData from '../../data/formatData.ts'
 
 const Home = () => {
