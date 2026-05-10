@@ -1,0 +1,15 @@
+@use 'sass:color';
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$grey: #2a2d35;
+$dark-grey: #1a1c22;
+
+.FormatGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3.5rem;
+    padding: 4rem 6rem;
+    margin-top: 4rem;
+    //background: linear-gradient(180deg, $black 95%, $blue 105%);
+}

@@ -2,6 +2,9 @@ import styles from './Home.module.scss'
 import Carousel from '../Carousel'
 import carouselData from '../../data/carouselData.ts'
 import { Link } from 'react-router'
+import Arrow from '../Arrow'
+import FormatGrid from '../FormatGrid/FormatGrid.tsx'
+import formatData from '../../data/formatData.ts'
 
 const Home = () => {
     return (
@@ -24,6 +27,12 @@ const Home = () => {
                     <Carousel data={carouselData} />
                 </div>
             </div>
+            <div className={styles.HomeMid}>
+                <Arrow size={40} color={'#e8edf2'} />
+                <h1>Check out our formats!</h1>
+                <Arrow size={40} color={'#e8edf2'} />
+            </div>
+            <FormatGrid formats={formatData} />
         </div>
     )
 }
