@@ -1,0 +1,221 @@
+@use 'sass:color';
+
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$grey: #2a2d35;
+$dark-grey: #1a1c22;
+
+.TournamentForm {
+    width: 100%;
+    max-width: 72rem;
+    background-color: $dark-grey;
+    border: 1px solid rgba($blue, 0.2);
+    border-radius: 1.6rem;
+    padding: 5rem 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+    box-shadow:
+        0 0 0 1px rgba($blue, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba($blue, 0.1);
+
+    &Title {
+        font-size: 3.2rem;
+        color: $white;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid rgba($blue, 0.15);
+    }
+
+    &Field {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+
+        &Label {
+            font-size: 1.4rem;
+            color: rgba($white, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        &Input {
+            background-color: rgba($black, 0.6);
+            border: 1px solid rgba($blue, 0.2);
+            border-radius: 0.8rem;
+            color: $white;
+            font-size: 1.6rem;
+            padding: 1.2rem 1.6rem;
+            width: 100%;
+            outline: none;
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+
+            &::placeholder {
+                color: rgba($white, 0.25);
+            }
+
+            &:focus {
+                border-color: rgba($blue, 0.6);
+                box-shadow: 0 0 0 3px rgba($blue, 0.08);
+            }
+
+            &[type='number'] {
+                &::-webkit-outer-spin-button,
+                &::-webkit-inner-spin-button {
+                    -webkit-appearance: none;
+                }
+            }
+        }
+
+        &FormatPicker {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+
+            &Option {
+                position: relative;
+
+                &Btn {
+                    padding: 1rem 2.2rem;
+                    border-radius: 0.8rem;
+                    border: 1px solid rgba($blue, 0.2);
+                    background: transparent;
+                    color: rgba($white, 0.55);
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        border-color: rgba($blue, 0.5);
+                        color: $white;
+                    }
+
+                    &Active {
+                        background-color: rgba($blue, 0.12);
+                        border-color: rgba($blue, 0.7);
+                        color: $blue;
+                    }
+                }
+            }
+
+            &Preview {
+                position: absolute;
+                top: calc(100% + 1rem);
+                left: 50%;
+                transform: translateX(-50%);
+                width: 28rem;
+                z-index: 10;
+                pointer-events: none;
+                animation: fadeIn 0.15s ease;
+
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateX(-50%) translateY(6px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(-50%) translateY(0);
+                    }
+                }
+            }
+        }
+
+        &Counter {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            width: fit-content;
+
+            &Btn {
+                width: 4rem;
+                height: 4rem;
+                border-radius: 0.8rem;
+                border: 1px solid rgba($blue, 0.2);
+                background: transparent;
+                color: $white;
+                font-size: 2rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    border-color: rgba($blue, 0.6);
+                    background: rgba($blue, 0.08);
+                }
+            }
+
+            &Input {
+                width: 8rem;
+                text-align: center;
+            }
+        }
+
+        &ParticipantGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            max-height: 36rem;
+            overflow-y: auto;
+            padding-right: 0.4rem;
+
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: rgba($blue, 0.3);
+                border-radius: 2px;
+            }
+
+            &Row {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                &Index {
+                    font-size: 1.3rem;
+                    color: rgba($white, 0.3);
+                    width: 2.4rem;
+                    text-align: right;
+                    flex-shrink: 0;
+                }
+            }
+        }
+    }
+
+    &SubmitBtn {
+        align-self: flex-end;
+        padding: 1.4rem 4rem;
+        border-radius: 0.8rem;
+        border: 1px solid rgba($blue, 0.4);
+        background: rgba($blue, 0.12);
+        color: $blue;
+        font-size: 1.6rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        &:hover {
+            background: rgba($blue, 0.22);
+            border-color: rgba($blue, 0.8);
+            box-shadow: 0 0 20px rgba($blue, 0.15);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+}
