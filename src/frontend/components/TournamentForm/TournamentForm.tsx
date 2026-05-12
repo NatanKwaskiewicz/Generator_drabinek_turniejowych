@@ -43,11 +43,15 @@ const TournamentForm = () => {
             </h2>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel}>
+                <label
+                    className={styles.TournamentFormFieldLabel}
+                    htmlFor="tournament_name"
+                >
                     Tournament name
                 </label>
                 <input
                     className={styles.TournamentFormFieldInput}
+                    id="tournament_name"
                     type="text"
                     placeholder="e.g. ZSK Counter-Strike Championship"
                     value={name}
@@ -56,7 +60,10 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel}>
+                <label
+                    className={styles.TournamentFormFieldLabel}
+                    htmlFor="format_picker"
+                >
                     Format
                 </label>
                 <div className={styles.TournamentFormFieldFormatPicker}>
@@ -95,7 +102,10 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel}>
+                <label
+                    className={styles.TournamentFormFieldLabel}
+                    htmlFor="participants_count"
+                >
                     Number of participants
                 </label>
                 <div className={styles.TournamentFormFieldCounter}>
@@ -108,6 +118,7 @@ const TournamentForm = () => {
                     </button>
                     <input
                         className={`${styles.TournamentFormFieldInput} ${styles.TournamentFormFieldCounterInput}`}
+                        id="participants_count"
                         type="number"
                         min={2}
                         max={64}
@@ -127,7 +138,10 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel}>
+                <label
+                    className={styles.TournamentFormFieldLabel}
+                    htmlFor="participants_names"
+                >
                     Participants
                 </label>
                 <div className={styles.TournamentFormFieldParticipantGrid}>
@@ -147,6 +161,7 @@ const TournamentForm = () => {
                             </span>
                             <input
                                 className={styles.TournamentFormFieldInput}
+                                id="participants_names"
                                 type="text"
                                 placeholder={`Participant ${index + 1}`}
                                 value={p}
