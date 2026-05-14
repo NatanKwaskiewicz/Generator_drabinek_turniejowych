@@ -2,6 +2,7 @@ import styles from './TournamentForm.module.scss'
 import { useState } from 'react'
 import formatData from '../../data/formatData.ts'
 import Format from '../Format'
+import { useNavigate } from 'react-router'
 
 const FORMATS = ['Single elimination', 'Double elimination', 'Round Robin']
 
@@ -13,6 +14,7 @@ const TournamentForm = () => {
     )
     const [format, setFormat] = useState(FORMATS[0])
     const [hoveredFormat, setHoveredFormat] = useState<string | null>(null)
+    const navigate = useNavigate()
 
     const handleCountChange = (value: number) => {
         const clamped = Math.max(2, Math.min(64, value))
@@ -33,7 +35,10 @@ const TournamentForm = () => {
     }
 
     const handleSubmit = () => {
-        console.log({ name, participants, format })
+        //temporary solution, later on there will be a POST request to the backend
+        navigate('/bracketPage', {
+            state: { tournamentName: name },
+        })
     }
 
     return (

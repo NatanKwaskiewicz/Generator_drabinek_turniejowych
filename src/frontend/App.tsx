@@ -3,6 +3,7 @@ import NavBar from './components/NavBar'
 import Home from './scenes/Home'
 import Footer from './components/Footer'
 import CreateTournament from './scenes/CreateTournament'
+import BracketPage from './scenes/BracketPage'
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                     path="/bracketGenerator"
                     element={<CreateTournament />}
                 />
+                <Route path="/bracketPage" element={<BracketPage />} />
             </Routes>
             <Footer />
         </>

@@ -1,0 +1,15 @@
+@use 'sass:color';
+
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$grey: #2a2d35;
+$dark-grey: #1a1c22;
+
+.BracketPage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
+}
