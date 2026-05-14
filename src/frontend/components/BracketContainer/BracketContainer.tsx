@@ -1,5 +1,5 @@
 import styles from './BracketContainer.module.scss'
-import Bracket from '../BracketGraph'
+import Bracket from '../Bracket'
 import BracketSettings from '../BracketSettings'
 
 interface BracketContainerProps {
