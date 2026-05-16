@@ -20,6 +20,16 @@ $dark-grey: #1a1c22;
         0 0 0 1px rgba($blue, 0.1),
         0 8px 32px rgba(0, 0, 0, 0.6),
         0 0 60px rgba($blue, 0.1);
+    animation: slideIn 0.3s ease;
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(100px);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
 
     &Title {
         font-size: 3.2rem;

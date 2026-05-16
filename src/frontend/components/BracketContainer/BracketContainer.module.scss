@@ -12,6 +12,7 @@ $dark-grey: #1a1c22;
     flex-direction: column;
     padding: 2rem;
     gap: 1.5rem;
+    overflow: hidden;
 
     &Title {
         color: $white;
