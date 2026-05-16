@@ -13,3 +13,5 @@ dist-ssr
 *.local
 .idea
 .env
+
+/backend/generated/prisma
