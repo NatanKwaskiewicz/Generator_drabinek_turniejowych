@@ -7,12 +7,16 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "preview": "vite preview"
+        "preview": "vite preview",
+      "dev:backend": "node --watch --experimental-strip-types src/backend/index.ts"
+
     },
     "dependencies": {
+        "@prisma/client": "^6.19.3",
         "cors": "^2.8.6",
         "dotenv": "^17.4.2",
         "express": "^5.2.1",
+        "prisma": "^6.19.3",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
         "react-router": "^7.14.1"
