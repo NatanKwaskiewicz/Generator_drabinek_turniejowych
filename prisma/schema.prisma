@@ -18,11 +18,12 @@ model Tournament {
 }
 
 model Participant {
-  id      Int    @id @default(autoincrement())
-  name    String
-  surname String
-  teamId  Int
-  team    Teams  @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  id       Int     @id @default(autoincrement())
+  name     String
+  nickname String?
+  surname  String
+  teamId   Int
+  team     Teams   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Teams {
