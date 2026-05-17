@@ -19,7 +19,7 @@ const NavBar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link className={styles.NavBarListLink} to="/registerTeam">
+                    <Link className={styles.NavBarListLink} to="/createTeam">
                         Register team
                     </Link>
                 </li>
