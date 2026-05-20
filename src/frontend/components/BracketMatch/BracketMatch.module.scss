@@ -1,0 +1,22 @@
+$white: #e8edf2;
+$grey: #2a2d35;
+
+.BracketMatch {
+    display: flex;
+    align-items: center;
+
+    & + & {
+        margin-top: 3rem;
+    }
+
+    &Participants {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+
+        &One {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

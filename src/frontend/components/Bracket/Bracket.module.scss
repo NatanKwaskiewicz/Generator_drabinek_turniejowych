@@ -6,8 +6,9 @@ $white: #e8edf2;
 $grey: #2a2d35;
 $dark-grey: #1a1c22;
 
-.BracketGraph {
+.Bracket {
     flex: 1;
+    display: flex;
     background-color: $grey;
     border: 1px solid rgba($blue, 0.15);
     border-radius: 1.6rem;

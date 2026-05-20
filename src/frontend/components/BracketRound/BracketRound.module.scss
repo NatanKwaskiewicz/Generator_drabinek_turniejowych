@@ -1,0 +1,8 @@
+.BracketRound {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 20rem;
+    flex-shrink: 0;
+    text-overflow: fade;
+}
