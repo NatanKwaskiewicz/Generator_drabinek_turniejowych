@@ -26,8 +26,7 @@ export const getOneTeamMember = async (
             where: { id: Number(req.params.id) },
             include: { team: true },
         })
-        if (!oneTeamMember)
-            return res.status(404).json('Team member not found')
+        if (!oneTeamMember) return res.status(404).json('Team member not found')
         res.status(200).json(oneTeamMember)
     } catch (err) {
         next(err)

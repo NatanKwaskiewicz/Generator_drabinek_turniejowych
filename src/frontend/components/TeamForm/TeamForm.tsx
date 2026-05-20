@@ -42,7 +42,9 @@ const TeamForm = () => {
     const handleSubmit = () => {
         if (!teamName.trim()) return
         const filledTeamMembers = teamMembers
-            .filter((m) => m.name.trim() || m.surname.trim() || m.nickname.trim())
+            .filter(
+                (m) => m.name.trim() || m.surname.trim() || m.nickname.trim()
+            )
             .map((m) => ({
                 name: m.name.trim(),
                 surname: m.surname.trim(),
@@ -50,7 +52,8 @@ const TeamForm = () => {
             }))
         mutate({
             name: teamName.trim(),
-            teamMember: filledTeamMembers.length > 0 ? filledTeamMembers : undefined,
+            teamMember:
+                filledTeamMembers.length > 0 ? filledTeamMembers : undefined,
         })
     }
 
@@ -59,7 +62,10 @@ const TeamForm = () => {
             <h2 className={styles.TeamFormTitle}>Set up your team</h2>
 
             <div className={styles.TeamFormField}>
-                <label className={styles.TeamFormFieldLabel} htmlFor="team_name">
+                <label
+                    className={styles.TeamFormFieldLabel}
+                    htmlFor="team_name"
+                >
                     Team name
                 </label>
                 <input
@@ -73,7 +79,10 @@ const TeamForm = () => {
             </div>
 
             <div className={styles.TeamFormField}>
-                <label className={styles.TeamFormFieldLabel} htmlFor="member_count">
+                <label
+                    className={styles.TeamFormFieldLabel}
+                    htmlFor="member_count"
+                >
                     Number of members
                 </label>
                 <div className={styles.TeamFormFieldCounter}>
@@ -91,7 +100,9 @@ const TeamForm = () => {
                         min={1}
                         max={32}
                         value={memberCount}
-                        onChange={(e) => handleCountChange(parseInt(e.target.value) || 1)}
+                        onChange={(e) =>
+                            handleCountChange(parseInt(e.target.value) || 1)
+                        }
                     />
                     <button
                         className={styles.TeamFormFieldCounterBtn}
@@ -104,7 +115,10 @@ const TeamForm = () => {
             </div>
 
             <div className={styles.TeamFormField}>
-                <label className={styles.TeamFormFieldLabel} htmlFor="members_list">
+                <label
+                    className={styles.TeamFormFieldLabel}
+                    htmlFor="members_list"
+                >
                     Members
                 </label>
                 <div className={styles.TeamFormFieldMemberGrid}>
@@ -115,8 +129,15 @@ const TeamForm = () => {
                         <span>Last name</span>
                     </div>
                     {teamMembers.map((m, index) => (
-                        <div key={index} className={styles.TeamFormFieldMemberGridRow}>
-                            <span className={styles.TeamFormFieldMemberGridRowIndex}>
+                        <div
+                            key={index}
+                            className={styles.TeamFormFieldMemberGridRow}
+                        >
+                            <span
+                                className={
+                                    styles.TeamFormFieldMemberGridRowIndex
+                                }
+                            >
                                 {index + 1}
                             </span>
                             <input
@@ -124,25 +145,57 @@ const TeamForm = () => {
                                 type="text"
                                 placeholder="Janusz"
                                 value={m.name}
-                                onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
+                                onChange={(e) =>
+                                    handleMemberChange(
+                                        index,
+                                        'name',
+                                        e.target.value
+                                    )
+                                }
                             />
-                            <div className={styles.TeamFormFieldNicknameWrapper}>
-                                <span className={styles.TeamFormFieldNicknameQuote}>"</span>
+                            <div
+                                className={styles.TeamFormFieldNicknameWrapper}
+                            >
+                                <span
+                                    className={
+                                        styles.TeamFormFieldNicknameQuote
+                                    }
+                                >
+                                    "
+                                </span>
                                 <input
                                     className={`${styles.TeamFormFieldInput} ${styles.TeamFormFieldNicknameInput}`}
                                     type="text"
                                     placeholder="Snax"
                                     value={m.nickname}
-                                    onChange={(e) => handleMemberChange(index, 'nickname', e.target.value)}
+                                    onChange={(e) =>
+                                        handleMemberChange(
+                                            index,
+                                            'nickname',
+                                            e.target.value
+                                        )
+                                    }
                                 />
-                                <span className={styles.TeamFormFieldNicknameQuote}>"</span>
+                                <span
+                                    className={
+                                        styles.TeamFormFieldNicknameQuote
+                                    }
+                                >
+                                    "
+                                </span>
                             </div>
                             <input
                                 className={styles.TeamFormFieldInput}
                                 type="text"
                                 placeholder="Pogorzelski"
                                 value={m.surname}
-                                onChange={(e) => handleMemberChange(index, 'surname', e.target.value)}
+                                onChange={(e) =>
+                                    handleMemberChange(
+                                        index,
+                                        'surname',
+                                        e.target.value
+                                    )
+                                }
                             />
                         </div>
                     ))}

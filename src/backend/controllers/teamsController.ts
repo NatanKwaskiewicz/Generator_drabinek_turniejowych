@@ -44,9 +44,7 @@ export const postTeam = async (
         const team = await prisma.teams.create({
             data: {
                 name,
-                teamMembers: teamMember
-                    ? { create: teamMember }
-                    : undefined,
+                teamMembers: teamMember ? { create: teamMember } : undefined,
             },
             include: { teamMembers: true },
         })
