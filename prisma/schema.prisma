@@ -17,7 +17,7 @@ model Tournament {
   TournamentTeam TournamentTeam[]
 }
 
-model Participant {
+model TeamMember {
   id       Int     @id @default(autoincrement())
   name     String
   nickname String?
@@ -29,7 +29,7 @@ model Participant {
 model Teams {
   id             Int              @id @default(autoincrement())
   name           String
-  participant    Participant[]
+  teamMembers    TeamMember[]
   TournamentTeam TournamentTeam[]
 }
 

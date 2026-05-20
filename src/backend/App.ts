@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import tournamentRouter from './routes/tournamentsRouter.ts'
-import participantRouter from './routes/participantsRouter.ts'
+import participantRouter from './routes/teamMembersRouter.ts'
 import teamRouter from './routes/teamsRouter.ts'
 
 const app = express()

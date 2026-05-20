@@ -2,7 +2,7 @@ import styles from './TeamForm.module.scss'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
-type Participant = {
+type TeamMember = {
     name: string
     surname: string
     nickname: string
@@ -12,8 +12,8 @@ type SubmitState = 'idle' | 'loading' | 'error'
 
 const TeamForm = () => {
     const [teamName, setTeamName] = useState('')
-    const [participantCount, setParticipantCount] = useState(2)
-    const [participants, setParticipants] = useState<Participant[]>(
+    const [memberCount, setMemberCount] = useState(2)
+    const [teamMembers, setTeamMembers] = useState<TeamMember[]>(
         Array(2).fill({ name: '', surname: '', nickname: '' })
     )
     const [submitState, setSubmitState] = useState<SubmitState>('idle')
@@ -22,8 +22,8 @@ const TeamForm = () => {
 
     const handleCountChange = (value: number) => {
         const clamped = Math.max(1, Math.min(32, value))
-        setParticipantCount(clamped)
-        setParticipants((prev) => {
+        setMemberCount(clamped)
+        setTeamMembers((prev) => {
             const next = [...prev]
             while (next.length < clamped)
                 next.push({ name: '', surname: '', nickname: '' })
@@ -31,12 +31,12 @@ const TeamForm = () => {
         })
     }
 
-    const handleParticipantChange = (
+    const handleMemberChange = (
         index: number,
-        field: keyof Participant,
+        field: keyof TeamMember,
         value: string
     ) => {
-        setParticipants((prev) => {
+        setTeamMembers((prev) => {
             const next = [...prev]
             next[index] = { ...next[index], [field]: value }
             return next
@@ -50,12 +50,12 @@ const TeamForm = () => {
             return
         }
 
-        const filledParticipants = participants
-            .filter((p) => p.name.trim() || p.surname.trim() || p.nickname.trim())
-            .map((p) => ({
-                name: p.name.trim(),
-                surname: p.surname.trim(),
-                nickname: p.nickname.trim() || undefined,
+        const filledTeamMembers = teamMembers
+            .filter((m) => m.name.trim() || m.surname.trim() || m.nickname.trim())
+            .map((m) => ({
+                name: m.name.trim(),
+                surname: m.surname.trim(),
+                nickname: m.nickname.trim() || undefined,
             }))
 
         setSubmitState('loading')
@@ -67,9 +67,9 @@ const TeamForm = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name: teamName.trim(),
-                    participants:
-                        filledParticipants.length > 0
-                            ? filledParticipants
+                    teamMember:
+                        filledTeamMembers.length > 0
+                            ? filledTeamMembers
                             : undefined,
                 }),
             })
@@ -112,32 +112,32 @@ const TeamForm = () => {
             <div className={styles.TeamFormField}>
                 <label
                     className={styles.TeamFormFieldLabel}
-                    htmlFor="participants_count"
+                    htmlFor="member_count"
                 >
                     Number of members
                 </label>
                 <div className={styles.TeamFormFieldCounter}>
                     <button
                         className={styles.TeamFormFieldCounterBtn}
-                        onClick={() => handleCountChange(participantCount - 1)}
+                        onClick={() => handleCountChange(memberCount - 1)}
                         type="button"
                     >
                         −
                     </button>
                     <input
                         className={`${styles.TeamFormFieldInput} ${styles.TeamFormFieldCounterInput}`}
-                        id="participants_count"
+                        id="member_count"
                         type="number"
                         min={1}
                         max={32}
-                        value={participantCount}
+                        value={memberCount}
                         onChange={(e) =>
                             handleCountChange(parseInt(e.target.value) || 1)
                         }
                     />
                     <button
                         className={styles.TeamFormFieldCounterBtn}
-                        onClick={() => handleCountChange(participantCount + 1)}
+                        onClick={() => handleCountChange(memberCount + 1)}
                         type="button"
                     >
                         +
@@ -159,7 +159,7 @@ const TeamForm = () => {
                         <span>Nickname</span>
                         <span>Last name</span>
                     </div>
-                    {participants.map((p, index) => (
+                    {teamMembers.map((m, index) => (
                         <div
                             key={index}
                             className={styles.TeamFormFieldMemberGridRow}
@@ -175,9 +175,9 @@ const TeamForm = () => {
                                 className={styles.TeamFormFieldInput}
                                 type="text"
                                 placeholder="Janusz"
-                                value={p.name}
+                                value={m.name}
                                 onChange={(e) =>
-                                    handleParticipantChange(
+                                    handleMemberChange(
                                         index,
                                         'name',
                                         e.target.value
@@ -190,9 +190,9 @@ const TeamForm = () => {
                                     className={`${styles.TeamFormFieldInput} ${styles.TeamFormFieldNicknameInput}`}
                                     type="text"
                                     placeholder="Snax"
-                                    value={p.nickname}
+                                    value={m.nickname}
                                     onChange={(e) =>
-                                        handleParticipantChange(
+                                        handleMemberChange(
                                             index,
                                             'nickname',
                                             e.target.value
@@ -205,9 +205,9 @@ const TeamForm = () => {
                                 className={styles.TeamFormFieldInput}
                                 type="text"
                                 placeholder="Pogorzelski"
-                                value={p.surname}
+                                value={m.surname}
                                 onChange={(e) =>
-                                    handleParticipantChange(
+                                    handleMemberChange(
                                         index,
                                         'surname',
                                         e.target.value
