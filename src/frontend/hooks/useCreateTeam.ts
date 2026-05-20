@@ -1,10 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
-
-type CreateTeamPayload = {
-    name: string
-    teamMember?: { name: string; surname: string; nickname?: string }[]
-}
+import type { CreateTeamPayload } from '../types'
 
 const createTeam = async (payload: CreateTeamPayload) => {
     const response = await fetch('http://localhost:3000/teams', {
@@ -16,12 +12,18 @@ const createTeam = async (payload: CreateTeamPayload) => {
         const text = await response.text()
         throw new Error(text || `Server error: ${response.status}`)
     }
+    return response.json()
 }
 
 export const useCreateTeam = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
     return useMutation({
         mutationFn: createTeam,
-        onSuccess: () => navigate('/bracketGenerator'),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['teams'] })
+            navigate('/bracketGenerator')
+        },
     })
 }
