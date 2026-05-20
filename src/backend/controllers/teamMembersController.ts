@@ -1,40 +1,39 @@
 import { prisma } from '../prisma.ts'
 import type { Request, Response, NextFunction } from 'express'
 
-export const getParticipants = async (
+export const getTeamMembers = async (
     _req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const participants = await prisma.participant.findMany({
+        const teamMember = await prisma.teamMember.findMany({
             include: { team: true },
         })
-        res.status(200).json(participants)
+        res.status(200).json(teamMember)
     } catch (err) {
         next(err)
     }
 }
 
-export const getOneParticipant = async (
+export const getOneTeamMember = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        const oneParticipant = await prisma.participant.findUnique({
+        const oneTeamMember = await prisma.teamMember.findUnique({
             where: { id: Number(req.params.id) },
             include: { team: true },
         })
-        if (!oneParticipant)
-            return res.status(404).json('Participant not found')
-        res.status(200).json(oneParticipant)
+        if (!oneTeamMember) return res.status(404).json('Team member not found')
+        res.status(200).json(oneTeamMember)
     } catch (err) {
         next(err)
     }
 }
 
-export const postParticipant = async (
+export const postTeamMember = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -47,11 +46,11 @@ export const postParticipant = async (
             teamId: number
         }
 
-        const participant = await prisma.participant.create({
+        const teamMember = await prisma.teamMember.create({
             data: { name, surname, nickname: nickname ?? null, teamId },
             include: { team: true },
         })
-        res.status(201).json(participant)
+        res.status(201).json(teamMember)
     } catch (err) {
         next(err)
     }
