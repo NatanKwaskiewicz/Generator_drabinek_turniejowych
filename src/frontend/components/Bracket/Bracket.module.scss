@@ -6,8 +6,9 @@ $white: #e8edf2;
 $grey: #2a2d35;
 $dark-grey: #1a1c22;
 
-.BracketGraph {
+.Bracket {
     flex: 1;
+    display: flex;
     background-color: $grey;
     border: 1px solid rgba($blue, 0.15);
     border-radius: 1.6rem;
@@ -15,4 +16,14 @@ $dark-grey: #1a1c22;
         0 0 0 1px rgba($blue, 0.08),
         0 8px 32px rgba(0, 0, 0, 0.6),
         0 0 60px rgba($blue, 0.08);
+    animation: slideInDownwards 0.4s ease;
+
+    @keyframes slideInDownwards {
+        from {
+            transform: translateY(-70px);
+        }
+        to {
+            transform: translateY(0px);
+        }
+    }
 }

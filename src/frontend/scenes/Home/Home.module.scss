@@ -6,6 +6,15 @@ $white: #e8edf2;
 $grey: #2a2d35;
 $dark-grey: #1a1c22;
 
+@keyframes fadeInHome {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .Home {
     flex: 1;
     display: flex;
@@ -27,6 +36,7 @@ $dark-grey: #1a1c22;
         display: flex;
         width: 100%;
         height: 65vh;
+        animation: fadeInHome 0.25s ease-in-out;
 
         &Left {
             display: flex;
@@ -93,5 +103,6 @@ $dark-grey: #1a1c22;
         justify-content: center;
         align-items: center;
         padding: 12rem 0 3rem 0;
+        animation: fadeInHome 0.25s ease-in-out;
     }
 }

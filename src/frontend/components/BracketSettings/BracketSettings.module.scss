@@ -21,9 +21,19 @@ $dark-grey: #1a1c22;
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: slideInToLeft 0.4s ease;
+
+    @keyframes slideInToLeft {
+        from {
+            transform: translateX(100px);
+        }
+        to {
+            transform: translateX(0px);
+        }
+    }
 
     &Expanded {
-        width: 22rem;
+        width: 33rem;
         padding: 1.5rem;
         align-items: flex-end;
     }
