@@ -1,6 +1,6 @@
 import styles from './TeamForm.module.scss'
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useCreateTeam } from '../../hooks/useCreateTeam'
 
 type TeamMember = {
     name: string
@@ -8,17 +8,13 @@ type TeamMember = {
     nickname: string
 }
 
-type SubmitState = 'idle' | 'loading' | 'error'
-
 const TeamForm = () => {
     const [teamName, setTeamName] = useState('')
     const [memberCount, setMemberCount] = useState(2)
     const [teamMembers, setTeamMembers] = useState<TeamMember[]>(
         Array(2).fill({ name: '', surname: '', nickname: '' })
     )
-    const [submitState, setSubmitState] = useState<SubmitState>('idle')
-    const [errorMessage, setErrorMessage] = useState('')
-    const navigate = useNavigate()
+    const { mutate, isPending, isError, error } = useCreateTeam()
 
     const handleCountChange = (value: number) => {
         const clamped = Math.max(1, Math.min(32, value))
@@ -43,13 +39,8 @@ const TeamForm = () => {
         })
     }
 
-    const handleSubmit = async () => {
-        if (!teamName.trim()) {
-            setErrorMessage('Team name is required.')
-            setSubmitState('error')
-            return
-        }
-
+    const handleSubmit = () => {
+        if (!teamName.trim()) return
         const filledTeamMembers = teamMembers
             .filter((m) => m.name.trim() || m.surname.trim() || m.nickname.trim())
             .map((m) => ({
@@ -57,35 +48,10 @@ const TeamForm = () => {
                 surname: m.surname.trim(),
                 nickname: m.nickname.trim() || undefined,
             }))
-
-        setSubmitState('loading')
-        setErrorMessage('')
-
-        try {
-            const response = await fetch('http://localhost:3000/teams', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: teamName.trim(),
-                    teamMember:
-                        filledTeamMembers.length > 0
-                            ? filledTeamMembers
-                            : undefined,
-                }),
-            })
-
-            if (!response.ok) {
-                const text = await response.text()
-                throw new Error(text || `Server error: ${response.status}`)
-            }
-
-            navigate('/bracketGenerator')
-        } catch (err) {
-            setErrorMessage(
-                err instanceof Error ? err.message : 'Unknown error occurred.'
-            )
-            setSubmitState('error')
-        }
+        mutate({
+            name: teamName.trim(),
+            teamMember: filledTeamMembers.length > 0 ? filledTeamMembers : undefined,
+        })
     }
 
     return (
@@ -93,10 +59,7 @@ const TeamForm = () => {
             <h2 className={styles.TeamFormTitle}>Set up your team</h2>
 
             <div className={styles.TeamFormField}>
-                <label
-                    className={styles.TeamFormFieldLabel}
-                    htmlFor="team_name"
-                >
+                <label className={styles.TeamFormFieldLabel} htmlFor="team_name">
                     Team name
                 </label>
                 <input
@@ -110,10 +73,7 @@ const TeamForm = () => {
             </div>
 
             <div className={styles.TeamFormField}>
-                <label
-                    className={styles.TeamFormFieldLabel}
-                    htmlFor="member_count"
-                >
+                <label className={styles.TeamFormFieldLabel} htmlFor="member_count">
                     Number of members
                 </label>
                 <div className={styles.TeamFormFieldCounter}>
@@ -131,9 +91,7 @@ const TeamForm = () => {
                         min={1}
                         max={32}
                         value={memberCount}
-                        onChange={(e) =>
-                            handleCountChange(parseInt(e.target.value) || 1)
-                        }
+                        onChange={(e) => handleCountChange(parseInt(e.target.value) || 1)}
                     />
                     <button
                         className={styles.TeamFormFieldCounterBtn}
@@ -146,10 +104,7 @@ const TeamForm = () => {
             </div>
 
             <div className={styles.TeamFormField}>
-                <label
-                    className={styles.TeamFormFieldLabel}
-                    htmlFor="members_list"
-                >
+                <label className={styles.TeamFormFieldLabel} htmlFor="members_list">
                     Members
                 </label>
                 <div className={styles.TeamFormFieldMemberGrid}>
@@ -160,15 +115,8 @@ const TeamForm = () => {
                         <span>Last name</span>
                     </div>
                     {teamMembers.map((m, index) => (
-                        <div
-                            key={index}
-                            className={styles.TeamFormFieldMemberGridRow}
-                        >
-                            <span
-                                className={
-                                    styles.TeamFormFieldMemberGridRowIndex
-                                }
-                            >
+                        <div key={index} className={styles.TeamFormFieldMemberGridRow}>
+                            <span className={styles.TeamFormFieldMemberGridRowIndex}>
                                 {index + 1}
                             </span>
                             <input
@@ -176,13 +124,7 @@ const TeamForm = () => {
                                 type="text"
                                 placeholder="Janusz"
                                 value={m.name}
-                                onChange={(e) =>
-                                    handleMemberChange(
-                                        index,
-                                        'name',
-                                        e.target.value
-                                    )
-                                }
+                                onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
                             />
                             <div className={styles.TeamFormFieldNicknameWrapper}>
                                 <span className={styles.TeamFormFieldNicknameQuote}>"</span>
@@ -191,13 +133,7 @@ const TeamForm = () => {
                                     type="text"
                                     placeholder="Snax"
                                     value={m.nickname}
-                                    onChange={(e) =>
-                                        handleMemberChange(
-                                            index,
-                                            'nickname',
-                                            e.target.value
-                                        )
-                                    }
+                                    onChange={(e) => handleMemberChange(index, 'nickname', e.target.value)}
                                 />
                                 <span className={styles.TeamFormFieldNicknameQuote}>"</span>
                             </div>
@@ -206,30 +142,24 @@ const TeamForm = () => {
                                 type="text"
                                 placeholder="Pogorzelski"
                                 value={m.surname}
-                                onChange={(e) =>
-                                    handleMemberChange(
-                                        index,
-                                        'surname',
-                                        e.target.value
-                                    )
-                                }
+                                onChange={(e) => handleMemberChange(index, 'surname', e.target.value)}
                             />
                         </div>
                     ))}
                 </div>
             </div>
 
-            {submitState === 'error' && (
-                <p className={styles.TeamFormError}>{errorMessage}</p>
+            {isError && (
+                <p className={styles.TeamFormError}>{error?.message}</p>
             )}
 
             <button
                 className={styles.TeamFormSubmitBtn}
                 onClick={handleSubmit}
-                disabled={submitState === 'loading'}
+                disabled={isPending}
                 type="button"
             >
-                {submitState === 'loading' ? 'Creating…' : 'Create Team'}
+                {isPending ? 'Creating…' : 'Create Team'}
             </button>
         </div>
     )
