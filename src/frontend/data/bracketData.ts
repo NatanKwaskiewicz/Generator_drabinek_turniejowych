@@ -5,28 +5,26 @@ const rounds: Match[][] = [
     [
         {
             id: 1,
-            participantA: 'Team Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-            participantB: 'Team B',
-            winner: 'A',
+            teamA: 'Team Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            teamB: 'Team B',
             scoreA: 1,
             scoreB: 0,
         },
         {
             id: 2,
-            participantA: 'Team C',
-            participantB: 'Team D',
-            winner: 'B',
+            teamA: 'Team C',
+            teamB: 'Team D',
             scoreA: 13,
             scoreB: 10,
         },
-        { id: 3, participantA: 'Team E', participantB: 'Team F', winner: 'B' },
-        { id: 4, participantA: 'Team G', participantB: 'Team H', winner: 'B' },
+        { id: 3, teamA: 'Team E', teamB: 'Team F' },
+        { id: 4, teamA: 'Team G', teamB: 'Team H' },
     ],
     [
-        { id: 6, participantA: 'Winner E/F', participantB: 'Winner G/H' },
-        { id: 6, participantA: 'Winner E/F', participantB: 'Winner G/H' },
+        { id: 5, teamA: 'Winner E/F', teamB: 'Winner G/H' },
+        { id: 6, teamA: 'Winner E/F', teamB: 'Winner G/H' },
     ],
-    [{ id: 5, participantA: 'Winner A/B', participantB: 'Winner C/D' }],
+    [{ id: 7, teamA: 'Winner A/B', teamB: 'Winner C/D' }],
 ]
 
 export default rounds

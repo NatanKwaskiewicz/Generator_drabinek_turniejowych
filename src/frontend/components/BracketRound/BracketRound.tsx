@@ -6,9 +6,22 @@ interface BracketRoundProps {
     matches: Match[]
     isLast: boolean
     setMatchRef: (matchIndex: number) => (el: HTMLDivElement | null) => void
+    roundIndex: number
+    onUpdateScore: (
+        roundIndex: number,
+        matchId: number,
+        scoreA: number,
+        scoreB: number
+    ) => void
 }
 
-const BracketRound = ({ matches, isLast, setMatchRef }: BracketRoundProps) => {
+const BracketRound = ({
+    matches,
+    isLast,
+    setMatchRef,
+    roundIndex,
+    onUpdateScore,
+}: BracketRoundProps) => {
     return (
         <div className={styles.BracketRound}>
             {matches.map((match, i) => (
@@ -17,6 +30,8 @@ const BracketRound = ({ matches, isLast, setMatchRef }: BracketRoundProps) => {
                     match={match}
                     isLast={isLast}
                     ref={setMatchRef(i)}
+                    roundIndex={roundIndex}
+                    onUpdateScore={onUpdateScore}
                 />
             ))}
         </div>
