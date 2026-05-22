@@ -36,7 +36,10 @@ const TournamentForm = () => {
             </h2>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel} htmlFor="tournament_name">
+                <label
+                    className={styles.TournamentFormFieldLabel}
+                    htmlFor="tournament_name"
+                >
                     Tournament name
                 </label>
                 <input
@@ -50,14 +53,19 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel} htmlFor="format_picker">
+                <label
+                    className={styles.TournamentFormFieldLabel}
+                    htmlFor="format_picker"
+                >
                     Format
                 </label>
                 <div className={styles.TournamentFormFieldFormatPicker}>
                     {formatData.map((f) => (
                         <div
                             key={f.name}
-                            className={styles.TournamentFormFieldFormatPickerOption}
+                            className={
+                                styles.TournamentFormFieldFormatPickerOption
+                            }
                             onMouseEnter={() => setHoveredFormat(f.name)}
                             onMouseLeave={() => setHoveredFormat(null)}
                         >
@@ -69,7 +77,11 @@ const TournamentForm = () => {
                                 {f.name}
                             </button>
                             {hoveredFormat === f.name && (
-                                <div className={styles.TournamentFormFieldFormatPickerPreview}>
+                                <div
+                                    className={
+                                        styles.TournamentFormFieldFormatPickerPreview
+                                    }
+                                >
                                     <Format
                                         name={f.name}
                                         description={f.description}
@@ -83,13 +95,15 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel}>
-                    Teams
-                </label>
+                <label className={styles.TournamentFormFieldLabel}>Teams</label>
                 {teamsLoading ? (
-                    <p className={styles.TournamentFormInfo}>Loading teams...</p>
+                    <p className={styles.TournamentFormInfo}>
+                        Loading teams...
+                    </p>
                 ) : !teams?.length ? (
-                    <p className={styles.TournamentFormInfo}>No teams registered yet.</p>
+                    <p className={styles.TournamentFormInfo}>
+                        No teams registered yet.
+                    </p>
                 ) : (
                     <div className={styles.TournamentFormFieldTeamGrid}>
                         {teams.map((team) => (
