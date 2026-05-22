@@ -15,6 +15,7 @@ model Tournament {
   date           DateTime
   createdAt      DateTime         @default(now())
   TournamentTeam TournamentTeam[]
+  Match          Match[]
 }
 
 model TeamMember {
@@ -31,6 +32,8 @@ model Teams {
   name           String
   teamMembers    TeamMember[]
   TournamentTeam TournamentTeam[]
+  matchesAsTeamA Match[]          @relation("MatchTeamA")
+  matchesAsTeamB Match[]          @relation("MatchTeamB")
 }
 
 model TournamentTeam {
@@ -40,4 +43,17 @@ model TournamentTeam {
   team         Teams      @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   @@id([tournamentId, teamId])
+}
+
+model Match {
+  id           Int @id @default(autoincrement())
+  tournamentId Int
+  teamAId      Int
+  teamBId      Int
+  teamAScore   Int @default(0)
+  teamBScore   Int @default(0)
+
+  teamA      Teams      @relation("MatchTeamA", fields: [teamAId], references: [id], onDelete: Restrict)
+  teamB      Teams      @relation("MatchTeamB", fields: [teamBId], references: [id], onDelete: Restrict)
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 }
