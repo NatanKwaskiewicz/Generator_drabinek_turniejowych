@@ -36,18 +36,18 @@ export const postTournament = async (
     next: NextFunction
 ) => {
     try {
-        const { name, format, date, teams } = req.body as {
+        const { name, date, formatId, teams } = req.body as {
             name: string
-            format: string
             date: string
+            formatId: number
             teams?: { teamId: number }[]
         }
 
         const tournament = await prisma.tournament.create({
             data: {
                 name,
-                format,
                 date: new Date(date),
+                formatId: formatId,
                 TournamentTeam: teams
                     ? {
                           create: teams.map((t) => ({

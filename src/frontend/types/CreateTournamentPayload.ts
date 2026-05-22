@@ -1,6 +1,6 @@
 export interface CreateTournamentPayload {
     name: string
-    format: string
     date: string
+    formatId: number
     teams?: { teamId: number }[]
 }
