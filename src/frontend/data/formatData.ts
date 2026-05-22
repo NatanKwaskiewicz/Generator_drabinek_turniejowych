@@ -6,17 +6,20 @@ import roundRobin from '../assets/round_robin_bracket.svg'
 
 const formatData: FormatData[] = [
     {
+        id: 1,
         name: 'Single elimination',
         description: 'Each loser is eliminated from the tournament. ',
         image: singleElim,
     },
     {
+        id: 2,
         name: 'Double elimination',
         description:
             'Participants are eliminated after two losses. The winners of the upper and lower brackets face off in a grand final.',
         image: doubleElim,
     },
     {
+        id: 3,
         name: 'Round Robin',
         description:
             'All participants face each other twice, in separate games.',

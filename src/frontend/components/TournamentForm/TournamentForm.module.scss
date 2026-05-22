@@ -230,6 +230,11 @@ $dark-grey: #1a1c22;
                 color: $blue;
             }
         }
+
+        &Size {
+            color: rgba($white, 0.55);
+            font-size: 1.3rem;
+        }
     }
 
     &Info {
