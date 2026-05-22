@@ -1,9 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-
-type Team = {
-    id: number
-    name: string
-}
+import type { Team } from '../types'
 
 const getTeams = async (): Promise<Team[]> => {
     const response = await fetch('http://localhost:3000/teams')
