@@ -2,19 +2,15 @@ import styles from './TournamentForm.module.scss'
 import { useState } from 'react'
 import formatData from '../../data/formatData.ts'
 import Format from '../Format'
-import { useNavigate } from 'react-router'
-
-const FORMATS = ['Single elimination', 'Double elimination', 'Round Robin']
+import { useCreateTournament } from '../../hooks/useCreateTournament.ts'
 
 const TournamentForm = () => {
     const [name, setName] = useState('')
     const [participantCount, setParticipantCount] = useState(4)
-    const [participants, setParticipants] = useState<string[]>(
-        Array(4).fill('')
-    )
-    const [format, setFormat] = useState(FORMATS[0])
+    const [participants, setParticipants] = useState<string[]>(Array(4).fill(''))
+    const [format, setFormat] = useState(formatData[0].name)
     const [hoveredFormat, setHoveredFormat] = useState<string | null>(null)
-    const navigate = useNavigate()
+    const { mutate, isPending, isError, error } = useCreateTournament()
 
     const handleCountChange = (value: number) => {
         const clamped = Math.max(2, Math.min(64, value))
@@ -35,9 +31,11 @@ const TournamentForm = () => {
     }
 
     const handleSubmit = () => {
-        //temporary solution, later on there will be a POST request to the backend
-        navigate('/bracketPage', {
-            state: { tournamentName: name },
+        if (!name.trim()) return
+        mutate({
+            name: name.trim(),
+            format,
+            date: new Date().toISOString(),
         })
     }
 
@@ -48,10 +46,7 @@ const TournamentForm = () => {
             </h2>
 
             <div className={styles.TournamentFormField}>
-                <label
-                    className={styles.TournamentFormFieldLabel}
-                    htmlFor="tournament_name"
-                >
+                <label className={styles.TournamentFormFieldLabel} htmlFor="tournament_name">
                     Tournament name
                 </label>
                 <input
@@ -65,19 +60,14 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label
-                    className={styles.TournamentFormFieldLabel}
-                    htmlFor="format_picker"
-                >
+                <label className={styles.TournamentFormFieldLabel} htmlFor="format_picker">
                     Format
                 </label>
                 <div className={styles.TournamentFormFieldFormatPicker}>
                     {formatData.map((f) => (
                         <div
                             key={f.name}
-                            className={
-                                styles.TournamentFormFieldFormatPickerOption
-                            }
+                            className={styles.TournamentFormFieldFormatPickerOption}
                             onMouseEnter={() => setHoveredFormat(f.name)}
                             onMouseLeave={() => setHoveredFormat(null)}
                         >
@@ -89,11 +79,7 @@ const TournamentForm = () => {
                                 {f.name}
                             </button>
                             {hoveredFormat === f.name && (
-                                <div
-                                    className={
-                                        styles.TournamentFormFieldFormatPickerPreview
-                                    }
-                                >
+                                <div className={styles.TournamentFormFieldFormatPickerPreview}>
                                     <Format
                                         name={f.name}
                                         description={f.description}
@@ -107,10 +93,7 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label
-                    className={styles.TournamentFormFieldLabel}
-                    htmlFor="participants_count"
-                >
+                <label className={styles.TournamentFormFieldLabel} htmlFor="participants_count">
                     Number of participants
                 </label>
                 <div className={styles.TournamentFormFieldCounter}>
@@ -128,9 +111,7 @@ const TournamentForm = () => {
                         min={2}
                         max={64}
                         value={participantCount}
-                        onChange={(e) =>
-                            handleCountChange(parseInt(e.target.value) || 2)
-                        }
+                        onChange={(e) => handleCountChange(parseInt(e.target.value) || 2)}
                     />
                     <button
                         className={styles.TournamentFormFieldCounterBtn}
@@ -143,25 +124,13 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label
-                    className={styles.TournamentFormFieldLabel}
-                    htmlFor="participants_names"
-                >
+                <label className={styles.TournamentFormFieldLabel} htmlFor="participants_names">
                     Participants
                 </label>
                 <div className={styles.TournamentFormFieldParticipantGrid}>
                     {participants.map((p, index) => (
-                        <div
-                            key={index}
-                            className={
-                                styles.TournamentFormFieldParticipantGridRow
-                            }
-                        >
-                            <span
-                                className={
-                                    styles.TournamentFormFieldParticipantGridRowIndex
-                                }
-                            >
+                        <div key={index} className={styles.TournamentFormFieldParticipantGridRow}>
+                            <span className={styles.TournamentFormFieldParticipantGridRowIndex}>
                                 {index + 1}
                             </span>
                             <input
@@ -170,23 +139,24 @@ const TournamentForm = () => {
                                 type="text"
                                 placeholder={`Participant ${index + 1}`}
                                 value={p}
-                                onChange={(e) =>
-                                    handleParticipantChange(
-                                        index,
-                                        e.target.value
-                                    )
-                                }
+                                onChange={(e) => handleParticipantChange(index, e.target.value)}
                             />
                         </div>
                     ))}
                 </div>
             </div>
 
+            {isError && (
+                <p className={styles.TournamentFormError}>{error?.message}</p>
+            )}
+
             <button
                 className={styles.TournamentFormSubmitBtn}
                 onClick={handleSubmit}
+                disabled={isPending}
+                type="button"
             >
-                Create Tournament
+                {isPending ? 'Creating…' : 'Create Tournament'}
             </button>
         </div>
     )
