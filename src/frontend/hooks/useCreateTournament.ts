@@ -1,12 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
-
-type CreateTournamentPayload = {
-    name: string
-    format: string
-    date: string
-    teams?: { teamId: number }[]
-}
+import type { CreateTournamentPayload } from '../types'
 
 const createTournament = async (payload: CreateTournamentPayload) => {
     const response = await fetch('http://localhost:3000/tournaments', {
@@ -22,8 +16,13 @@ const createTournament = async (payload: CreateTournamentPayload) => {
 
 export const useCreateTournament = () => {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
     return useMutation({
         mutationFn: createTournament,
-        onSuccess: () => navigate('/bracketPage'),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['tournaments'] })
+            navigate('/bracketPage')
+        },
     })
 }
