@@ -5,6 +5,12 @@ import { useRef, useEffect, useState } from 'react'
 
 interface BracketGraphProps {
     rounds: Match[][]
+    onUpdateScore: (
+        roundIndex: number,
+        matchId: number,
+        scoreA: number,
+        scoreB: number
+    ) => void
 }
 
 interface Line {
@@ -14,7 +20,7 @@ interface Line {
     y2: number
 }
 
-const BracketGraph = ({ rounds }: BracketGraphProps) => {
+const BracketGraph = ({ rounds, onUpdateScore }: BracketGraphProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const matchRefsMap = useRef<Record<string, HTMLDivElement | null>>({})
     const [lines, setLines] = useState<Line[]>([])
@@ -116,6 +122,8 @@ const BracketGraph = ({ rounds }: BracketGraphProps) => {
                     setMatchRef={(matchIndex) =>
                         setMatchRef(roundIndex, matchIndex)
                     }
+                    roundIndex={roundIndex}
+                    onUpdateScore={onUpdateScore}
                 />
             ))}
             <div className={styles.BracketMatchConnector} />
