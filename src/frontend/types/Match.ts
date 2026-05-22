@@ -1,8 +1,7 @@
 export interface Match {
     id: number
-    participantA: string
-    participantB: string
-    winner?: 'A' | 'B'
+    teamA: string
+    teamB: string
     scoreA?: number
     scoreB?: number
 }
