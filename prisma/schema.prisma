@@ -11,11 +11,12 @@ datasource db {
 model Tournament {
   id             Int              @id @default(autoincrement())
   name           String
-  format         String
   date           DateTime
   createdAt      DateTime         @default(now())
+  formatId       Int
   TournamentTeam TournamentTeam[]
   Match          Match[]
+  format         Format           @relation(fields: [formatId], references: [id], onDelete: Restrict)
 }
 
 model TeamMember {
@@ -56,4 +57,10 @@ model Match {
   teamA      Teams      @relation("MatchTeamA", fields: [teamAId], references: [id], onDelete: Restrict)
   teamB      Teams      @relation("MatchTeamB", fields: [teamBId], references: [id], onDelete: Restrict)
   tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+}
+
+model Format {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  Tournament Tournament[]
 }
