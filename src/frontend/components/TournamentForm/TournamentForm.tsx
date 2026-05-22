@@ -3,31 +3,20 @@ import { useState } from 'react'
 import formatData from '../../data/formatData.ts'
 import Format from '../Format'
 import { useCreateTournament } from '../../hooks/useCreateTournament.ts'
+import { useTeams } from '../../hooks/useTeams.ts'
 
 const TournamentForm = () => {
     const [name, setName] = useState('')
-    const [participantCount, setParticipantCount] = useState(4)
-    const [participants, setParticipants] = useState<string[]>(Array(4).fill(''))
     const [format, setFormat] = useState(formatData[0].name)
     const [hoveredFormat, setHoveredFormat] = useState<string | null>(null)
+    const [selectedTeamIds, setSelectedTeamIds] = useState<number[]>([])
     const { mutate, isPending, isError, error } = useCreateTournament()
+    const { data: teams, isLoading: teamsLoading } = useTeams()
 
-    const handleCountChange = (value: number) => {
-        const clamped = Math.max(2, Math.min(64, value))
-        setParticipantCount(clamped)
-        setParticipants((prev) => {
-            const next = [...prev]
-            while (next.length < clamped) next.push('')
-            return next.slice(0, clamped)
-        })
-    }
-
-    const handleParticipantChange = (index: number, value: string) => {
-        setParticipants((prev) => {
-            const next = [...prev]
-            next[index] = value
-            return next
-        })
+    const handleTeamToggle = (id: number) => {
+        setSelectedTeamIds((prev) =>
+            prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
+        )
     }
 
     const handleSubmit = () => {
@@ -36,6 +25,7 @@ const TournamentForm = () => {
             name: name.trim(),
             format,
             date: new Date().toISOString(),
+            teams: selectedTeamIds.map((id) => ({ teamId: id })),
         })
     }
 
@@ -93,57 +83,31 @@ const TournamentForm = () => {
             </div>
 
             <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel} htmlFor="participants_count">
-                    Number of participants
+                <label className={styles.TournamentFormFieldLabel}>
+                    Teams
                 </label>
-                <div className={styles.TournamentFormFieldCounter}>
-                    <button
-                        className={styles.TournamentFormFieldCounterBtn}
-                        onClick={() => handleCountChange(participantCount - 1)}
-                        type="button"
-                    >
-                        −
-                    </button>
-                    <input
-                        className={`${styles.TournamentFormFieldInput} ${styles.TournamentFormFieldCounterInput}`}
-                        id="participants_count"
-                        type="number"
-                        min={2}
-                        max={64}
-                        value={participantCount}
-                        onChange={(e) => handleCountChange(parseInt(e.target.value) || 2)}
-                    />
-                    <button
-                        className={styles.TournamentFormFieldCounterBtn}
-                        onClick={() => handleCountChange(participantCount + 1)}
-                        type="button"
-                    >
-                        +
-                    </button>
-                </div>
-            </div>
-
-            <div className={styles.TournamentFormField}>
-                <label className={styles.TournamentFormFieldLabel} htmlFor="participants_names">
-                    Participants
-                </label>
-                <div className={styles.TournamentFormFieldParticipantGrid}>
-                    {participants.map((p, index) => (
-                        <div key={index} className={styles.TournamentFormFieldParticipantGridRow}>
-                            <span className={styles.TournamentFormFieldParticipantGridRowIndex}>
-                                {index + 1}
-                            </span>
-                            <input
-                                className={styles.TournamentFormFieldInput}
-                                id="participants_names"
-                                type="text"
-                                placeholder={`Participant ${index + 1}`}
-                                value={p}
-                                onChange={(e) => handleParticipantChange(index, e.target.value)}
-                            />
-                        </div>
-                    ))}
-                </div>
+                {teamsLoading ? (
+                    <p className={styles.TournamentFormInfo}>Loading teams...</p>
+                ) : !teams?.length ? (
+                    <p className={styles.TournamentFormInfo}>No teams registered yet.</p>
+                ) : (
+                    <div className={styles.TournamentFormFieldTeamGrid}>
+                        {teams.map((team) => (
+                            <button
+                                key={team.id}
+                                className={`${styles.TournamentFormFieldTeamOption} ${
+                                    selectedTeamIds.includes(team.id)
+                                        ? styles.TournamentFormFieldTeamOptionSelected
+                                        : ''
+                                }`}
+                                onClick={() => handleTeamToggle(team.id)}
+                                type="button"
+                            >
+                                {team.name}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {isError && (
