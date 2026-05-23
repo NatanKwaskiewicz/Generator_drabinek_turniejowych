@@ -70,6 +70,7 @@ export const postTournament = async (
                     : undefined,
             },
             include: {
+                format: true,
                 TournamentTeam: {
                     include: { team: true },
                 },

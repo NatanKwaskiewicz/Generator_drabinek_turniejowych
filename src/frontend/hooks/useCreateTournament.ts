@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
 import type { CreateTournamentPayload } from '../types'
-import { generateMatches } from './useGenerateMatches.ts'
+import {
+    generateMatches,
+    generateRoundRobinMatches,
+} from './useGenerateMatches.ts'
 
 const createTournament = async (payload: CreateTournamentPayload) => {
     const response = await fetch('http://localhost:3000/tournaments', {
@@ -23,7 +26,12 @@ export const useCreateTournament = () => {
     return useMutation({
         mutationFn: createTournament,
         onSuccess: async (data) => {
-            await generateMatches(data.id)
+            if (data?.format?.name === 'Round Robin') {
+                await generateRoundRobinMatches(data.id)
+            } else {
+                await generateMatches(data.id)
+            }
+
             queryClient.invalidateQueries({ queryKey: ['tournaments'] })
             navigate(`/bracket/${data.id}`)
         },
