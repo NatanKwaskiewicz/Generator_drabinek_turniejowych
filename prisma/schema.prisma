@@ -53,6 +53,7 @@ model Match {
   teamBId      Int
   teamAScore   Int @default(0)
   teamBScore   Int @default(0)
+  round        Int
 
   teamA      Teams      @relation("MatchTeamA", fields: [teamAId], references: [id], onDelete: Restrict)
   teamB      Teams      @relation("MatchTeamB", fields: [teamBId], references: [id], onDelete: Restrict)
