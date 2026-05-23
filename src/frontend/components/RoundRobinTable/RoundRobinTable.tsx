@@ -113,18 +113,27 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
             <div className={styles.RRGridSection}>
                 <div
                     className={styles.RRGrid}
-                    style={{ '--team-count': teams.length } as React.CSSProperties}
+                    style={
+                        { '--team-count': teams.length } as React.CSSProperties
+                    }
                 >
                     <div key="corner" className={styles.RRCorner} />
                     {teams.map((team) => (
-                        <div key={team.id} className={styles.RRColHeader} title={team.name}>
+                        <div
+                            key={team.id}
+                            className={styles.RRColHeader}
+                            title={team.name}
+                        >
                             {team.name}
                         </div>
                     ))}
 
                     {teams.map((rowTeam) => (
                         <React.Fragment key={`row-${rowTeam.id}`}>
-                            <div className={styles.RRRowHeader} title={rowTeam.name}>
+                            <div
+                                className={styles.RRRowHeader}
+                                title={rowTeam.name}
+                            >
                                 {rowTeam.name}
                             </div>
 
@@ -138,8 +147,14 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                                     )
                                 }
 
-                                const score = getCellScore(rowTeam.id, colTeam.id)
-                                const result = getCellResult(rowTeam.id, colTeam.id)
+                                const score = getCellScore(
+                                    rowTeam.id,
+                                    colTeam.id
+                                )
+                                const result = getCellResult(
+                                    rowTeam.id,
+                                    colTeam.id
+                                )
                                 const entry = lookup[rowTeam.id]?.[colTeam.id]
 
                                 return (
@@ -161,10 +176,17 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                                     >
                                         {score ? (
                                             <span className={styles.RRScore}>
-                                                {score.scoreRow}:{score.scoreCol}
+                                                {score.scoreRow}:
+                                                {score.scoreCol}
                                             </span>
                                         ) : (
-                                            <span className={styles.RRScorePending}>–</span>
+                                            <span
+                                                className={
+                                                    styles.RRScorePending
+                                                }
+                                            >
+                                                –
+                                            </span>
                                         )}
                                     </div>
                                 )
@@ -179,37 +201,82 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                 <div className={styles.RRTableWrapper}>
                     <table className={styles.RRTable}>
                         <thead>
-                        <tr>
-                            <th className={styles.RRTh}>#</th>
-                            <th className={`${styles.RRTh} ${styles.RRThTeam}`}>Team</th>
-                            <th className={styles.RRTh} title="Played">P</th>
-                            <th className={styles.RRTh} title="Won">W</th>
-                            <th className={styles.RRTh} title="Drawn">D</th>
-                            <th className={styles.RRTh} title="Lost">L</th>
-                            <th className={styles.RRTh} title="Points For">PF</th>
-                            <th className={styles.RRTh} title="Points Against">PA</th>
-                            <th className={styles.RRTh} title="Point Difference">PD</th>
-                            <th className={`${styles.RRTh} ${styles.RRThPts}`} title="Points">Pts</th>
-                        </tr>
+                            <tr>
+                                <th className={styles.RRTh}>#</th>
+                                <th
+                                    className={`${styles.RRTh} ${styles.RRThTeam}`}
+                                >
+                                    Team
+                                </th>
+                                <th className={styles.RRTh} title="Played">
+                                    P
+                                </th>
+                                <th className={styles.RRTh} title="Won">
+                                    W
+                                </th>
+                                <th className={styles.RRTh} title="Drawn">
+                                    D
+                                </th>
+                                <th className={styles.RRTh} title="Lost">
+                                    L
+                                </th>
+                                <th className={styles.RRTh} title="Points For">
+                                    PF
+                                </th>
+                                <th
+                                    className={styles.RRTh}
+                                    title="Points Against"
+                                >
+                                    PA
+                                </th>
+                                <th
+                                    className={styles.RRTh}
+                                    title="Point Difference"
+                                >
+                                    PD
+                                </th>
+                                <th
+                                    className={`${styles.RRTh} ${styles.RRThPts}`}
+                                    title="Points"
+                                >
+                                    Pts
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {standings.map((row, i) => (
-                            <tr
-                                key={row.teamId}
-                                className={`${styles.RRRow} ${i === 0 ? styles.RRRowFirst : ''}`}
-                            >
-                                <td className={styles.RRTd}>{i + 1}</td>
-                                <td className={`${styles.RRTd} ${styles.RRTdTeam}`}>{row.teamName}</td>
-                                <td className={styles.RRTd}>{row.played}</td>
-                                <td className={styles.RRTd}>{row.won}</td>
-                                <td className={styles.RRTd}>{row.drawn}</td>
-                                <td className={styles.RRTd}>{row.lost}</td>
-                                <td className={styles.RRTd}>{row.pointsFor}</td>
-                                <td className={styles.RRTd}>{row.pointsAgainst}</td>
-                                <td className={styles.RRTd}>{row.pointsFor - row.pointsAgainst}</td>
-                                <td className={`${styles.RRTd} ${styles.RRTdPts}`}>{row.points}</td>
-                            </tr>
-                        ))}
+                            {standings.map((row, i) => (
+                                <tr
+                                    key={row.teamId}
+                                    className={`${styles.RRRow} ${i === 0 ? styles.RRRowFirst : ''}`}
+                                >
+                                    <td className={styles.RRTd}>{i + 1}</td>
+                                    <td
+                                        className={`${styles.RRTd} ${styles.RRTdTeam}`}
+                                    >
+                                        {row.teamName}
+                                    </td>
+                                    <td className={styles.RRTd}>
+                                        {row.played}
+                                    </td>
+                                    <td className={styles.RRTd}>{row.won}</td>
+                                    <td className={styles.RRTd}>{row.drawn}</td>
+                                    <td className={styles.RRTd}>{row.lost}</td>
+                                    <td className={styles.RRTd}>
+                                        {row.pointsFor}
+                                    </td>
+                                    <td className={styles.RRTd}>
+                                        {row.pointsAgainst}
+                                    </td>
+                                    <td className={styles.RRTd}>
+                                        {row.pointsFor - row.pointsAgainst}
+                                    </td>
+                                    <td
+                                        className={`${styles.RRTd} ${styles.RRTdPts}`}
+                                    >
+                                        {row.points}
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

@@ -9,213 +9,218 @@ $yellow: #ffd700;
 $draw-color: #b0b0b0;
 
 .RRWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  padding: 2rem;
-  width: 100%;
-  overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 2rem;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .RRGridSection {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 .RRGrid {
-  display: grid;
-  grid-template-columns: minmax(7rem, 12rem) repeat(var(--team-count), minmax(5rem, 7rem));
-  gap: 4px;
-  width: max-content;
+    display: grid;
+    grid-template-columns: minmax(7rem, 12rem) repeat(
+            var(--team-count),
+            minmax(5rem, 7rem)
+        );
+    gap: 4px;
+    width: max-content;
 }
 
 .RRCorner {
-  background: transparent;
+    background: transparent;
 }
 
 .RRColHeader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.4rem 0.3rem;
-  background: rgba($purple, 0.15);
-  border: 1px solid rgba($purple, 0.25);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: rgba($white, 0.75);
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.3rem;
+    background: rgba($purple, 0.15);
+    border: 1px solid rgba($purple, 0.25);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba($white, 0.75);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 7rem;
 }
 
 .RRRowHeader {
-  display: flex;
-  align-items: center;
-  padding: 0 0.6rem;
-  background: rgba($purple, 0.15);
-  border: 1px solid rgba($purple, 0.25);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: rgba($white, 0.75);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: 3.5rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.6rem;
+    background: rgba($purple, 0.15);
+    border: 1px solid rgba($purple, 0.25);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba($white, 0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 3.5rem;
 }
 
 .RRCellDiagonal {
-  background: rgba($purple, 0.45);
-  border-radius: 6px;
-  min-height: 3.5rem;
+    background: rgba($purple, 0.45);
+    border-radius: 6px;
+    min-height: 3.5rem;
 }
 
 .RRCell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba($white, 0.04);
-  border: 1px solid rgba($white, 0.08);
-  border-radius: 6px;
-  min-height: 3.5rem;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-
-  &:hover {
-    background: rgba($white, 0.09);
-    border-color: rgba($blue, 0.35);
-  }
-
-  &_win {
-    background: rgba($green, 0.12);
-    border-color: rgba($green, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba($white, 0.04);
+    border: 1px solid rgba($white, 0.08);
+    border-radius: 6px;
+    min-height: 3.5rem;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
 
     &:hover {
-      background: rgba($green, 0.2);
+        background: rgba($white, 0.09);
+        border-color: rgba($blue, 0.35);
     }
 
-    .RRScore {
-      color: $green;
+    &_win {
+        background: rgba($green, 0.12);
+        border-color: rgba($green, 0.28);
+
+        &:hover {
+            background: rgba($green, 0.2);
+        }
+
+        .RRScore {
+            color: $green;
+        }
     }
-  }
 
-  &_loss {
-    background: rgba($red, 0.08);
-    border-color: rgba($red, 0.2);
+    &_loss {
+        background: rgba($red, 0.08);
+        border-color: rgba($red, 0.2);
 
-    &:hover {
-      background: rgba($red, 0.14);
+        &:hover {
+            background: rgba($red, 0.14);
+        }
+
+        .RRScore {
+            color: $red;
+        }
     }
 
-    .RRScore {
-      color: $red;
-    }
-  }
+    // Remis
+    &_draw {
+        background: rgba($draw-color, 0.07);
+        border-color: rgba($draw-color, 0.18);
 
-  // Remis
-  &_draw {
-    background: rgba($draw-color, 0.07);
-    border-color: rgba($draw-color, 0.18);
-
-    .RRScore {
-      color: $draw-color;
+        .RRScore {
+            color: $draw-color;
+        }
     }
-  }
 }
 
 .RRScore {
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: $blue;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: $blue;
 }
 
 .RRScorePending {
-  font-size: 1rem;
-  color: rgba($white, 0.2);
+    font-size: 1rem;
+    color: rgba($white, 0.2);
 }
 
 .RRStandingsSection {
-  background: $dark-grey;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
+    background: $dark-grey;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
 }
 
 .RRStandingsTitle {
-  color: $blue;
-  font-size: 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 1rem;
+    color: $blue;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
 }
 
 .RRTableWrapper {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 .RRTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.88rem;
-  color: $white;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    color: $white;
 }
 
 .RRTh {
-  padding: 0.5rem 0.75rem;
-  text-align: center;
-  color: rgba($white, 0.4);
-  font-weight: 600;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid rgba($white, 0.08);
-  white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+    color: rgba($white, 0.4);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba($white, 0.08);
+    white-space: nowrap;
 
-  &Team {
-    text-align: left;
-    min-width: 9rem;
-  }
+    &Team {
+        text-align: left;
+        min-width: 9rem;
+    }
 
-  &Pts {
-    color: $blue;
-  }
+    &Pts {
+        color: $blue;
+    }
 }
 
 .RRRow {
-  transition: background 0.12s;
+    transition: background 0.12s;
 
-  &:hover {
-    background: rgba($white, 0.04);
-  }
+    &:hover {
+        background: rgba($white, 0.04);
+    }
 
-  &First {
-    td:first-child {
-      border-left: 3px solid $yellow;
+    &First {
+        td:first-child {
+            border-left: 3px solid $yellow;
+        }
+        .RRTdPts {
+            color: $yellow;
+            font-weight: 700;
+        }
     }
-    .RRTdPts {
-      color: $yellow;
-      font-weight: 700;
-    }
-  }
 }
 
 .RRTd {
-  padding: 0.55rem 0.75rem;
-  text-align: center;
-  border-bottom: 1px solid rgba($white, 0.05);
-  color: rgba($white, 0.8);
+    padding: 0.55rem 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid rgba($white, 0.05);
+    color: rgba($white, 0.8);
 
-  &Team {
-    text-align: left;
-    font-weight: 500;
-    color: $white;
-  }
+    &Team {
+        text-align: left;
+        font-weight: 500;
+        color: $white;
+    }
 
-  &Pts {
-    font-weight: 700;
-    color: $blue;
-  }
+    &Pts {
+        font-weight: 700;
+        color: $blue;
+    }
 }
