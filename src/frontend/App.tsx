@@ -17,7 +17,7 @@ function App() {
                     element={<CreateTournament />}
                 />
                 <Route path="/createTeam" element={<CreateTeam />} />
-                <Route path="/bracketPage" element={<BracketPage />} />
+                <Route path="/bracket/:id" element={<BracketPage />} />
             </Routes>
             <Footer />
         </>

@@ -1,13 +1,25 @@
 import styles from './Bracket.module.scss'
 import BracketGraph from '../BracketGraph'
-import { useState } from 'react'
-import bracketData from '../../data/bracketData.ts'
-import type { Match } from '../../types'
+import { useEffect, useState } from 'react'
+import type { Match, Tournament } from '../../types'
+import { transformMatchesToRounds } from '../../utils/transformMatches.ts'
+import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
 
-const Bracket = () => {
-    const [rounds, setRounds] = useState<Match[][]>(bracketData)
+interface BracketProps {
+    tournament: Tournament
+}
 
-    const updateScore = (
+const Bracket = ({ tournament }: BracketProps) => {
+    const [rounds, setRounds] = useState<Match[][]>(() =>
+        transformMatchesToRounds(tournament)
+    )
+    const { mutate: updateScore } = useUpdateMatchScore(tournament.id)
+
+    useEffect(() => {
+        setRounds(transformMatchesToRounds(tournament))
+    }, [tournament])
+
+    const handleUpdateScore = (
         roundIndex: number,
         matchId: number,
         scoreA: number,
@@ -24,11 +36,12 @@ const Bracket = () => {
                       )
             )
         )
+        updateScore({ matchId, teamAScore: scoreA, teamBScore: scoreB })
     }
 
     return (
         <div className={styles.Bracket}>
-            <BracketGraph rounds={rounds} onUpdateScore={updateScore} />
+            <BracketGraph rounds={rounds} onUpdateScore={handleUpdateScore} />
         </div>
     )
 }

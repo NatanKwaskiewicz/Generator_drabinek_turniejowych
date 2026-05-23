@@ -22,6 +22,19 @@ export const getOneTournament = async (
     try {
         const oneTournament = await prisma.tournament.findUnique({
             where: { id: Number(req.params.id) },
+            include: {
+                format: true,
+                Match: {
+                    include: {
+                        teamA: true,
+                        teamB: true,
+                    },
+                    orderBy: { round: 'asc' },
+                },
+                TournamentTeam: {
+                    include: { team: true },
+                },
+            },
         })
         if (!oneTournament) return res.status(404).json('Tournament not found')
         res.status(200).json(oneTournament)
