@@ -102,4 +102,13 @@ $red: #f87171;
         font-size: 1.4rem;
         color: $red;
     }
+
+    &Info {
+        align-self: center;
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba($white, 0.45);
+        padding: 1rem 0;
+        width: 90%;
+    }
 }

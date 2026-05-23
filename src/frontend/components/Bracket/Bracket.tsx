@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react'
 import type { Match, Tournament } from '../../types'
 import { transformMatchesToRounds } from '../../utils/transformMatches.ts'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
+import RoundRobinTable from '../RoundRobinTable'
 
 interface BracketProps {
     tournament: Tournament
 }
+const ROUND_ROBIN_FORMAT = 'Round Robin'
 
 const Bracket = ({ tournament }: BracketProps) => {
+    const isRoundRobin = tournament.format.name === ROUND_ROBIN_FORMAT
     const [rounds, setRounds] = useState<Match[][]>(() =>
         transformMatchesToRounds(tournament)
     )
@@ -37,6 +40,14 @@ const Bracket = ({ tournament }: BracketProps) => {
             )
         )
         updateScore({ matchId, teamAScore: scoreA, teamBScore: scoreB })
+    }
+
+    if (isRoundRobin) {
+        return (
+            <div className={styles.Bracket}>
+                <RoundRobinTable tournament={tournament} />
+            </div>
+        )
     }
 
     return (

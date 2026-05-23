@@ -6,8 +6,10 @@ import type { Tournament } from '../../types'
 interface BracketContainerProps {
     tournament: Tournament
 }
+const ROUND_ROBIN_FORMAT = 'Round Robin'
 
 const BracketContainer = ({ tournament }: BracketContainerProps) => {
+    const isRoundRobin = tournament.format.name === ROUND_ROBIN_FORMAT
     const currentRound = Math.max(...tournament.Match.map((m) => m.round), 1)
     const isFinished =
         tournament.Match.filter((m) => m.round === currentRound).length === 1
@@ -24,6 +26,7 @@ const BracketContainer = ({ tournament }: BracketContainerProps) => {
                         tournamentId={tournament.id}
                         currentRound={currentRound}
                         isFinished={isFinished}
+                        isRoundRobin={isRoundRobin}
                     />
                 </div>
             </div>

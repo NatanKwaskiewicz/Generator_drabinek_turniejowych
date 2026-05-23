@@ -6,12 +6,14 @@ interface BracketSettingsProps {
     tournamentId: number
     currentRound: number
     isFinished: boolean
+    isRoundRobin: boolean
 }
 
 const BracketSettings = ({
     tournamentId,
     currentRound,
     isFinished,
+    isRoundRobin,
 }: BracketSettingsProps) => {
     const [expanded, setExpanded] = useState(true)
     const {
@@ -35,21 +37,30 @@ const BracketSettings = ({
             </button>
             {expanded && (
                 <div className={styles.BracketSettingsContent}>
-                    <button
-                        className={styles.BracketSettingsContentAdvance}
-                        onClick={() => advanceRound(currentRound)}
-                        disabled={isPending || isFinished}
-                        type="button"
-                    >
-                        {isPending
-                            ? 'Advancing...'
-                            : isFinished
-                              ? 'Final round'
-                              : `Advance to Round ${currentRound + 1}`}
-                    </button>
-                    {isError && (
-                        <p className={styles.BracketSettingsError}>
-                            {error?.message}
+                    {!isRoundRobin && (
+                        <>
+                            <button
+                                className={styles.BracketSettingsContentAdvance}
+                                onClick={() => advanceRound(currentRound)}
+                                disabled={isPending || isFinished}
+                                type="button"
+                            >
+                                {isPending
+                                    ? 'Advancing...'
+                                    : isFinished
+                                      ? 'Final round'
+                                      : `Advance to Round ${currentRound + 1}`}
+                            </button>
+                            {isError && (
+                                <p className={styles.BracketSettingsError}>
+                                    {error?.message}
+                                </p>
+                            )}
+                        </>
+                    )}
+                    {isRoundRobin && (
+                        <p className={styles.BracketSettingsInfo}>
+                            Round Robin — all matches are played in full.
                         </p>
                     )}
                 </div>
