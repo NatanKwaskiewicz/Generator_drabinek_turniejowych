@@ -1,30 +1,13 @@
 import styles from './RoundRobinTable.module.scss'
-import type { Tournament } from '../../types'
-import type { Match } from '../../types'
+import type { Tournament, Match, MatchLookup } from '../../types'
 import { computeRoundRobinStandings } from '../../utils/transformMatches.ts'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
 import ChangeScore from '../ChangeScore'
 
 interface RoundRobinTableProps {
     tournament: Tournament
     activeLeg: number
-}
-
-interface MatchLookup {
-    [teamAId: number]: {
-        [teamBId: number]: {
-            id: number
-            teamAId: number
-            teamBId: number
-            teamAName: string
-            teamBName: string
-            scoreA: number
-            scoreB: number
-            round: number
-            played: boolean
-        }
-    }
 }
 
 const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
@@ -36,29 +19,25 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
         activeLeg === 1 ? m.round <= roundsPerLeg : m.round > roundsPerLeg
     )
 
-    const buildLookup = (): MatchLookup => {
-        const lookup: MatchLookup = {}
-        for (const m of legMatches) {
-            if (!lookup[m.teamAId]) lookup[m.teamAId] = {}
-            if (!lookup[m.teamBId]) lookup[m.teamBId] = {}
-            const entry = {
-                id: m.id,
-                teamAId: m.teamAId,
-                teamBId: m.teamBId,
-                teamAName: m.teamA.name,
-                teamBName: m.teamB.name,
-                scoreA: m.teamAScore,
-                scoreB: m.teamBScore,
-                round: m.round,
-                played: m.played,
-            }
-            lookup[m.teamAId][m.teamBId] = entry
-            lookup[m.teamBId][m.teamAId] = entry
+    const lookup: MatchLookup = {}
+    for (const m of legMatches) {
+        if (!lookup[m.teamAId]) lookup[m.teamAId] = {}
+        if (!lookup[m.teamBId]) lookup[m.teamBId] = {}
+        const entry = {
+            id: m.id,
+            teamAId: m.teamAId,
+            teamBId: m.teamBId,
+            teamAName: m.teamA.name,
+            teamBName: m.teamB.name,
+            scoreA: m.teamAScore,
+            scoreB: m.teamBScore,
+            round: m.round,
+            played: m.played,
         }
-        return lookup
+        lookup[m.teamAId][m.teamBId] = entry
+        lookup[m.teamBId][m.teamAId] = entry
     }
 
-    const [lookup, setLookup] = useState<MatchLookup>(buildLookup)
     const [selectedMatch, setSelectedMatch] = useState<{
         id: number
         teamAId: number
@@ -73,21 +52,9 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
     const { mutate: updateScore } = useUpdateMatchScore(tournament.id)
     const standings = computeRoundRobinStandings(tournament)
 
-    useEffect(() => {
-        setLookup(buildLookup())
-    }, [tournament, activeLeg])
-
     const handleConfirm = (scoreA: number, scoreB: number) => {
         if (!selectedMatch) return
-        const { id, teamAId, teamBId } = selectedMatch
-
-        setLookup((prev) => {
-            const updated = { ...prev }
-            const entry = { ...updated[teamAId][teamBId], scoreA, scoreB }
-            updated[teamAId] = { ...updated[teamAId], [teamBId]: entry }
-            updated[teamBId] = { ...updated[teamBId], [teamAId]: entry }
-            return updated
-        })
+        const { id } = selectedMatch
 
         updateScore({ matchId: id, teamAScore: scoreA, teamBScore: scoreB })
         setSelectedMatch(null)
