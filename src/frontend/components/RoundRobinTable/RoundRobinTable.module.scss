@@ -2,7 +2,6 @@ $white: #e8edf2;
 $blue: #4fc3f7;
 $grey: #2a2d35;
 $dark-grey: #1a1c22;
-$purple: #7f77dd;
 $green: #66bb6a;
 $red: #f87171;
 $yellow: #ffd700;
@@ -45,8 +44,8 @@ $draw-color: #b0b0b0;
     align-items: center;
     justify-content: center;
     padding: 0.8rem 0.6rem;
-    background: rgba($purple, 0.15);
-    border: 1px solid rgba($purple, 0.25);
+    background: rgba($blue, 0.3);
+    border: 1px solid rgba($blue, 0.4);
     border-radius: 6px;
     font-size: 1.4rem;
     font-weight: 600;
@@ -61,8 +60,8 @@ $draw-color: #b0b0b0;
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    background: rgba($purple, 0.15);
-    border: 1px solid rgba($purple, 0.25);
+    background: rgba($blue, 0.3);
+    border: 1px solid rgba($blue, 0.4);
     border-radius: 6px;
     font-size: 1.4rem;
     font-weight: 600;
@@ -74,7 +73,7 @@ $draw-color: #b0b0b0;
 }
 
 .RRCellDiagonal {
-    background: rgba($purple, 0.45);
+    background: rgba($blue, 0.65);
     border-radius: 6px;
     min-height: 5rem;
 }
