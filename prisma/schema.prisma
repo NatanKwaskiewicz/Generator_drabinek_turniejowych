@@ -47,13 +47,14 @@ model TournamentTeam {
 }
 
 model Match {
-  id           Int @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   tournamentId Int
   teamAId      Int
   teamBId      Int
-  teamAScore   Int @default(0)
-  teamBScore   Int @default(0)
+  teamAScore   Int     @default(0)
+  teamBScore   Int     @default(0)
   round        Int
+  played       Boolean @default(false)
 
   teamA      Teams      @relation("MatchTeamA", fields: [teamAId], references: [id], onDelete: Restrict)
   teamB      Teams      @relation("MatchTeamB", fields: [teamBId], references: [id], onDelete: Restrict)
