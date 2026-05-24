@@ -70,10 +70,10 @@ export const postTournament = async (
                 formatId: formatId,
                 TournamentTeam: teams
                     ? {
-                        create: teams.map((t) => ({
-                            teamId: t.teamId,
-                        })),
-                    }
+                          create: teams.map((t) => ({
+                              teamId: t.teamId,
+                          })),
+                      }
                     : undefined,
             },
             include: {
