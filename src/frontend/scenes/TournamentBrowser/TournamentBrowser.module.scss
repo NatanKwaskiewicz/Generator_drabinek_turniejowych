@@ -2,10 +2,10 @@ $black: #0f0f11;
 $dark-grey: #1a1c22;
 
 .TournamentBrowser {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
-  padding: 6rem 2rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
+    padding: 6rem 2rem;
 }

@@ -13,13 +13,18 @@ const TournamentCard = ({ tournament }: Props) => {
     return (
         <div className={styles.TournamentCard}>
             <div className={styles.TournamentCardInfo}>
-                <h3 className={styles.TournamentCardInfoName}>{tournament.name}</h3>
+                <h3 className={styles.TournamentCardInfoName}>
+                    {tournament.name}
+                </h3>
                 <div className={styles.TournamentCardInfoMeta}>
                     <span className={styles.TournamentCardInfoMetaBadge}>
                         {tournament.format.name}
                     </span>
                     <span className={styles.TournamentCardInfoMetaTeams}>
-                        {tournament.TournamentTeam.length} {tournament.TournamentTeam.length === 1 ? 'team' : 'teams'}
+                        {tournament.TournamentTeam.length}{' '}
+                        {tournament.TournamentTeam.length === 1
+                            ? 'team'
+                            : 'teams'}
                     </span>
                 </div>
             </div>

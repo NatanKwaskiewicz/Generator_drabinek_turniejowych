@@ -25,6 +25,7 @@ export const useDeleteTournament = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: deleteTournament,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tournaments'] }),
+        onSuccess: () =>
+            queryClient.invalidateQueries({ queryKey: ['tournaments'] }),
     })
 }
