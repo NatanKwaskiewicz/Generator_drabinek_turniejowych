@@ -96,6 +96,33 @@ $red: #f87171;
                 box-shadow: none;
             }
         }
+
+        &LegToggle {
+            display: flex;
+            gap: 0.8rem;
+
+            &Btn {
+                flex: 1;
+                padding: 0.8rem 1.2rem;
+                border-radius: 0.8rem;
+                border: 1px solid rgba($blue, 0.2);
+                background: transparent;
+                color: rgba($white, 0.5);
+                font-size: 1.4rem;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    border-color: rgba($blue, 0.5);
+                    color: $white;
+                }
+                &Active {
+                    background: rgba($blue, 0.12);
+                    border-color: rgba($blue, 0.7);
+                    color: $blue;
+                }
+            }
+        }
     }
 
     &Error {
