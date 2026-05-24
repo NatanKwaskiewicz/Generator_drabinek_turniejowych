@@ -8,6 +8,7 @@ import ChangeScore from '../ChangeScore'
 
 interface RoundRobinTableProps {
     tournament: Tournament
+    activeLeg: number
 }
 
 interface MatchLookup {
@@ -20,16 +21,24 @@ interface MatchLookup {
             teamBName: string
             scoreA: number
             scoreB: number
+            round: number
+            played: boolean
         }
     }
 }
 
-const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
+const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
     const teams = tournament.TournamentTeam.map((tt) => tt.team)
+    const n = teams.length
+    const roundsPerLeg = n % 2 === 0 ? n - 1 : n
+
+    const legMatches = tournament.Match.filter((m) =>
+        activeLeg === 1 ? m.round <= roundsPerLeg : m.round > roundsPerLeg
+    )
 
     const buildLookup = (): MatchLookup => {
         const lookup: MatchLookup = {}
-        for (const m of tournament.Match) {
+        for (const m of legMatches) {
             if (!lookup[m.teamAId]) lookup[m.teamAId] = {}
             if (!lookup[m.teamBId]) lookup[m.teamBId] = {}
             const entry = {
@@ -40,6 +49,8 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                 teamBName: m.teamB.name,
                 scoreA: m.teamAScore,
                 scoreB: m.teamBScore,
+                round: m.round,
+                played: m.played,
             }
             lookup[m.teamAId][m.teamBId] = entry
             lookup[m.teamBId][m.teamAId] = entry
@@ -56,13 +67,15 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
         teamBName: string
         scoreA: number
         scoreB: number
+        round: number
+        played: boolean
     } | null>(null)
     const { mutate: updateScore } = useUpdateMatchScore(tournament.id)
     const standings = computeRoundRobinStandings(tournament)
 
     useEffect(() => {
         setLookup(buildLookup())
-    }, [tournament])
+    }, [tournament, activeLeg])
 
     const handleConfirm = (scoreA: number, scoreB: number) => {
         if (!selectedMatch) return
@@ -86,6 +99,8 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
         teamB: entry.teamBName,
         scoreA: entry.scoreA,
         scoreB: entry.scoreB,
+        round: entry.round,
+        played: entry.played,
     })
 
     const getCellScore = (rowTeamId: number, colTeamId: number) => {
@@ -111,88 +126,105 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
     return (
         <div className={styles.RRWrapper}>
             <div className={styles.RRGridSection}>
-                <div
-                    className={styles.RRGrid}
-                    style={
-                        { '--team-count': teams.length } as React.CSSProperties
-                    }
-                >
-                    <div key="corner" className={styles.RRCorner} />
-                    {teams.map((team) => (
-                        <div
-                            key={team.id}
-                            className={styles.RRColHeader}
-                            title={team.name}
-                        >
-                            {team.name}
-                        </div>
-                    ))}
-
-                    {teams.map((rowTeam) => (
-                        <React.Fragment key={`row-${rowTeam.id}`}>
+                <div className={styles.RRGridContainer}>
+                    <div className={styles.RRLegLabel}>
+                        Leg {activeLeg}{' '}
+                        {activeLeg === 1
+                            ? '(First round of fixtures)'
+                            : '(Return fixtures)'}
+                    </div>
+                    <div
+                        className={styles.RRGrid}
+                        style={
+                            {
+                                '--team-count': teams.length,
+                            } as React.CSSProperties
+                        }
+                    >
+                        <div key="corner" className={styles.RRCorner} />
+                        {teams.map((team) => (
                             <div
-                                className={styles.RRRowHeader}
-                                title={rowTeam.name}
+                                key={team.id}
+                                className={styles.RRColHeader}
+                                title={team.name}
                             >
-                                {rowTeam.name}
+                                {team.name}
                             </div>
+                        ))}
 
-                            {teams.map((colTeam) => {
-                                if (rowTeam.id === colTeam.id) {
+                        {teams.map((rowTeam) => (
+                            <React.Fragment key={`row-${rowTeam.id}`}>
+                                <div
+                                    className={styles.RRRowHeader}
+                                    title={rowTeam.name}
+                                >
+                                    {rowTeam.name}
+                                </div>
+
+                                {teams.map((colTeam) => {
+                                    if (rowTeam.id === colTeam.id) {
+                                        return (
+                                            <div
+                                                key={`${rowTeam.id}-${colTeam.id}`}
+                                                className={
+                                                    styles.RRCellDiagonal
+                                                }
+                                            />
+                                        )
+                                    }
+
+                                    const score = getCellScore(
+                                        rowTeam.id,
+                                        colTeam.id
+                                    )
+                                    const result = getCellResult(
+                                        rowTeam.id,
+                                        colTeam.id
+                                    )
+                                    const entry =
+                                        lookup[rowTeam.id]?.[colTeam.id]
+
                                     return (
                                         <div
                                             key={`${rowTeam.id}-${colTeam.id}`}
-                                            className={styles.RRCellDiagonal}
-                                        />
+                                            className={`${styles.RRCell} ${result ? styles[`RRCell_${result}`] : ''}`}
+                                            onClick={() => {
+                                                if (!entry) return
+                                                setSelectedMatch({
+                                                    id: entry.id,
+                                                    teamAId: entry.teamAId,
+                                                    teamBId: entry.teamBId,
+                                                    teamAName: entry.teamAName,
+                                                    teamBName: entry.teamBName,
+                                                    scoreA: entry.scoreA,
+                                                    scoreB: entry.scoreB,
+                                                    round: entry.round,
+                                                    played: entry.played,
+                                                })
+                                            }}
+                                        >
+                                            {score ? (
+                                                <span
+                                                    className={styles.RRScore}
+                                                >
+                                                    {score.scoreRow}:
+                                                    {score.scoreCol}
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className={
+                                                        styles.RRScorePending
+                                                    }
+                                                >
+                                                    –
+                                                </span>
+                                            )}
+                                        </div>
                                     )
-                                }
-
-                                const score = getCellScore(
-                                    rowTeam.id,
-                                    colTeam.id
-                                )
-                                const result = getCellResult(
-                                    rowTeam.id,
-                                    colTeam.id
-                                )
-                                const entry = lookup[rowTeam.id]?.[colTeam.id]
-
-                                return (
-                                    <div
-                                        key={`${rowTeam.id}-${colTeam.id}`}
-                                        className={`${styles.RRCell} ${result ? styles[`RRCell_${result}`] : ''}`}
-                                        onClick={() => {
-                                            if (!entry) return
-                                            setSelectedMatch({
-                                                id: entry.id,
-                                                teamAId: entry.teamAId,
-                                                teamBId: entry.teamBId,
-                                                teamAName: entry.teamAName,
-                                                teamBName: entry.teamBName,
-                                                scoreA: entry.scoreA,
-                                                scoreB: entry.scoreB,
-                                            })
-                                        }}
-                                    >
-                                        {score ? (
-                                            <span className={styles.RRScore}>
-                                                {score.scoreRow}:
-                                                {score.scoreCol}
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className={
-                                                    styles.RRScorePending
-                                                }
-                                            >
-                                                –
-                                            </span>
-                                        )}
-                                    </div>
-                                )
-                            })}
-                        </React.Fragment>
-                    ))}
+                                })}
+                            </React.Fragment>
+                        ))}
+                    </div>
                 </div>
             </div>
 

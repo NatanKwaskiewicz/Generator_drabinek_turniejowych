@@ -12,6 +12,8 @@ export const transformMatchesToRounds = (tournament: Tournament): Match[][] => {
             teamB: m.teamB.name,
             scoreA: m.teamAScore,
             scoreB: m.teamBScore,
+            round: m.round,
+            played: m.played,
         })
     }
 
@@ -53,6 +55,7 @@ export const computeRoundRobinStandings = (
     }
 
     for (const m of tournament.Match) {
+        if (!m.played) continue
         const a = standingsMap[m.teamAId]
         const b = standingsMap[m.teamBId]
 
