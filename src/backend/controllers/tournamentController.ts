@@ -7,7 +7,15 @@ export const getTournaments = async (
     next: NextFunction
 ) => {
     try {
-        const tournaments = await prisma.tournament.findMany()
+        const tournaments = await prisma.tournament.findMany({
+            include: {
+                format: true,
+                TournamentTeam: {
+                    include: { team: true },
+                },
+            },
+            orderBy: { createdAt: 'desc' },
+        })
         res.status(200).json(tournaments)
     } catch (err) {
         next(err)
@@ -55,7 +63,6 @@ export const postTournament = async (
             formatId: number
             teams?: { teamId: number }[]
         }
-
         const tournament = await prisma.tournament.create({
             data: {
                 name,
@@ -63,10 +70,10 @@ export const postTournament = async (
                 formatId: formatId,
                 TournamentTeam: teams
                     ? {
-                          create: teams.map((t) => ({
-                              teamId: t.teamId,
-                          })),
-                      }
+                        create: teams.map((t) => ({
+                            teamId: t.teamId,
+                        })),
+                    }
                     : undefined,
             },
             include: {
@@ -76,8 +83,23 @@ export const postTournament = async (
                 },
             },
         })
-
         res.status(201).json(tournament)
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const deleteTournament = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const id = Number(req.params.id)
+        await prisma.match.deleteMany({ where: { tournamentId: id } })
+        await prisma.tournamentTeam.deleteMany({ where: { tournamentId: id } })
+        await prisma.tournament.delete({ where: { id } })
+        res.status(204).send()
     } catch (err) {
         next(err)
     }
