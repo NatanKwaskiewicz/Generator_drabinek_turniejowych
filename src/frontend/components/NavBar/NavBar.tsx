@@ -11,6 +11,11 @@ const NavBar = () => {
             </h1>
             <ul className={styles.NavBarList}>
                 <li>
+                    <Link className={styles.NavBarListLink} to="/tournaments">
+                        Browse tournaments
+                    </Link>
+                </li>
+                <li>
                     <Link
                         className={styles.NavBarListLink}
                         to="/bracketGenerator"

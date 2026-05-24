@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import CreateTournament from './scenes/CreateTournament'
 import BracketPage from './scenes/BracketPage'
 import CreateTeam from './scenes/CreateTeam'
+import TournamentBrowser from './scenes/TournamentBrowser'
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 />
                 <Route path="/createTeam" element={<CreateTeam />} />
                 <Route path="/bracket/:id" element={<BracketPage />} />
+                <Route path="/tournaments" element={<TournamentBrowser />} />
             </Routes>
             <Footer />
         </>
