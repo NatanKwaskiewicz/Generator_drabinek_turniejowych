@@ -94,12 +94,7 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
         <div className={styles.RRWrapper}>
             <div className={styles.RRGridSection}>
                 <div className={styles.RRGridContainer}>
-                    <div className={styles.RRLegLabel}>
-                        Leg {activeLeg}{' '}
-                        {activeLeg === 1
-                            ? '(First round of fixtures)'
-                            : '(Return fixtures)'}
-                    </div>
+                    <div className={styles.RRLegLabel}>Leg {activeLeg}</div>
                     <div
                         className={styles.RRGrid}
                         style={
