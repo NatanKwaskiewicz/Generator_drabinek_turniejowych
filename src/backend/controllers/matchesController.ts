@@ -26,7 +26,6 @@ export const generateMatches = async (
             where: { tournamentId },
         })
 
-        //te sie nie powinny wydarzyć nigdy bo jest check przy tworzeniu turnieju ale dla pewności
         if (tournamentTeams.length < 2) {
             res.status(400).json('Not enough teams to generate matches')
         }
@@ -53,6 +52,101 @@ export const generateMatches = async (
         const created = await prisma.match.findMany({
             where: { tournamentId, round: 1 },
             include: { teamA: true, teamB: true },
+        })
+
+        res.status(201).json(created)
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const generateRoundRobinMatches = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const tournamentId = Number(req.params.tournamentId)
+
+        const existingMatches = await prisma.match.findMany({
+            where: { tournamentId },
+        })
+        if (existingMatches.length > 0) {
+            return res
+                .status(400)
+                .json('Matches already generated for this tournament')
+        }
+
+        const tournamentTeams = await prisma.tournamentTeam.findMany({
+            where: { tournamentId },
+        })
+
+        if (tournamentTeams.length < 2) {
+            return res.status(400).json('Not enough teams to generate matches')
+        }
+
+        const teams = [...tournamentTeams].sort(() => Math.random() - 0.5)
+        const n = teams.length
+
+        let list = teams.map((t) => t.teamId)
+        const isOdd = n % 2 !== 0
+        if (isOdd) {
+            list.push(-1)
+        }
+
+        const total = list.length
+        const numRounds = total - 1
+        const matchesData = []
+
+        for (let round = 0; round < numRounds; round++) {
+            for (let i = 0; i < total / 2; i++) {
+                const teamAId = list[i]
+                const teamBId = list[total - 1 - i]
+
+                if (teamAId === -1 || teamBId === -1) continue
+
+                matchesData.push({
+                    tournamentId,
+                    teamAId,
+                    teamBId,
+                    round: round + 1,
+                    teamAScore: 0,
+                    teamBScore: 0,
+                    played: false,
+                })
+            }
+            const fixed = list[0]
+            list = [fixed, list[total - 1], ...list.slice(1, total - 1)]
+        }
+
+        list = teams.map((t) => t.teamId)
+        if (isOdd) list.push(-1)
+
+        for (let round = 0; round < numRounds; round++) {
+            for (let i = 0; i < total / 2; i++) {
+                const teamAId = list[i]
+                const teamBId = list[total - 1 - i]
+                if (teamAId === -1 || teamBId === -1) continue
+                matchesData.push({
+                    tournamentId,
+                    teamAId: teamBId,
+                    teamBId: teamAId,
+                    round: round + numRounds + 1,
+                    teamAScore: 0,
+                    teamBScore: 0,
+                    played: false,
+                })
+            }
+            const fixed = list[0]
+            list = [fixed, list[total - 1], ...list.slice(1, total - 1)]
+        }
+
+        await prisma.match.createMany({ data: matchesData })
+
+        const created = await prisma.match.findMany({
+            where: { tournamentId },
+            include: { teamA: true, teamB: true },
+            orderBy: { round: 'asc' },
         })
 
         res.status(201).json(created)
@@ -133,7 +227,7 @@ export const updateMatchScore = async (
 
         const updated = await prisma.match.update({
             where: { id },
-            data: { teamAScore, teamBScore },
+            data: { teamAScore, teamBScore, played: true },
             include: { teamA: true, teamB: true },
         })
 

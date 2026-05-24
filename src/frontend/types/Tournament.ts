@@ -17,6 +17,7 @@ export interface Tournament {
         teamAScore: number
         teamBScore: number
         round: number
+        played: boolean
         teamA: { id: number; name: string }
         teamB: { id: number; name: string }
     }[]

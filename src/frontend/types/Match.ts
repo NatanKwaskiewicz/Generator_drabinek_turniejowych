@@ -4,4 +4,6 @@ export interface Match {
     teamB: string
     scoreA?: number
     scoreB?: number
+    round: number
+    played: boolean
 }
