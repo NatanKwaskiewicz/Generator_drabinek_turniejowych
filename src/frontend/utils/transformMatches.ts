@@ -1,5 +1,5 @@
 import type { Tournament } from '../types'
-import type { Match } from '../types'
+import type { Match, RoundRobinStanding } from '../types'
 
 export const transformMatchesToRounds = (tournament: Tournament): Match[][] => {
     const matchesByRound: Record<number, Match[]> = {}
@@ -21,18 +21,6 @@ export const transformMatchesToRounds = (tournament: Tournament): Match[][] => {
         .map(Number)
         .sort((a, b) => a - b)
         .map((round) => matchesByRound[round])
-}
-
-export interface RoundRobinStanding {
-    teamId: number
-    teamName: string
-    played: number
-    won: number
-    drawn: number
-    lost: number
-    pointsFor: number
-    pointsAgainst: number
-    points: number
 }
 
 export const computeRoundRobinStandings = (
