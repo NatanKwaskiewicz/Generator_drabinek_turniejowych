@@ -7,6 +7,7 @@ $grey: #2a2d35;
 $dark-grey: #1a1c22;
 
 .BracketParticipant {
+    position: relative;
     background-color: $grey;
     color: $white;
     font-size: 1.4rem;
@@ -18,9 +19,20 @@ $dark-grey: #1a1c22;
     height: 4.3rem;
     display: flex;
     align-items: center;
-    transition: background-color 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
     justify-content: space-between;
     gap: 1rem;
+
+    &Clickable {
+        cursor: pointer;
+
+        &:hover {
+            border-color: rgba($blue, 0.4);
+            background-color: color.adjust($grey, $lightness: 3%);
+        }
+    }
 
     &Winner {
         background-color: rgba($blue, 0.9);

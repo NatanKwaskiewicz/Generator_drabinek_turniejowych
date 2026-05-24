@@ -38,6 +38,7 @@ const BracketMatch = forwardRef<HTMLDivElement, BracketMatchProps>(
                         <div className={styles.BracketMatchParticipantsOne}>
                             <BracketParticipant
                                 name={match.teamA}
+                                teamId={match.teamAId}
                                 isWinner={winner === 'A'}
                                 score={match.scoreA}
                             />
@@ -45,6 +46,7 @@ const BracketMatch = forwardRef<HTMLDivElement, BracketMatchProps>(
                         <div className={styles.BracketMatchParticipantsOne}>
                             <BracketParticipant
                                 name={match.teamB}
+                                teamId={match.teamBId}
                                 isWinner={winner === 'B'}
                                 score={match.scoreB}
                             />

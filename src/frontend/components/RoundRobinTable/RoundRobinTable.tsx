@@ -2,9 +2,44 @@ import styles from './RoundRobinTable.module.scss'
 import type { Tournament } from '../../types'
 import type { Match } from '../../types'
 import { computeRoundRobinStandings } from '../../utils/transformMatches.ts'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
 import ChangeScore from '../ChangeScore'
+import TeamTooltip from '../TeamTooltip'
+
+interface TeamHeaderProps {
+    id: number
+    name: string
+    className: string
+}
+
+const TeamHeader = ({ id, name, className }: TeamHeaderProps) => {
+    const [position, setPosition] = useState<{
+        top: number
+        left: number
+    } | null>(null)
+    const ref = useRef<HTMLDivElement>(null)
+    const handleMouseEnter = () => {
+        if (!ref.current) return
+        const rect = ref.current.getBoundingClientRect()
+        setPosition({
+            top: rect.top - 8,
+            left: rect.left + rect.width / 2,
+        })
+    }
+    return (
+        <div
+            ref={ref}
+            className={className}
+            title={name}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={() => setPosition(null)}
+        >
+            {name}
+            {position && <TeamTooltip teamId={id} position={position} />}
+        </div>
+    )
+}
 
 interface RoundRobinTableProps {
     tournament: Tournament
@@ -67,7 +102,6 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
     const handleConfirm = (scoreA: number, scoreB: number) => {
         if (!selectedMatch) return
         const { id, teamAId, teamBId } = selectedMatch
-
         setLookup((prev) => {
             const updated = { ...prev }
             const entry = { ...updated[teamAId][teamBId], scoreA, scoreB }
@@ -75,7 +109,6 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
             updated[teamBId] = { ...updated[teamBId], [teamAId]: entry }
             return updated
         })
-
         updateScore({ matchId: id, teamAScore: scoreA, teamBScore: scoreB })
         setSelectedMatch(null)
     }
@@ -119,24 +152,20 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                 >
                     <div key="corner" className={styles.RRCorner} />
                     {teams.map((team) => (
-                        <div
+                        <TeamHeader
                             key={team.id}
+                            id={team.id}
+                            name={team.name}
                             className={styles.RRColHeader}
-                            title={team.name}
-                        >
-                            {team.name}
-                        </div>
+                        />
                     ))}
-
                     {teams.map((rowTeam) => (
                         <React.Fragment key={`row-${rowTeam.id}`}>
-                            <div
+                            <TeamHeader
+                                id={rowTeam.id}
+                                name={rowTeam.name}
                                 className={styles.RRRowHeader}
-                                title={rowTeam.name}
-                            >
-                                {rowTeam.name}
-                            </div>
-
+                            />
                             {teams.map((colTeam) => {
                                 if (rowTeam.id === colTeam.id) {
                                     return (
@@ -146,7 +175,6 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                                         />
                                     )
                                 }
-
                                 const score = getCellScore(
                                     rowTeam.id,
                                     colTeam.id
@@ -156,7 +184,6 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                                     colTeam.id
                                 )
                                 const entry = lookup[rowTeam.id]?.[colTeam.id]
-
                                 return (
                                     <div
                                         key={`${rowTeam.id}-${colTeam.id}`}
@@ -253,7 +280,11 @@ const RoundRobinTable = ({ tournament }: RoundRobinTableProps) => {
                                     <td
                                         className={`${styles.RRTd} ${styles.RRTdTeam}`}
                                     >
-                                        {row.teamName}
+                                        <TeamHeader
+                                            id={row.teamId}
+                                            name={row.teamName}
+                                            className={styles.RRTdTeamInner}
+                                        />
                                     </td>
                                     <td className={styles.RRTd}>
                                         {row.played}
