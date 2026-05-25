@@ -39,15 +39,16 @@ export const postTeamMember = async (
     next: NextFunction
 ) => {
     try {
-        const { name, surname, nickname, teamId } = req.body as {
+        const { name, surname, nickname, countryCode, teamId } = req.body as {
             name: string
             surname: string
             nickname?: string
+            countryCode?: string
             teamId: number
         }
 
         const teamMember = await prisma.teamMember.create({
-            data: { name, surname, nickname: nickname ?? null, teamId },
+            data: { name, surname, nickname: nickname ?? null, countryCode: countryCode ?? null, teamId },
             include: { team: true },
         })
         res.status(201).json(teamMember)

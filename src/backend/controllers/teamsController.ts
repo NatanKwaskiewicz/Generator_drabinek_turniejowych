@@ -39,7 +39,7 @@ export const postTeam = async (
     try {
         const { name, teamMember } = req.body as {
             name: string
-            teamMember?: { name: string; surname: string; nickname?: string }[]
+            teamMember?: { name: string; surname: string; nickname?: string; countryCode?: string }[]
         }
         const team = await prisma.teams.create({
             data: {
