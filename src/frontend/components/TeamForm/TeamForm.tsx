@@ -71,6 +71,9 @@ const TeamForm = () => {
         })
     }
 
+    if (isError) {
+        console.error(error?.message)
+    }
     return (
         <div className={styles.TeamForm}>
             <h2 className={styles.TeamFormTitle}>Set up your team</h2>
@@ -259,7 +262,9 @@ const TeamForm = () => {
             </div>
 
             {isError && (
-                <p className={styles.TeamFormError}>{error?.message}</p>
+                <p className={styles.TeamFormError}>
+                    Error adding team. Check the console for more details.
+                </p>
             )}
 
             <button
