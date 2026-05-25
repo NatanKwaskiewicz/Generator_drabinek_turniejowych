@@ -1,5 +1,4 @@
 export { type Slide } from './Slide.ts'
-export { type FormatData } from './FormatData.ts'
 export { type CreateTeamPayload } from './CreateTeamPayload.ts'
 export { type Match } from './Match.ts'
 export { type CreateTournamentPayload } from './CreateTournamentPayload.ts'
@@ -7,4 +6,6 @@ export { type Team } from './Team.ts'
 export { type Tournament } from './Tournament.ts'
 export { type MatchLookup } from './MatchLookup.ts'
 export { type RoundRobinStanding } from './RoundRobinStanding.ts'
+export { type Format } from './Format.ts'
 export { type Country, type RestCountry } from './Country.ts'
+

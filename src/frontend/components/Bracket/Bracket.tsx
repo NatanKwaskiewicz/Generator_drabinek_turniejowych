@@ -5,15 +5,18 @@ import type { Match, Tournament } from '../../types'
 import { transformMatchesToRounds } from '../../utils/transformMatches.ts'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
 import RoundRobinTable from '../RoundRobinTable'
+import SwissTable from '../SwissTable'
 
 interface BracketProps {
     tournament: Tournament
     activeLeg?: number
 }
 const ROUND_ROBIN_FORMAT = 'Round Robin'
+const SWISS_FORMAT = 'Swiss'
 
 const Bracket = ({ tournament, activeLeg = 1 }: BracketProps) => {
     const isRoundRobin = tournament.format.name === ROUND_ROBIN_FORMAT
+    const isSwiss = tournament.format.name === SWISS_FORMAT
     const [rounds, setRounds] = useState<Match[][]>(() =>
         transformMatchesToRounds(tournament)
     )
@@ -50,6 +53,14 @@ const Bracket = ({ tournament, activeLeg = 1 }: BracketProps) => {
                     tournament={tournament}
                     activeLeg={activeLeg}
                 />
+            </div>
+        )
+    }
+
+    if (isSwiss) {
+        return (
+            <div className={styles.Bracket}>
+                <SwissTable tournament={tournament} />
             </div>
         )
     }

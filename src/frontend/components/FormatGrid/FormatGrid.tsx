@@ -1,20 +1,20 @@
 import styles from './FormatGrid.module.scss'
-import Format from '../Format/Format'
-import type { FormatData } from '../../types'
+import Format from '../Format'
+import type { Format as FormatType } from '../../types'
 
 interface FormatGridProps {
-    formats: FormatData[]
+    formats: FormatType[] | undefined
 }
 
 const FormatGrid = ({ formats }: FormatGridProps) => {
     return (
         <div className={styles.FormatGrid}>
-            {formats.map((format, index) => (
+            {formats?.map((format, index) => (
                 <Format
                     key={index}
                     name={format.name}
                     description={format.description}
-                    image={format.image}
+                    image_path={format.image_path}
                 />
             ))}
         </div>

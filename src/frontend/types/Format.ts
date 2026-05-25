@@ -1,6 +1,6 @@
-export interface FormatData {
+export interface Format {
     id: number
     name: string
     description: string
-    image?: string
+    image_path: string
 }
