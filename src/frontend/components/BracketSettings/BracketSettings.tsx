@@ -10,7 +10,6 @@ interface BracketSettingsProps {
     showAdvanceButton: boolean
     isRoundRobin?: boolean
     isSwiss?: boolean
-    swissTotalRounds?: number
     onAdvanceLeg?: (leg: number) => void
     currentLeg?: number
 }
@@ -22,7 +21,6 @@ const BracketSettings = ({
     showAdvanceButton,
     isRoundRobin,
     isSwiss,
-    swissTotalRounds,
     onAdvanceLeg,
     currentLeg,
 }: BracketSettingsProps) => {
@@ -44,7 +42,7 @@ const BracketSettings = ({
     const swissRoundLabel = () => {
         if (isSwissPending) return 'Advancing…'
         if (isFinished) return 'Tournament complete'
-        return `Advance to Round ${currentRound + 1} of ${swissTotalRounds}`
+        return `Advance to Round ${currentRound + 1}`
     }
 
     if (isError) console.error(error)
@@ -61,7 +59,7 @@ const BracketSettings = ({
             </button>
             {expanded && (
                 <div className={styles.BracketSettingsContent}>
-                    {showAdvanceButton && (
+                    {showAdvanceButton && !isSwiss && (
                         <>
                             <button
                                 className={styles.BracketSettingsContentAdvance}

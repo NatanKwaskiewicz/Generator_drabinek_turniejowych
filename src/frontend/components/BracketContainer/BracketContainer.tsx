@@ -22,6 +22,7 @@ const BracketContainer = ({ tournament }: BracketContainerProps) => {
     const swissCurrentRoundAllPlayed = tournament.Match.filter(
         (m) => m.round === currentRound
     ).every((m) => m.played)
+
     const isSwissFinished =
         isSwiss &&
         currentRound >= swissTotalRounds &&
@@ -47,7 +48,6 @@ const BracketContainer = ({ tournament }: BracketContainerProps) => {
                         showAdvanceButton={!isRoundRobin}
                         isRoundRobin={isRoundRobin}
                         isSwiss={isSwiss}
-                        swissTotalRounds={swissTotalRounds}
                         onAdvanceLeg={(leg) => setActiveLeg(leg)}
                         currentLeg={activeLeg}
                     />
