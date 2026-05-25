@@ -49,17 +49,27 @@ const TeamTooltip = ({ teamId, position }: TeamTooltipProps) => {
                                     >
                                         {flagUrl ? (
                                             <img
-                                                className={styles.TeamTooltipListItemFlag}
+                                                className={
+                                                    styles.TeamTooltipListItemFlag
+                                                }
                                                 src={flagUrl}
                                                 alt={m.countryCode ?? ''}
                                                 title={m.countryCode ?? ''}
                                             />
                                         ) : flagEmoji ? (
-                                            <span className={styles.TeamTooltipListItemFlagEmoji}>
+                                            <span
+                                                className={
+                                                    styles.TeamTooltipListItemFlagEmoji
+                                                }
+                                            >
                                                 {flagEmoji}
                                             </span>
                                         ) : (
-                                            <span className={styles.TeamTooltipListItemFlagPlaceholder} />
+                                            <span
+                                                className={
+                                                    styles.TeamTooltipListItemFlagPlaceholder
+                                                }
+                                            />
                                         )}
                                         <span
                                             className={

@@ -25,7 +25,12 @@ const TeamForm = () => {
         setTeamMembers((prev) => {
             const next = [...prev]
             while (next.length < clamped)
-                next.push({ name: '', surname: '', nickname: '', countryCode: '' })
+                next.push({
+                    name: '',
+                    surname: '',
+                    nickname: '',
+                    countryCode: '',
+                })
             return next.slice(0, clamped)
         })
     }
@@ -208,13 +213,22 @@ const TeamForm = () => {
                                 }
                             />
                             <div className={styles.TeamFormFieldCountryWrapper}>
-                                {m.countryCode && getCountryFlag(m.countryCode) && (
-                                    <img
-                                        className={styles.TeamFormFieldCountryFlag}
-                                        src={getCountryFlag(m.countryCode)!.flagUrl}
-                                        alt={getCountryFlag(m.countryCode)!.name}
-                                    />
-                                )}
+                                {m.countryCode &&
+                                    getCountryFlag(m.countryCode) && (
+                                        <img
+                                            className={
+                                                styles.TeamFormFieldCountryFlag
+                                            }
+                                            src={
+                                                getCountryFlag(m.countryCode)!
+                                                    .flagUrl
+                                            }
+                                            alt={
+                                                getCountryFlag(m.countryCode)!
+                                                    .name
+                                            }
+                                        />
+                                    )}
                                 <select
                                     className={`${styles.TeamFormFieldInput} ${styles.TeamFormFieldCountrySelect}`}
                                     value={m.countryCode}
@@ -228,7 +242,9 @@ const TeamForm = () => {
                                     disabled={countriesLoading}
                                 >
                                     <option value="">
-                                        {countriesLoading ? 'Loading…' : '— select —'}
+                                        {countriesLoading
+                                            ? 'Loading…'
+                                            : '— select —'}
                                     </option>
                                     {countries?.map((c) => (
                                         <option key={c.code} value={c.code}>

@@ -48,7 +48,13 @@ export const postTeamMember = async (
         }
 
         const teamMember = await prisma.teamMember.create({
-            data: { name, surname, nickname: nickname ?? null, countryCode: countryCode ?? null, teamId },
+            data: {
+                name,
+                surname,
+                nickname: nickname ?? null,
+                countryCode: countryCode ?? null,
+                teamId,
+            },
             include: { team: true },
         })
         res.status(201).json(teamMember)
