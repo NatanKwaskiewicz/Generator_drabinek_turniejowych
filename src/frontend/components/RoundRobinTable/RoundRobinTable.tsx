@@ -74,6 +74,7 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
     const getCellScore = (rowTeamId: number, colTeamId: number) => {
         const entry = lookup[rowTeamId]?.[colTeamId]
         if (!entry) return null
+        if (!entry.played) return 'pending'
         if (entry.teamAId === rowTeamId) {
             return { scoreRow: entry.scoreA, scoreCol: entry.scoreB }
         } else {
@@ -84,8 +85,8 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
     const getCellResult = (rowTeamId: number, colTeamId: number) => {
         const score = getCellScore(rowTeamId, colTeamId)
         if (!score) return null
+        if (score === 'pending') return 'pending'
         const { scoreRow, scoreCol } = score
-        if (scoreRow === 0 && scoreCol === 0) return 'pending'
         if (scoreRow > scoreCol) return 'win'
         if (scoreRow < scoreCol) return 'loss'
         return 'draw'
@@ -165,20 +166,21 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
                                                 })
                                             }}
                                         >
-                                            {score ? (
-                                                <span
-                                                    className={styles.RRScore}
-                                                >
-                                                    {score.scoreRow}:
-                                                    {score.scoreCol}
-                                                </span>
-                                            ) : (
+                                            {score === null ||
+                                            score === 'pending' ? (
                                                 <span
                                                     className={
                                                         styles.RRScorePending
                                                     }
                                                 >
-                                                    –
+                                                    :
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className={styles.RRScore}
+                                                >
+                                                    {score.scoreRow}:
+                                                    {score.scoreCol}
                                                 </span>
                                             )}
                                         </div>

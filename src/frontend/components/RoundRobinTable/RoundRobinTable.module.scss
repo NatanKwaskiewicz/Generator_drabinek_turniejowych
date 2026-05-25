@@ -123,11 +123,11 @@ $draw-color: #b0b0b0;
     }
 
     &_draw {
-        background: rgba($draw-color, 0.07);
-        border-color: rgba($draw-color, 0.18);
+        background: rgba($yellow, 0.07);
+        border-color: rgba($yellow, 0.18);
 
         .RRScore {
-            color: $draw-color;
+            color: $yellow;
         }
     }
 }
@@ -141,7 +141,7 @@ $draw-color: #b0b0b0;
 
 .RRScorePending {
     font-size: 1.4rem;
-    color: rgba($white, 0.2);
+    color: rgba($blue, 0.8);
 }
 
 .RRStandingsSection {
