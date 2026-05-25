@@ -23,14 +23,16 @@ $dark-grey: #1a1c22;
 
     &Image {
         background-color: $dark-grey;
-        height: 28rem;
+        height: 18rem;
         display: flex;
         justify-content: center;
         align-items: center;
         position: relative;
 
         img {
-            width: 80%;
+            width: 90%;
+            max-height: 90%;
+            object-fit: contain;
             position: absolute;
         }
     }
