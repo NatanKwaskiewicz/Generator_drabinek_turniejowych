@@ -6,14 +6,20 @@ interface BracketSettingsProps {
     tournamentId: number
     currentRound: number
     isFinished: boolean
-    isRoundRobin: boolean
+    showAdvanceButton: boolean
+    isRoundRobin?: boolean
+    onAdvanceLeg?: (leg: number) => void
+    currentLeg?: number
 }
 
 const BracketSettings = ({
     tournamentId,
     currentRound,
     isFinished,
+    showAdvanceButton,
     isRoundRobin,
+    onAdvanceLeg,
+    currentLeg,
 }: BracketSettingsProps) => {
     const [expanded, setExpanded] = useState(true)
     const {
@@ -37,7 +43,7 @@ const BracketSettings = ({
             </button>
             {expanded && (
                 <div className={styles.BracketSettingsContent}>
-                    {!isRoundRobin && (
+                    {showAdvanceButton && (
                         <>
                             <button
                                 className={styles.BracketSettingsContentAdvance}
@@ -59,9 +65,22 @@ const BracketSettings = ({
                         </>
                     )}
                     {isRoundRobin && (
-                        <p className={styles.BracketSettingsInfo}>
-                            Round Robin — all matches are played in full.
-                        </p>
+                        <div className={styles.BracketSettingsContentLegToggle}>
+                            <button
+                                className={`${styles.BracketSettingsContentLegToggleBtn} ${currentLeg === 1 ? styles.BracketSettingsContentLegToggleBtnActive : ''}`}
+                                onClick={() => onAdvanceLeg?.(1)}
+                                type="button"
+                            >
+                                Leg 1
+                            </button>
+                            <button
+                                className={`${styles.BracketSettingsContentLegToggleBtn} ${currentLeg === 2 ? styles.BracketSettingsContentLegToggleBtnActive : ''}`}
+                                onClick={() => onAdvanceLeg?.(2)}
+                                type="button"
+                            >
+                                Leg 2
+                            </button>
+                        </div>
                     )}
                 </div>
             )}

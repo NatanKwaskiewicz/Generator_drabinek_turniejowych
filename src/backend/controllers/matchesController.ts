@@ -112,16 +112,33 @@ export const generateRoundRobinMatches = async (
                     round: round + 1,
                     teamAScore: 0,
                     teamBScore: 0,
+                    played: false,
                 })
             }
-
             const fixed = list[0]
-            const rotated = [
-                fixed,
-                list[total - 1],
-                ...list.slice(1, total - 1),
-            ]
-            list = rotated
+            list = [fixed, list[total - 1], ...list.slice(1, total - 1)]
+        }
+
+        list = teams.map((t) => t.teamId)
+        if (isOdd) list.push(-1)
+
+        for (let round = 0; round < numRounds; round++) {
+            for (let i = 0; i < total / 2; i++) {
+                const teamAId = list[i]
+                const teamBId = list[total - 1 - i]
+                if (teamAId === -1 || teamBId === -1) continue
+                matchesData.push({
+                    tournamentId,
+                    teamAId: teamBId,
+                    teamBId: teamAId,
+                    round: round + numRounds + 1,
+                    teamAScore: 0,
+                    teamBScore: 0,
+                    played: false,
+                })
+            }
+            const fixed = list[0]
+            list = [fixed, list[total - 1], ...list.slice(1, total - 1)]
         }
 
         await prisma.match.createMany({ data: matchesData })
@@ -210,7 +227,7 @@ export const updateMatchScore = async (
 
         const updated = await prisma.match.update({
             where: { id },
-            data: { teamAScore, teamBScore },
+            data: { teamAScore, teamBScore, played: true },
             include: { teamA: true, teamB: true },
         })
 

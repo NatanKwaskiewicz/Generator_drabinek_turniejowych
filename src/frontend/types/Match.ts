@@ -6,4 +6,6 @@ export interface Match {
     teamBId?: number
     scoreA?: number
     scoreB?: number
+    round: number
+    played: boolean
 }

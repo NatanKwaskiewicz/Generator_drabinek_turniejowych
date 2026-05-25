@@ -2,7 +2,6 @@ $white: #e8edf2;
 $blue: #4fc3f7;
 $grey: #2a2d35;
 $dark-grey: #1a1c22;
-$purple: #7f77dd;
 $green: #66bb6a;
 $red: #f87171;
 $yellow: #ffd700;
@@ -11,23 +10,28 @@ $draw-color: #b0b0b0;
 .RRWrapper {
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 2.5rem;
     padding: 2rem;
     width: 100%;
-    overflow-x: auto;
+    overflow: hidden;
 }
 
 .RRGridSection {
-    overflow-x: auto;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
 }
 
 .RRGrid {
     display: grid;
-    grid-template-columns: minmax(7rem, 12rem) repeat(
+    grid-template-columns: minmax(12rem, 18rem) repeat(
             var(--team-count),
-            minmax(5rem, 7rem)
+            minmax(10rem, 14rem)
         );
-    gap: 4px;
+    gap: 6px;
     width: max-content;
 }
 
@@ -39,40 +43,39 @@ $draw-color: #b0b0b0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.4rem 0.3rem;
-    background: rgba($purple, 0.15);
-    border: 1px solid rgba($purple, 0.25);
+    padding: 0.8rem 0.6rem;
+    background: rgba($blue, 0.3);
+    border: 1px solid rgba($blue, 0.4);
     border-radius: 6px;
-    font-size: 0.75rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: rgba($white, 0.75);
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 7rem;
 }
 
 .RRRowHeader {
     display: flex;
     align-items: center;
-    padding: 0 0.6rem;
-    background: rgba($purple, 0.15);
-    border: 1px solid rgba($purple, 0.25);
+    padding: 0 1rem;
+    background: rgba($blue, 0.3);
+    border: 1px solid rgba($blue, 0.4);
     border-radius: 6px;
-    font-size: 0.75rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: rgba($white, 0.75);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    min-height: 3.5rem;
+    min-height: 5rem;
 }
 
 .RRCellDiagonal {
-    background: rgba($purple, 0.45);
+    background: rgba($blue, 0.65);
     border-radius: 6px;
-    min-height: 3.5rem;
+    min-height: 5rem;
 }
 
 .RRCell {
@@ -82,7 +85,7 @@ $draw-color: #b0b0b0;
     background: rgba($white, 0.04);
     border: 1px solid rgba($white, 0.08);
     border-radius: 6px;
-    min-height: 3.5rem;
+    min-height: 5rem;
     cursor: pointer;
     transition:
         background 0.15s,
@@ -130,14 +133,14 @@ $draw-color: #b0b0b0;
 }
 
 .RRScore {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     color: $blue;
 }
 
 .RRScorePending {
-    font-size: 1rem;
+    font-size: 1.4rem;
     color: rgba($white, 0.2);
 }
 
@@ -145,11 +148,12 @@ $draw-color: #b0b0b0;
     background: $dark-grey;
     border-radius: 0.75rem;
     padding: 1.5rem;
+    flex-shrink: 0;
 }
 
 .RRStandingsTitle {
     color: $blue;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -163,7 +167,7 @@ $draw-color: #b0b0b0;
 .RRTable {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.88rem;
+    font-size: 1.3rem;
     color: $white;
 }
 
@@ -172,7 +176,7 @@ $draw-color: #b0b0b0;
     text-align: center;
     color: rgba($white, 0.4);
     font-weight: 600;
-    font-size: 0.75rem;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-bottom: 1px solid rgba($white, 0.08);
@@ -224,8 +228,19 @@ $draw-color: #b0b0b0;
     }
 }
 
-.RRTdTeamInner {
-    display: inline-block;
-    position: relative;
-    cursor: default;
+.RRLegLabel {
+    font-size: 1.4rem;
+    color: rgba($white, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    padding-block: 0.6rem;
+}
+
+.RRGridWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
