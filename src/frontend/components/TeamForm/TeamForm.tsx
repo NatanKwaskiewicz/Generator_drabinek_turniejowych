@@ -1,20 +1,23 @@
 import styles from './TeamForm.module.scss'
 import { useState } from 'react'
 import { useCreateTeam } from '../../hooks/useCreateTeam'
+import { useCountries } from '../../hooks/useCountries'
 
 type TeamMember = {
     name: string
     surname: string
     nickname: string
+    countryCode: string
 }
 
 const TeamForm = () => {
     const [teamName, setTeamName] = useState('')
     const [memberCount, setMemberCount] = useState(2)
     const [teamMembers, setTeamMembers] = useState<TeamMember[]>(
-        Array(2).fill({ name: '', surname: '', nickname: '' })
+        Array(2).fill({ name: '', surname: '', nickname: '', countryCode: '' })
     )
     const { mutate, isPending, isError, error } = useCreateTeam()
+    const { data: countries, isLoading: countriesLoading } = useCountries()
 
     const handleCountChange = (value: number) => {
         const clamped = Math.max(1, Math.min(32, value))
@@ -22,7 +25,12 @@ const TeamForm = () => {
         setTeamMembers((prev) => {
             const next = [...prev]
             while (next.length < clamped)
-                next.push({ name: '', surname: '', nickname: '' })
+                next.push({
+                    name: '',
+                    surname: '',
+                    nickname: '',
+                    countryCode: '',
+                })
             return next.slice(0, clamped)
         })
     }
@@ -39,6 +47,11 @@ const TeamForm = () => {
         })
     }
 
+    const getCountryFlag = (code: string) => {
+        if (!code || !countries) return null
+        return countries.find((c) => c.code === code) ?? null
+    }
+
     const handleSubmit = () => {
         if (!teamName.trim()) return
         const filledTeamMembers = teamMembers
@@ -49,6 +62,7 @@ const TeamForm = () => {
                 name: m.name.trim(),
                 surname: m.surname.trim(),
                 nickname: m.nickname.trim() || undefined,
+                countryCode: m.countryCode || undefined,
             }))
         mutate({
             name: teamName.trim(),
@@ -57,6 +71,9 @@ const TeamForm = () => {
         })
     }
 
+    if (isError) {
+        console.error(error?.message)
+    }
     return (
         <div className={styles.TeamForm}>
             <h2 className={styles.TeamFormTitle}>Set up your team</h2>
@@ -127,6 +144,7 @@ const TeamForm = () => {
                         <span>First name</span>
                         <span>Nickname</span>
                         <span>Last name</span>
+                        <span>Country</span>
                     </div>
                     {teamMembers.map((m, index) => (
                         <div
@@ -197,13 +215,56 @@ const TeamForm = () => {
                                     )
                                 }
                             />
+                            <div className={styles.TeamFormFieldCountryWrapper}>
+                                {m.countryCode &&
+                                    getCountryFlag(m.countryCode) && (
+                                        <img
+                                            className={
+                                                styles.TeamFormFieldCountryFlag
+                                            }
+                                            src={
+                                                getCountryFlag(m.countryCode)!
+                                                    .flagUrl
+                                            }
+                                            alt={
+                                                getCountryFlag(m.countryCode)!
+                                                    .name
+                                            }
+                                        />
+                                    )}
+                                <select
+                                    className={`${styles.TeamFormFieldInput} ${styles.TeamFormFieldCountrySelect}`}
+                                    value={m.countryCode}
+                                    onChange={(e) =>
+                                        handleMemberChange(
+                                            index,
+                                            'countryCode',
+                                            e.target.value
+                                        )
+                                    }
+                                    disabled={countriesLoading}
+                                >
+                                    <option value="">
+                                        {countriesLoading
+                                            ? 'Loading…'
+                                            : '— select —'}
+                                    </option>
+                                    {countries?.map((c) => (
+                                        <option key={c.code} value={c.code}>
+                                            {c.flag} {c.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                     ))}
                 </div>
             </div>
 
             {isError && (
-                <p className={styles.TeamFormError}>{error?.message}</p>
+                <p className={styles.TeamFormError}>
+                    Error adding team. Check the console for more details.
+                </p>
             )}
 
             <button

@@ -64,6 +64,34 @@ $dark-grey: #1a1c22;
         }
 
         &Item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+
+            &Flag {
+                width: 1.8rem;
+                height: 1.3rem;
+                object-fit: cover;
+                border-radius: 0.2rem;
+                border: 1px solid rgba($white, 0.12);
+                flex-shrink: 0;
+            }
+
+            &FlagEmoji {
+                font-size: 1.2rem;
+                flex-shrink: 0;
+                line-height: 1;
+            }
+
+            &FlagPlaceholder {
+                width: 1.8rem;
+                height: 1.3rem;
+                flex-shrink: 0;
+                border-radius: 0.2rem;
+                background: rgba($white, 0.06);
+                border: 1px solid rgba($white, 0.08);
+            }
+
             &Name {
                 font-size: 1.2rem;
                 color: rgba($white, 0.8);
