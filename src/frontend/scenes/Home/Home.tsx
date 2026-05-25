@@ -4,9 +4,10 @@ import carouselData from '../../data/carouselData.ts'
 import { Link } from 'react-router'
 import Arrow from '../../components/Arrow'
 import FormatGrid from '../../components/FormatGrid'
-import formatData from '../../data/formatData.ts'
+import { useFormats } from '../../hooks/useFormats.ts'
 
 const Home = () => {
+    const { data: formats, isLoading, isError } = useFormats()
     return (
         <div className={styles.Home}>
             <div className={styles.HomeTop}>
@@ -32,7 +33,13 @@ const Home = () => {
                 <h1>Check out our formats!</h1>
                 <Arrow size={40} color={'#e8edf2'} />
             </div>
-            <FormatGrid formats={formatData} />
+            {isLoading && (
+                <p className={styles.HomeLoading}>Loading formats...</p>
+            )}
+            {isError && (
+                <p className={styles.HomeError}>Error loading formats.</p>
+            )}
+            {!isLoading && !isError && <FormatGrid formats={formats} />}
         </div>
     )
 }

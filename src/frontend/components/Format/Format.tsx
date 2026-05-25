@@ -32,8 +32,6 @@ const Format = ({ name, description, image_path }: FormatProps) => {
         img.style.transform = 'translate(0px, 0px) scale(1)'
     }
 
-    console.log(image_path)
-
     return (
         <div className={styles.Format}>
             <div
