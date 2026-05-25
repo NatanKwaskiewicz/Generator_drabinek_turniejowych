@@ -7,3 +7,5 @@ export { type Tournament } from './Tournament.ts'
 export { type MatchLookup } from './MatchLookup.ts'
 export { type RoundRobinStanding } from './RoundRobinStanding.ts'
 export { type Format } from './Format.ts'
+export { type Country, type RestCountry } from './Country.ts'
+

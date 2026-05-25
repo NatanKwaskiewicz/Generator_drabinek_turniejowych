@@ -3,6 +3,7 @@ export interface TeamMember {
     name: string
     surname: string
     nickname?: string | null
+    countryCode?: string | null
     teamId: number
 }
 
