@@ -1,9 +1,8 @@
 import styles from './SwissTable.module.scss'
 import type { Tournament, Match } from '../../types'
 import { computeRoundRobinStandings } from '../../utils/transformMatches.ts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
-import { useGenerateSwissMatches } from '../../hooks/useGenerateMatches.ts'
 import ChangeScore from '../ChangeScore'
 import TeamHeader from '../TeamHeader'
 
@@ -16,13 +15,6 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
     const totalRounds = Math.ceil(Math.log2(n))
     const hasMatches = tournament.Match.length > 0
 
-    const {
-        mutate: generateMatches,
-        isPending: isGenerating,
-        isError: isGenError,
-        error: genError,
-    } = useGenerateSwissMatches(tournament.id)
-
     const rounds = Array.from(
         new Set(tournament.Match.map((m) => m.round))
     ).sort((a, b) => a - b)
@@ -31,10 +23,11 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
         rounds.length > 0 ? Math.max(...rounds) : 1
     )
 
-    const latestRound = rounds.length > 0 ? Math.max(...rounds) : 1
-    if (latestRound > activeRound && rounds.includes(latestRound)) {
-        setActiveRound(latestRound)
-    }
+    useEffect(() => {
+        if (rounds.length > 0) {
+            setActiveRound(Math.max(...rounds))
+        }
+    }, [rounds.length])
 
     const [selectedMatch, setSelectedMatch] = useState<{
         id: number
@@ -77,28 +70,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
     )
 
     return (
-        <div className={styles.SwissWrapper}>
-            {!hasMatches && (
-                <div className={styles.SwissGenerate}>
-                    <p className={styles.SwissGenerateLabel}>
-                        {n} teams · {totalRounds} rounds
-                    </p>
-                    <button
-                        className={styles.SwissGenerateBtn}
-                        onClick={() => generateMatches()}
-                        disabled={isGenerating}
-                        type="button"
-                    >
-                        {isGenerating ? 'Generating…' : 'Generate Round 1'}
-                    </button>
-                    {isGenError && (
-                        <p className={styles.SwissError}>
-                            {(genError as Error)?.message}
-                        </p>
-                    )}
-                </div>
-            )}
-
+        <div className={styles.SwissTable}>
             {hasMatches && (
                 <>
                     <div className={styles.SwissRoundTabs}>
@@ -121,6 +93,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
                             const played = m.played
                             const aWon = m.teamAScore > m.teamBScore
                             const bWon = m.teamBScore > m.teamAScore
+                            const draw = m.teamAScore == m.teamBScore
                             return (
                                 <div
                                     key={m.id}
@@ -140,7 +113,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
                                     }
                                 >
                                     <span
-                                        className={`${styles.SwissMatchTeam} ${played && aWon ? styles.SwissMatchTeamWinner : ''}`}
+                                        className={`${styles.SwissMatchTeam} ${played && aWon ? styles.SwissMatchTeamWinner : ''} ${played && draw ? styles.SwissMatchTeamDraw : ''}`}
                                     >
                                         {m.teamA.name}
                                     </span>
@@ -150,7 +123,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
                                             : 'vs'}
                                     </span>
                                     <span
-                                        className={`${styles.SwissMatchTeam} ${styles.SwissMatchTeamRight} ${played && bWon ? styles.SwissMatchTeamWinner : ''}`}
+                                        className={`${styles.SwissMatchTeam} ${styles.SwissMatchTeamRight} ${played && bWon ? styles.SwissMatchTeamWinner : ''} ${played && draw ? styles.SwissMatchTeamDraw : ''}`}
                                     >
                                         {m.teamB.name}
                                     </span>
@@ -163,7 +136,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
             <div className={styles.SwissStandingsSection}>
                 <h2 className={styles.SwissStandingsTitle}>Standings</h2>
                 <div className={styles.SwissTableWrapper}>
-                    <table className={styles.SwissTable}>
+                    <table className={styles.SwissStandings}>
                         <thead>
                             <tr>
                                 <th className={styles.SwissTh}>#</th>
