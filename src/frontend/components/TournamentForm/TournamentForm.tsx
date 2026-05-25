@@ -30,9 +30,7 @@ const TournamentForm = () => {
 
     const selectedFormat = formats?.find((f) => f.id === activeFormatId)
 
-    const isEliminationFormat =
-        selectedFormat?.name === 'Single elimination' ||
-        selectedFormat?.name === 'Double elimination'
+    const isEliminationFormat = selectedFormat?.name === 'Single elimination'
 
     const handleSubmit = () => {
         if (!name.trim()) {
@@ -45,7 +43,7 @@ const TournamentForm = () => {
             !allowedTeamCount.includes(selectedTeamIds.length)
         ) {
             setValidationError(
-                'Single and double elimination formats require 2, 4, 8, 16, 32, 64, or 128 teams.'
+                'Single elimination format requires 2, 4, 8, 16, 32, 64, or 128 teams.'
             )
             return
         }
