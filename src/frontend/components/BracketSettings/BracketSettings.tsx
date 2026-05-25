@@ -1,6 +1,7 @@
 import styles from './BracketSettings.module.scss'
 import { useState } from 'react'
 import { useAdvanceRound } from '../../hooks/useAdvanceRound.ts'
+import { useAdvanceSwissRound } from '../../hooks/useAdvanceSwissRound.ts'
 
 interface BracketSettingsProps {
     tournamentId: number
@@ -8,6 +9,8 @@ interface BracketSettingsProps {
     isFinished: boolean
     showAdvanceButton: boolean
     isRoundRobin?: boolean
+    isSwiss?: boolean
+    swissTotalRounds?: number
     onAdvanceLeg?: (leg: number) => void
     currentLeg?: number
 }
@@ -18,6 +21,8 @@ const BracketSettings = ({
     isFinished,
     showAdvanceButton,
     isRoundRobin,
+    isSwiss,
+    swissTotalRounds,
     onAdvanceLeg,
     currentLeg,
 }: BracketSettingsProps) => {
@@ -28,6 +33,19 @@ const BracketSettings = ({
         isError,
         error,
     } = useAdvanceRound(tournamentId)
+
+    const {
+        mutate: advanceSwissRound,
+        isPending: isSwissPending,
+        isError: isSwissError,
+        error: swissError,
+    } = useAdvanceSwissRound(tournamentId)
+
+    const swissRoundLabel = () => {
+        if (isSwissPending) return 'Advancing…'
+        if (isFinished) return 'Tournament complete'
+        return `Advance to Round ${currentRound + 1} of ${swissTotalRounds}`
+    }
 
     if (isError) console.error(error)
     return (
@@ -81,6 +99,23 @@ const BracketSettings = ({
                                 Leg 2
                             </button>
                         </div>
+                    )}
+                    {isSwiss && (
+                        <>
+                            <button
+                                className={styles.BracketSettingsContentAdvance}
+                                onClick={() => advanceSwissRound(currentRound)}
+                                disabled={isSwissPending || isFinished}
+                                type="button"
+                            >
+                                {swissRoundLabel()}
+                            </button>
+                            {isSwissError && (
+                                <p className={styles.BracketSettingsError}>
+                                    {swissError?.message}
+                                </p>
+                            )}
+                        </>
                     )}
                 </div>
             )}
