@@ -9,21 +9,12 @@ async function main() {
             description: 'Each loser is eliminated from the tournament.',
             image_path: '/formats/single_elimination_bracket.svg',
         },
-
-        {
-            name: 'Double elimination',
-            description:
-                'Participants are eliminated after two losses. The winners of the upper and lower brackets face off in a grand final.',
-            image_path: '/formats/double_elimination_bracket.svg',
-        },
-
         {
             name: 'Round Robin',
             description:
                 'All participants face each other twice, in separate games.',
             image_path: '/formats/round_robin_bracket.svg',
         },
-
         {
             name: 'Swiss',
             description:
