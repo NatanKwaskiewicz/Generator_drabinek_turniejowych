@@ -6,7 +6,7 @@ $green: #66bb6a;
 $red: #f87171;
 $yellow: #ffd700;
 
-.SwissWrapper {
+.SwissTable {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -14,49 +14,6 @@ $yellow: #ffd700;
     padding: 2rem;
     width: 100%;
     overflow-y: auto;
-}
-.SwissGenerate {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.2rem;
-    padding: 3rem;
-}
-
-.SwissGenerateLabel {
-    font-size: 1.4rem;
-    color: rgba($white, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-}
-
-.SwissGenerateBtn {
-    padding: 0.9rem 2.4rem;
-    background: rgba($blue, 0.15);
-    border: 1px solid rgba($blue, 0.4);
-    border-radius: 8px;
-    color: $blue;
-    font-size: 1.4rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background 0.15s,
-        border-color 0.15s;
-
-    &:hover:not(:disabled) {
-        background: rgba($blue, 0.25);
-        border-color: rgba($blue, 0.7);
-    }
-
-    &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-}
-
-.SwissError {
-    color: $red;
-    font-size: 1.2rem;
 }
 
 .SwissRoundTabs {
@@ -146,6 +103,11 @@ $yellow: #ffd700;
         color: $green;
         font-weight: 700;
     }
+
+    &Draw {
+        color: $yellow;
+        font-weight: 700;
+    }
 }
 
 .SwissMatchScore {
@@ -177,7 +139,7 @@ $yellow: #ffd700;
     overflow-x: auto;
 }
 
-.SwissTable {
+.SwissStandings {
     width: 100%;
     border-collapse: collapse;
     font-size: 1.3rem;
