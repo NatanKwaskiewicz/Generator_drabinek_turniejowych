@@ -1,5 +1,6 @@
 import styles from './TeamTooltip.module.scss'
 import { useTeam } from '../../hooks/useTeam'
+import { useCountries } from '../../hooks/useCountries'
 import { createPortal } from 'react-dom'
 
 interface TeamTooltipProps {
@@ -9,6 +10,18 @@ interface TeamTooltipProps {
 
 const TeamTooltip = ({ teamId, position }: TeamTooltipProps) => {
     const { data: team, isLoading } = useTeam(teamId)
+    const { data: countries } = useCountries()
+
+    const getFlagUrl = (code?: string | null) => {
+        if (!code || !countries) return null
+        return countries.find((c) => c.code === code)?.flagUrl ?? null
+    }
+
+    const getFlagEmoji = (code?: string | null) => {
+        if (!code || !countries) return null
+        return countries.find((c) => c.code === code)?.flag ?? null
+    }
+
     return createPortal(
         <div
             className={styles.TeamTooltip}
@@ -26,31 +39,49 @@ const TeamTooltip = ({ teamId, position }: TeamTooltipProps) => {
                         </span>
                     ) : (
                         <ul className={styles.TeamTooltipList}>
-                            {team.teamMembers.map((m) => (
-                                <li
-                                    key={m.id}
-                                    className={styles.TeamTooltipListItem}
-                                >
-                                    <span
-                                        className={
-                                            styles.TeamTooltipListItemName
-                                        }
+                            {team.teamMembers.map((m) => {
+                                const flagUrl = getFlagUrl(m.countryCode)
+                                const flagEmoji = getFlagEmoji(m.countryCode)
+                                return (
+                                    <li
+                                        key={m.id}
+                                        className={styles.TeamTooltipListItem}
                                     >
-                                        {m.name}
-                                        {m.nickname && (
-                                            <span
-                                                className={
-                                                    styles.TeamTooltipListItemNickname
-                                                }
-                                            >
-                                                {' '}
-                                                "{m.nickname}"
+                                        {flagUrl ? (
+                                            <img
+                                                className={styles.TeamTooltipListItemFlag}
+                                                src={flagUrl}
+                                                alt={m.countryCode ?? ''}
+                                                title={m.countryCode ?? ''}
+                                            />
+                                        ) : flagEmoji ? (
+                                            <span className={styles.TeamTooltipListItemFlagEmoji}>
+                                                {flagEmoji}
                                             </span>
-                                        )}{' '}
-                                        {m.surname}
-                                    </span>
-                                </li>
-                            ))}
+                                        ) : (
+                                            <span className={styles.TeamTooltipListItemFlagPlaceholder} />
+                                        )}
+                                        <span
+                                            className={
+                                                styles.TeamTooltipListItemName
+                                            }
+                                        >
+                                            {m.name}
+                                            {m.nickname && (
+                                                <span
+                                                    className={
+                                                        styles.TeamTooltipListItemNickname
+                                                    }
+                                                >
+                                                    {' '}
+                                                    "{m.nickname}"
+                                                </span>
+                                            )}{' '}
+                                            {m.surname}
+                                        </span>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     )}
                 </>
