@@ -217,7 +217,6 @@ export const advanceSwissRound = async (
         const tournamentId = Number(req.params.tournamentId)
         const currentRound = Number(req.params.round)
 
-        // ── Fetch current round and validate ──────────────────────────────
         const currentMatches = await prisma.match.findMany({
             where: { tournamentId, round: currentRound },
             orderBy: { id: 'asc' },
@@ -234,7 +233,6 @@ export const advanceSwissRound = async (
                     'All matches in the current round must be played before advancing.'
                 )
 
-        // ── Check round limit ─────────────────────────────────────────────
         const tournamentTeams = await prisma.tournamentTeam.findMany({
             where: { tournamentId },
         })
@@ -248,13 +246,11 @@ export const advanceSwissRound = async (
                     `Swiss tournament is complete. Maximum ${totalRounds} rounds for ${n} teams.`
                 )
 
-        // ── Compute standings from all played matches ──────────────────────
         const allMatches = await prisma.match.findMany({
             where: { tournamentId },
             orderBy: { id: 'asc' },
         })
 
-        // points: win = 2, draw = 1, loss = 0
         const points: Record<number, number> = {}
         const played: Record<number, Set<number>> = {}
 
@@ -277,13 +273,6 @@ export const advanceSwissRound = async (
             }
         }
 
-        // ── Pair teams for next round ─────────────────────────────────────
-        // Sort teams by points descending, then group by equal points.
-        // Within each group, pair sequentially. If a group has an odd number
-        // of teams, the last team floats down to the next group.
-        // If the only valid pairing would be a rematch, swap with the next
-        // available pair in the same group.
-
         const teamIds = Object.keys(points)
             .map(Number)
             .sort((a, b) => points[b] - points[a])
@@ -294,15 +283,11 @@ export const advanceSwissRound = async (
         while (unpaired.length >= 2) {
             const teamA = unpaired.shift()!
 
-            // Find the first team in the remaining list that hasn't already
-            // faced teamA
             const partnerIdx = unpaired.findIndex(
                 (id) => !played[teamA].has(id)
             )
 
             if (partnerIdx === -1) {
-                // All remaining opponents are rematches — force the least-bad
-                // option (first available, i.e. index 0)
                 const teamB = unpaired.shift()!
                 pairings.push({ teamAId: teamA, teamBId: teamB })
             } else {
