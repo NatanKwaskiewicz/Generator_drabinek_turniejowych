@@ -4,10 +4,10 @@ import { useRef } from 'react'
 interface FormatProps {
     name: string
     description: string
-    image?: string
+    image_path?: string
 }
 
-const Format = ({ name, description, image }: FormatProps) => {
+const Format = ({ name, description, image_path }: FormatProps) => {
     const imageRef = useRef<HTMLDivElement>(null)
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -32,6 +32,8 @@ const Format = ({ name, description, image }: FormatProps) => {
         img.style.transform = 'translate(0px, 0px) scale(1)'
     }
 
+    console.log(image_path)
+
     return (
         <div className={styles.Format}>
             <div
@@ -40,7 +42,7 @@ const Format = ({ name, description, image }: FormatProps) => {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
             >
-                {image && <img src={image} alt={name} />}
+                {image_path && <img src={image_path} alt={name} />}
             </div>
             <div className={styles.FormatInfo}>
                 <h3>{name}</h3>

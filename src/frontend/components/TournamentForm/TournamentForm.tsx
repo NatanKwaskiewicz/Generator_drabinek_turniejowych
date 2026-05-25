@@ -1,18 +1,23 @@
 import styles from './TournamentForm.module.scss'
 import { useState } from 'react'
-import formatData from '../../data/formatData.ts'
 import Format from '../Format'
 import { useCreateTournament } from '../../hooks/useCreateTournament.ts'
 import { useTeams } from '../../hooks/useTeams.ts'
+import { useFormats } from '../../hooks/useFormats.ts'
 
 const TournamentForm = () => {
     const [name, setName] = useState('')
-    const [format, setFormat] = useState(formatData[0].id)
+    const [format, setFormat] = useState<number>(1)
     const [hoveredFormat, setHoveredFormat] = useState<string | null>(null)
     const [selectedTeamIds, setSelectedTeamIds] = useState<number[]>([])
     const [validationError, setValidationError] = useState('')
     const { mutate, isPending, isError, error } = useCreateTournament()
     const { data: teams, isLoading: teamsLoading } = useTeams()
+    const {
+        data: formats,
+        isLoading: formatsLoading,
+        isError: formatsError,
+    } = useFormats()
     const allowedTeamCount = [2, 4, 8, 16, 32, 64, 128]
 
     const handleTeamToggle = (id: number) => {
@@ -21,6 +26,14 @@ const TournamentForm = () => {
         )
     }
 
+    const activeFormatId = format ?? formats?.[0]?.id
+
+    const selectedFormat = formats?.find((f) => f.id === activeFormatId)
+
+    const isEliminationFormat =
+        selectedFormat?.name === 'Single elimination' ||
+        selectedFormat?.name === 'Double elimination'
+
     const handleSubmit = () => {
         if (!name.trim()) {
             setValidationError('Tournament name is required')
@@ -28,7 +41,7 @@ const TournamentForm = () => {
         }
 
         if (
-            (format === formatData[0].id || format === formatData[1].id) &&
+            isEliminationFormat &&
             !allowedTeamCount.includes(selectedTeamIds.length)
         ) {
             setValidationError(
@@ -40,7 +53,7 @@ const TournamentForm = () => {
         mutate({
             name: name.trim(),
             date: new Date().toISOString(),
-            formatId: format,
+            formatId: activeFormatId,
             teams: selectedTeamIds.map((id) => ({ teamId: id })),
         })
     }
@@ -77,37 +90,55 @@ const TournamentForm = () => {
                     Format
                 </label>
                 <div className={styles.TournamentFormFieldFormatPicker}>
-                    {formatData.map((f) => (
-                        <div
-                            key={f.name}
-                            className={
-                                styles.TournamentFormFieldFormatPickerOption
-                            }
-                            onMouseEnter={() => setHoveredFormat(f.name)}
-                            onMouseLeave={() => setHoveredFormat(null)}
-                        >
-                            <button
-                                className={`${styles.TournamentFormFieldFormatPickerOptionBtn} ${format === f.id ? styles.TournamentFormFieldFormatPickerOptionBtnActive : ''}`}
-                                onClick={() => setFormat(f.id)}
-                                type="button"
-                            >
-                                {f.name}
-                            </button>
-                            {hoveredFormat === f.name && (
+                    {formatsLoading ? (
+                        <p className={styles.TournamentFormInfo}>
+                            Loading formats...
+                        </p>
+                    ) : formatsError ? (
+                        <p className={styles.TournamentFormError}>
+                            Failed to load formats.
+                        </p>
+                    ) : (
+                        <div className={styles.TournamentFormFieldFormatPicker}>
+                            {formats?.map((f) => (
                                 <div
+                                    key={f.id}
                                     className={
-                                        styles.TournamentFormFieldFormatPickerPreview
+                                        styles.TournamentFormFieldFormatPickerOption
                                     }
+                                    onMouseEnter={() =>
+                                        setHoveredFormat(f.name)
+                                    }
+                                    onMouseLeave={() => setHoveredFormat(null)}
                                 >
-                                    <Format
-                                        name={f.name}
-                                        description={f.description}
-                                        image={f.image}
-                                    />
+                                    <button
+                                        className={`${styles.TournamentFormFieldFormatPickerOptionBtn} ${
+                                            activeFormatId === f.id
+                                                ? styles.TournamentFormFieldFormatPickerOptionBtnActive
+                                                : ''
+                                        }`}
+                                        onClick={() => setFormat(f.id)}
+                                        type="button"
+                                    >
+                                        {f.name}
+                                    </button>
+                                    {hoveredFormat === f.name && (
+                                        <div
+                                            className={
+                                                styles.TournamentFormFieldFormatPickerPreview
+                                            }
+                                        >
+                                            <Format
+                                                name={f.name}
+                                                description={f.description}
+                                                image_path={f.image_path}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+                            ))}
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
 
@@ -139,8 +170,7 @@ const TournamentForm = () => {
                         ))}
                     </div>
                 )}
-                {(format === formatData[0].id ||
-                    format === formatData[1].id) && (
+                {isEliminationFormat && (
                     <p className={styles.TournamentFormFieldSize}>
                         Allowed sizes: 2, 4, 8, 16, 32, 64, 128
                     </p>
