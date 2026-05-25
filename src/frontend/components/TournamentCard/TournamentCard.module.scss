@@ -1,0 +1,109 @@
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$dark-grey: #1a1c22;
+$grey: #2a2d35;
+$red: #f87171;
+
+.TournamentCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $dark-grey;
+    border: 1px solid rgba($blue, 0.15);
+    border-radius: 1.2rem;
+    padding: 2rem 2.4rem;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &:hover {
+        border-color: rgba($blue, 0.35);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    &Info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+
+        &Name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: $white;
+            letter-spacing: 0.02em;
+        }
+
+        &Meta {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+
+            &Badge {
+                font-size: 1.2rem;
+                color: $blue;
+                background: rgba($blue, 0.1);
+                border: 1px solid rgba($blue, 0.3);
+                border-radius: 0.6rem;
+                padding: 0.3rem 1rem;
+                font-weight: 500;
+                letter-spacing: 0.04em;
+            }
+
+            &Teams {
+                font-size: 1.3rem;
+                color: rgba($white, 0.4);
+            }
+        }
+    }
+
+    &Actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        &Open {
+            padding: 0.9rem 2.4rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba($blue, 0.4);
+            background: rgba($blue, 0.1);
+            color: $blue;
+            font-size: 1.4rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba($blue, 0.2);
+                border-color: rgba($blue, 0.8);
+                box-shadow: 0 0 16px rgba($blue, 0.15);
+            }
+        }
+
+        &Delete {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba($red, 0.3);
+            background: transparent;
+            color: rgba($red, 0.7);
+            font-size: 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba($red, 0.1);
+                border-color: rgba($red, 0.7);
+                color: $red;
+            }
+
+            &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+        }
+    }
+}

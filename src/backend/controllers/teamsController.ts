@@ -22,6 +22,7 @@ export const getOneTeam = async (
     try {
         const oneTeam = await prisma.teams.findUnique({
             where: { id: Number(req.params.id) },
+            include: { teamMembers: true },
         })
         if (!oneTeam) return res.status(404).json('Team not found')
         res.status(200).json(oneTeam)
@@ -40,7 +41,6 @@ export const postTeam = async (
             name: string
             teamMember?: { name: string; surname: string; nickname?: string }[]
         }
-
         const team = await prisma.teams.create({
             data: {
                 name,

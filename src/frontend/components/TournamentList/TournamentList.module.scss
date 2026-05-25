@@ -1,0 +1,37 @@
+$black: #0f0f11;
+$blue: #4fc3f7;
+$white: #e8edf2;
+$dark-grey: #1a1c22;
+
+.TournamentList {
+    width: 100%;
+    max-width: 72rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    &Title {
+        font-size: 3.2rem;
+        color: $white;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid rgba($blue, 0.15);
+    }
+
+    &Grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    &Info {
+        font-size: 1.5rem;
+        color: rgba($white, 0.35);
+    }
+
+    &Error {
+        font-size: 1.5rem;
+        color: #f87171;
+    }
+}

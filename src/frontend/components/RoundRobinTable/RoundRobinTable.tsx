@@ -4,6 +4,7 @@ import { computeRoundRobinStandings } from '../../utils/transformMatches.ts'
 import React, { useState } from 'react'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
 import ChangeScore from '../ChangeScore'
+import TeamHeader from '../TeamHeader'
 
 interface RoundRobinTableProps {
     tournament: Tournament
@@ -49,13 +50,13 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
         round: number
         played: boolean
     } | null>(null)
+
     const { mutate: updateScore } = useUpdateMatchScore(tournament.id)
     const standings = computeRoundRobinStandings(tournament)
 
     const handleConfirm = (scoreA: number, scoreB: number) => {
         if (!selectedMatch) return
         const { id } = selectedMatch
-
         updateScore({ matchId: id, teamAScore: scoreA, teamBScore: scoreB })
         setSelectedMatch(null)
     }
@@ -104,24 +105,23 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
                         }
                     >
                         <div key="corner" className={styles.RRCorner} />
+
                         {teams.map((team) => (
-                            <div
+                            <TeamHeader
                                 key={team.id}
+                                id={team.id}
+                                name={team.name}
                                 className={styles.RRColHeader}
-                                title={team.name}
-                            >
-                                {team.name}
-                            </div>
+                            />
                         ))}
 
                         {teams.map((rowTeam) => (
                             <React.Fragment key={`row-${rowTeam.id}`}>
-                                <div
+                                <TeamHeader
+                                    id={rowTeam.id}
+                                    name={rowTeam.name}
                                     className={styles.RRRowHeader}
-                                    title={rowTeam.name}
-                                >
-                                    {rowTeam.name}
-                                </div>
+                                />
 
                                 {teams.map((colTeam) => {
                                     if (rowTeam.id === colTeam.id) {
@@ -247,7 +247,11 @@ const RoundRobinTable = ({ tournament, activeLeg }: RoundRobinTableProps) => {
                                     <td
                                         className={`${styles.RRTd} ${styles.RRTdTeam}`}
                                     >
-                                        {row.teamName}
+                                        <TeamHeader
+                                            id={row.teamId}
+                                            name={row.teamName}
+                                            className={styles.RRTdTeamInner}
+                                        />
                                     </td>
                                     <td className={styles.RRTd}>
                                         {row.played}

@@ -3,20 +3,20 @@ import type { Match, RoundRobinStanding } from '../types'
 
 export const transformMatchesToRounds = (tournament: Tournament): Match[][] => {
     const matchesByRound: Record<number, Match[]> = {}
-
     for (const m of tournament.Match) {
         if (!matchesByRound[m.round]) matchesByRound[m.round] = []
         matchesByRound[m.round].push({
             id: m.id,
             teamA: m.teamA.name,
             teamB: m.teamB.name,
+            teamAId: m.teamAId,
+            teamBId: m.teamBId,
             scoreA: m.teamAScore,
             scoreB: m.teamBScore,
             round: m.round,
             played: m.played,
         })
     }
-
     return Object.keys(matchesByRound)
         .map(Number)
         .sort((a, b) => a - b)
@@ -27,7 +27,6 @@ export const computeRoundRobinStandings = (
     tournament: Tournament
 ): RoundRobinStanding[] => {
     const standingsMap: Record<number, RoundRobinStanding> = {}
-
     for (const tt of tournament.TournamentTeam) {
         standingsMap[tt.teamId] = {
             teamId: tt.teamId,
@@ -41,21 +40,17 @@ export const computeRoundRobinStandings = (
             points: 0,
         }
     }
-
     for (const m of tournament.Match) {
         if (!m.played) continue
         const a = standingsMap[m.teamAId]
         const b = standingsMap[m.teamBId]
-
         if (!a || !b) continue
-
         a.played++
         b.played++
         a.pointsFor += m.teamAScore
         a.pointsAgainst += m.teamBScore
         b.pointsFor += m.teamBScore
         b.pointsAgainst += m.teamAScore
-
         if (m.teamAScore > m.teamBScore) {
             a.won++
             a.points += 3
@@ -71,7 +66,6 @@ export const computeRoundRobinStandings = (
             b.points += 1
         }
     }
-
     return Object.values(standingsMap).sort((x, y) => {
         if (y.points !== x.points) return y.points - x.points
         const gdX = x.pointsFor - x.pointsAgainst
