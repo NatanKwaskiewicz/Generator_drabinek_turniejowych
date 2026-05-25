@@ -1,7 +1,5 @@
 import { Router } from 'express'
-import {
-    getFormats
-} from '../controllers/formatsController.ts'
+import { getFormats } from '../controllers/formatsController.ts'
 
 const router = Router()
 
