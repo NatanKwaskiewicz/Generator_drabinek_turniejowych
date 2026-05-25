@@ -64,5 +64,7 @@ model Match {
 model Format {
   id         Int          @id @default(autoincrement())
   name       String       @unique
+  description   String?
+  image_path    String?
   Tournament Tournament[]
 }
