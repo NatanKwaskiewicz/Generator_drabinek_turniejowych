@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router'
 import { useDeleteTournament } from '../../hooks/useTournaments'
 import type { Tournament } from '../../types'
 
-type Props = {
+type TournamentCardProps = {
     tournament: Tournament
 }
 
-const TournamentCard = ({ tournament }: Props) => {
+const TournamentCard = ({ tournament }: TournamentCardProps) => {
     const navigate = useNavigate()
     const { mutate: deleteTournament, isPending } = useDeleteTournament()
     return (
