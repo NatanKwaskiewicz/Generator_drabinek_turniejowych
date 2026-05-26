@@ -2,9 +2,11 @@ import styles from './BracketSettings.module.scss'
 import { useState } from 'react'
 import { useAdvanceRound } from '../../hooks/useAdvanceRound.ts'
 import { useAdvanceSwissRound } from '../../hooks/useAdvanceSwissRound.ts'
+import { useUpdateTournamentName } from '../../hooks/useUpdateTournamentName.ts'
 
 interface BracketSettingsProps {
     tournamentId: number
+    tournamentName: string
     currentRound: number
     isFinished: boolean
     showAdvanceButton: boolean
@@ -16,6 +18,7 @@ interface BracketSettingsProps {
 
 const BracketSettings = ({
     tournamentId,
+    tournamentName,
     currentRound,
     isFinished,
     showAdvanceButton,
@@ -25,6 +28,11 @@ const BracketSettings = ({
     currentLeg,
 }: BracketSettingsProps) => {
     const [expanded, setExpanded] = useState(true)
+    const [nameValue, setNameValue] = useState(tournamentName)
+
+    const { mutate: updateTournamentName, isPending: isUpdatingName } =
+        useUpdateTournamentName()
+
     const {
         mutate: advanceRound,
         isPending,
@@ -59,6 +67,42 @@ const BracketSettings = ({
             </button>
             {expanded && (
                 <div className={styles.BracketSettingsContent}>
+                    <div className={styles.BracketSettingsContentName}>
+                        <label
+                            className={styles.BracketSettingsContentNameLabel}
+                        >
+                            Tournament name
+                        </label>
+                        <div className={styles.BracketSettingsContentNameRow}>
+                            <input
+                                className={
+                                    styles.BracketSettingsContentNameInput
+                                }
+                                value={nameValue}
+                                onChange={(e) => setNameValue(e.target.value)}
+                                type="text"
+                                maxLength={80}
+                            />
+                            <button
+                                className={
+                                    styles.BracketSettingsContentNameSave
+                                }
+                                onClick={() =>
+                                    updateTournamentName({
+                                        id: tournamentId,
+                                        name: nameValue,
+                                    })
+                                }
+                                disabled={
+                                    isUpdatingName ||
+                                    nameValue.trim() === tournamentName.trim()
+                                }
+                                type="button"
+                            >
+                                {isUpdatingName ? '…' : 'Save'}
+                            </button>
+                        </div>
+                    </div>
                     {showAdvanceButton && !isSwiss && (
                         <>
                             <button
