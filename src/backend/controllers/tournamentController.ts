@@ -104,3 +104,34 @@ export const deleteTournament = async (
         next(err)
     }
 }
+
+export const updateTournament = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const id = Number(req.params.id)
+        const { name } = req.body
+
+        if (!name) {
+            res.status(400).json({
+                message: 'Tournament name is required',
+            })
+            return
+        }
+
+        const tournament = await prisma.tournament.update({
+            where: {
+                id,
+            },
+            data: {
+                name: name.trim(),
+            },
+        })
+
+        res.status(200).json(tournament)
+    } catch (err) {
+        next(err)
+    }
+}
