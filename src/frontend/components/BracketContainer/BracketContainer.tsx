@@ -43,6 +43,7 @@ const BracketContainer = ({ tournament }: BracketContainerProps) => {
                     <Bracket tournament={tournament} activeLeg={activeLeg} />
                     <BracketSettings
                         tournamentId={tournament.id}
+                        tournamentName={tournament.name}
                         currentRound={currentRound}
                         isFinished={isFinished}
                         showAdvanceButton={!isRoundRobin}
