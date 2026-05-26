@@ -200,7 +200,7 @@ export const generateSwissMatches = async (
         const created = await prisma.match.findMany({
             where: { tournamentId, round: 1 },
             include: { teamA: true, teamB: true },
-            orderBy: { id: 'asc'}
+            orderBy: { id: 'asc' },
         })
 
         res.status(201).json(created)
