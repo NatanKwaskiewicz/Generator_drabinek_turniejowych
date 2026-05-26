@@ -37,7 +37,7 @@ export const getOneTournament = async (
                         teamA: true,
                         teamB: true,
                     },
-                    orderBy: { round: 'asc' },
+                    orderBy: { id: 'asc' },
                 },
                 TournamentTeam: {
                     include: { team: true },
