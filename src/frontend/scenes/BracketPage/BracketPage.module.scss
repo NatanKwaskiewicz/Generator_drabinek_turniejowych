@@ -12,4 +12,10 @@ $dark-grey: #1a1c22;
     flex-direction: column;
     width: 100%;
     background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
+
+    @media (max-width: 768px) {
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 }

@@ -207,3 +207,41 @@ $yellow: #ffd700;
         color: $blue;
     }
 }
+
+@media (max-width: 768px) {
+    .SwissTable {
+        padding: 1rem;
+        gap: 1.2rem;
+    }
+
+    .SwissMatch {
+        gap: 0.8rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .SwissMatchTeam {
+        font-size: 1.2rem;
+    }
+
+    .SwissMatchScore {
+        font-size: 1.2rem;
+        min-width: 4rem;
+    }
+
+    .SwissRoundTab {
+        padding: 0.4rem 1rem;
+        font-size: 1.1rem;
+    }
+
+    .SwissRoundCounter {
+        width: 100%;
+        margin-left: 0;
+        font-size: 1.1rem;
+    }
+
+    .SwissTh,
+    .SwissTd {
+        padding: 0.4rem 0.5rem;
+        font-size: 1.1rem;
+    }
+}

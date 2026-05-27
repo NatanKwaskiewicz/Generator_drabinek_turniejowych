@@ -205,4 +205,44 @@ $red: #f87171;
         padding: 1rem 0;
         width: 90%;
     }
+
+    @media (max-width: 768px) {
+        animation: none;
+        width: 100% !important;
+        align-self: auto;
+        border-radius: 1.2rem;
+
+        &Expanded {
+            width: 100%;
+            padding: 1.2rem;
+            align-items: stretch;
+            align-self: auto;
+        }
+
+        &Collapsed {
+            width: 100%;
+            height: auto;
+            padding: 0.8rem 1.2rem;
+            flex-direction: row;
+            justify-content: space-between;
+
+            &::after {
+                content: 'Settings';
+                color: rgba($white, 0.5);
+                font-size: 1.4rem;
+            }
+        }
+
+        &Toggle {
+            font-size: 1.6rem;
+            align-self: flex-start;
+        }
+
+        &Content {
+            &Advance {
+                padding: 1.2rem 2rem;
+                width: 100%;
+            }
+        }
+    }
 }

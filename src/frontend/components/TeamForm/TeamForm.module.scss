@@ -260,4 +260,59 @@ $red: #f87171;
             cursor: not-allowed;
         }
     }
+
+    @media (max-width: 768px) {
+        padding: 2.5rem 1.5rem;
+        gap: 2.5rem;
+        border-radius: 1.2rem;
+        max-width: 100%;
+
+        &Title {
+            font-size: 2.4rem;
+        }
+
+        &Field {
+            &MemberGrid {
+                max-height: none;
+                overflow-y: visible;
+
+                &Header {
+                    display: none;
+                }
+
+                &Row {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.6rem;
+                    padding: 1rem;
+                    border: 1px solid rgba($blue, 0.1);
+                    border-radius: 0.8rem;
+                    background: rgba($black, 0.2);
+
+                    &Index {
+                        text-align: left;
+                        font-size: 1.1rem;
+                        color: rgba($blue, 0.6);
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.06em;
+                    }
+                }
+            }
+
+            &NicknameWrapper {
+                width: 100%;
+            }
+
+            &CountryWrapper {
+                width: 100%;
+            }
+        }
+
+        &SubmitBtn {
+            align-self: stretch;
+            padding: 1.4rem 2rem;
+            font-size: 1.5rem;
+        }
+    }
 }

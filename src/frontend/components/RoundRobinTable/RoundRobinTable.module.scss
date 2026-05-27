@@ -244,3 +244,47 @@ $draw-color: #b0b0b0;
     flex-direction: column;
     align-items: flex-start;
 }
+
+@media (max-width: 768px) {
+    .RRWrapper {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .RRGrid {
+        grid-template-columns: minmax(8rem, 12rem) repeat(
+                var(--team-count),
+                minmax(7rem, 10rem)
+            );
+        gap: 4px;
+    }
+
+    .RRColHeader,
+    .RRRowHeader {
+        font-size: 1.1rem;
+        padding: 0.6rem 0.4rem;
+        min-height: 4rem;
+    }
+
+    .RRCellDiagonal {
+        min-height: 4rem;
+    }
+
+    .RRCell {
+        min-height: 4rem;
+    }
+
+    .RRScore {
+        font-size: 1.1rem;
+    }
+
+    .RRScorePending {
+        font-size: 1.2rem;
+    }
+
+    .RRTh,
+    .RRTd {
+        padding: 0.4rem 0.5rem;
+        font-size: 1.1rem;
+    }
+}
