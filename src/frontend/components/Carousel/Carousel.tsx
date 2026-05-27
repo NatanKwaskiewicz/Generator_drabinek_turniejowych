@@ -1,9 +1,11 @@
 import styles from './Carousel.module.scss'
 import type { Slide } from '../../types'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const Carousel = ({ data }: { data: Slide[] }) => {
     const [slide, setSlide] = useState(0)
+    const trackRef = useRef<HTMLDivElement>(null)
+    const [offset, setOffset] = useState(0)
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -13,12 +15,29 @@ const Carousel = ({ data }: { data: Slide[] }) => {
         return () => clearInterval(interval)
     }, [data.length])
 
+    const getSlideWidth = () => {
+        if (!trackRef.current) return 0
+        const raw = getComputedStyle(trackRef.current)
+            .getPropertyValue('--carousel-slide-width')
+            .trim()
+        console.log(parseFloat(raw))
+        return parseFloat(raw) || 0
+    }
+
+    useEffect(() => {
+        const update = () => setOffset(getSlideWidth() * slide)
+        update()
+        window.addEventListener('resize', update)
+        return () => window.removeEventListener('resize', update)
+    })
+
     return (
         <>
             <div className={styles.Carousel}>
                 <div
+                    ref={trackRef}
                     className={styles.CarouselTrack}
-                    style={{ transform: `translateX(-${slide * 55}vw)` }}
+                    style={{ transform: `translateX(-${offset}vw)` }}
                 >
                     {data.map((item: Slide, index: number) => {
                         return (
