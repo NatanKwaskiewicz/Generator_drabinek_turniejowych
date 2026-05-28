@@ -8,4 +8,8 @@ $dark-grey: #1a1c22;
     align-items: flex-start;
     background: linear-gradient(180deg, $dark-grey 0%, $black 100%);
     padding: 6rem 2rem;
+
+    @media (max-width: 768px) {
+        padding: 3rem 1rem;
+    }
 }

@@ -25,4 +25,17 @@ $dark-grey: #1a1c22;
             translate: 0 0;
         }
     }
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+        padding: 3rem 4rem;
+    }
+
+    @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+        margin-top: 2rem;
+    }
 }

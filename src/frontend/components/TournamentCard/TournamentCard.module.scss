@@ -106,4 +106,46 @@ $red: #f87171;
             }
         }
     }
+
+    @media (max-width: 640px) {
+        padding: 1.4rem 1.6rem;
+        gap: 1rem;
+
+        &Info {
+            &Name {
+                font-size: 1.5rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &Meta {
+                gap: 0.8rem;
+
+                &Badge {
+                    font-size: 1.1rem;
+                    padding: 0.2rem 0.7rem;
+                }
+
+                &Teams {
+                    font-size: 1.1rem;
+                }
+            }
+        }
+
+        &Actions {
+            gap: 0.6rem;
+
+            &Open {
+                padding: 0.8rem 1.4rem;
+                font-size: 1.3rem;
+            }
+
+            &Delete {
+                width: 3.6rem;
+                height: 3.6rem;
+                font-size: 1.4rem;
+            }
+        }
+    }
 }

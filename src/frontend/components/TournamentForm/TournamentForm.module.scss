@@ -272,4 +272,54 @@ $dark-grey: #1a1c22;
             transform: translateY(0);
         }
     }
+
+    @media (max-width: 768px) {
+        padding: 2.5rem 2rem;
+        gap: 2.5rem;
+        border-radius: 1.2rem;
+        max-width: 100%;
+
+        &Title {
+            font-size: 2.4rem;
+        }
+
+        &Field {
+            &FormatPicker {
+                gap: 0.8rem;
+
+                &Option {
+                    &Btn {
+                        padding: 0.8rem 1.4rem;
+                        font-size: 1.4rem;
+                    }
+                }
+
+                &Preview {
+                    width: min(24rem, 80vw);
+                    left: 0;
+                    transform: none;
+                }
+            }
+
+            &ParticipantGrid {
+                grid-template-columns: 1fr;
+                max-height: none;
+            }
+
+            &TeamGrid {
+                gap: 0.8rem;
+            }
+
+            &TeamOption {
+                padding: 0.8rem 1.4rem;
+                font-size: 1.4rem;
+            }
+        }
+
+        &SubmitBtn {
+            align-self: stretch;
+            padding: 1.4rem 2rem;
+            font-size: 1.5rem;
+        }
+    }
 }

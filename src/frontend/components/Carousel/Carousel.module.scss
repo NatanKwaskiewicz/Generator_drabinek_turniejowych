@@ -11,23 +11,27 @@ $dark-grey: #1a1c22;
     height: 100%;
     overflow: hidden;
     position: relative;
-    //clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
-    //clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 0% 100%);
-    //clip-path: polygon(0% 0%, 100% 0%, 89% 75%, 93% 100%, 4% 100%);
     mask-image:
         linear-gradient(to right, transparent 0%, $black 20%),
         linear-gradient(to bottom, transparent 0%, $black 10%),
         linear-gradient(to top, transparent 0%, $black 25%);
     mask-composite: intersect;
-    //-webkit-mask-image:
-    //        linear-gradient(to right, transparent 0%, black 15%),
-    //        linear-gradient(to bottom, transparent 0%, black 10%),
-    //        linear-gradient(to top, transparent 0%, black 10%);
-    //-webkit-mask-composite: source-in;
+
+    @media (max-width: 768px) {
+        mask-image:
+            linear-gradient(to bottom, transparent 0%, $black 10%),
+            linear-gradient(to top, transparent 0%, $black 20%);
+        mask-composite: intersect;
+    }
 
     &Track {
         display: flex;
         transition: transform 0.8s ease-in-out;
+        --carousel-slide-width: 55vw;
+
+        @media (max-width: 768px) {
+            --carousel-slide-width: 100vw;
+        }
     }
 
     &Image {
@@ -36,5 +40,11 @@ $dark-grey: #1a1c22;
         object-fit: cover;
         height: 640px;
         border-bottom-left-radius: 10px;
+
+        @media (max-width: 768px) {
+            height: 300px;
+            min-width: 100%;
+            border-bottom-left-radius: 0;
+        }
     }
 }

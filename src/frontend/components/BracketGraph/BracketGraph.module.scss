@@ -30,4 +30,10 @@ $dark-grey: #1a1c22;
             stroke-width: 2;
         }
     }
+
+    @media (max-width: 768px) {
+        padding: 2rem 1.5rem;
+        gap: 6rem;
+        -webkit-overflow-scrolling: touch;
+    }
 }

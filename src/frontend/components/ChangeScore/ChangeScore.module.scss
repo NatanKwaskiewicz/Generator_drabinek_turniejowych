@@ -169,4 +169,47 @@ $purple: #7c6fcd;
             }
         }
     }
+
+    @media (max-width: 768px) {
+        width: calc(100vw - 3rem);
+        max-width: 44rem;
+        padding: 2.5rem 2rem;
+        gap: 2rem;
+        border-radius: 1.2rem;
+
+        &Title {
+            font-size: 2rem;
+        }
+
+        &Matchup {
+            gap: 1.2rem;
+
+            &Team {
+                &Label {
+                    font-size: 1.2rem;
+                }
+
+                &Input {
+                    font-size: 2rem;
+                    padding: 0.8rem;
+                }
+            }
+
+            &Vs {
+                font-size: 1.4rem;
+            }
+        }
+
+        &Buttons {
+            gap: 0.8rem;
+
+            &Cancel,
+            &Confirm {
+                flex: 1;
+                padding: 1rem 1.2rem;
+                font-size: 1.4rem;
+                text-align: center;
+            }
+        }
+    }
 }

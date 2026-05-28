@@ -5,4 +5,8 @@
     width: 20rem;
     flex-shrink: 0;
     text-overflow: fade;
+
+    @media (max-width: 768px) {
+        width: 14rem;
+    }
 }
