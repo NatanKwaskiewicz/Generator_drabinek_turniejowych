@@ -30,7 +30,9 @@ const matchDraw: Match = {
     played: true,
 }
 
-const renderMatch = (props: Partial<React.ComponentProps<typeof BracketMatch>> = {}) =>
+const renderMatch = (
+    props: Partial<React.ComponentProps<typeof BracketMatch>> = {}
+) =>
     render(
         <QueryClientProvider client={queryClient}>
             <BracketMatch
@@ -58,14 +60,18 @@ describe('BracketMatch', () => {
 
     it('opens ChangeScore modal on click', () => {
         renderMatch()
-        const matchDiv = screen.getByText('Alpha').closest('[class*="BracketMatch"]') as HTMLElement
+        const matchDiv = screen
+            .getByText('Alpha')
+            .closest('[class*="BracketMatch"]') as HTMLElement
         fireEvent.click(matchDiv)
         expect(screen.getByText('Update Score')).toBeInTheDocument()
     })
 
     it('closes ChangeScore modal on cancel', () => {
         renderMatch()
-        const matchDiv = screen.getByText('Alpha').closest('[class*="BracketMatch"]') as HTMLElement
+        const matchDiv = screen
+            .getByText('Alpha')
+            .closest('[class*="BracketMatch"]') as HTMLElement
         fireEvent.click(matchDiv)
         fireEvent.click(screen.getByText('Cancel'))
         expect(screen.queryByText('Update Score')).not.toBeInTheDocument()
@@ -74,7 +80,9 @@ describe('BracketMatch', () => {
     it('calls onUpdateScore with correct args on confirm', () => {
         const onUpdateScore = jest.fn()
         renderMatch({ onUpdateScore })
-        const matchDiv = screen.getByText('Alpha').closest('[class*="BracketMatch"]') as HTMLElement
+        const matchDiv = screen
+            .getByText('Alpha')
+            .closest('[class*="BracketMatch"]') as HTMLElement
         fireEvent.click(matchDiv)
         fireEvent.click(screen.getByText('Confirm'))
         expect(onUpdateScore).toHaveBeenCalledWith(0, 1, 3, 1)

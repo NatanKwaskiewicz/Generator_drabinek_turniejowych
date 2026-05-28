@@ -1,19 +1,19 @@
 {
-  "extends": "./tsconfig.app.json",
-  "compilerOptions": {
-    "types": ["jest", "@testing-library/jest-dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "esModuleInterop": true
-  },
-  "include": [
-    "src/frontend/**/*.test.ts",
-    "src/frontend/**/*.test.tsx",
-    "src/frontend/test/**/*",
-    "src/frontend/**/*.d.ts"
-  ]
+    "extends": "./tsconfig.app.json",
+    "compilerOptions": {
+        "types": ["jest", "@testing-library/jest-dom"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "esModuleInterop": true
+    },
+    "include": [
+        "src/frontend/**/*.test.ts",
+        "src/frontend/**/*.test.tsx",
+        "src/frontend/test/**/*",
+        "src/frontend/**/*.d.ts"
+    ]
 }

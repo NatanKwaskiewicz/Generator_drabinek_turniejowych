@@ -12,7 +12,8 @@ export default {
     },
     moduleNameMapper: {
         '\\.(css|scss|sass)$': 'identity-obj-proxy',
-        '\\.(jpg|jpeg|png|gif|svg|webp)$': '<rootDir>/src/frontend/test/__mocks__/fileMock.ts',
+        '\\.(jpg|jpeg|png|gif|svg|webp)$':
+            '<rootDir>/src/frontend/test/__mocks__/fileMock.ts',
         '^../components/([^/]+)$': '<rootDir>/src/frontend/components/$1/$1',
         '^../../components/([^/]+)$': '<rootDir>/src/frontend/components/$1/$1',
     },
