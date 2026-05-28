@@ -1,1 +1,1 @@
-export { default } from './BracketMatch.tsx'
+export { default } from './BracketMatch'
