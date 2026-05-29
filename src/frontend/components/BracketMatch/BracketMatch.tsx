@@ -24,7 +24,6 @@ const BracketMatch = forwardRef<HTMLDivElement, BracketMatchProps>(
 
         const handleConfirm = (scoreA: number, scoreB: number) => {
             onUpdateScore(roundIndex, match.id, scoreA, scoreB)
-            //tutaj hook chyba jakiś zeby ustawiał ten score w bazie, POST albo PATCH albo coś
             setShowChangeScore(false)
         }
         return (
