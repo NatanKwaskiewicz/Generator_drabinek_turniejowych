@@ -4,6 +4,7 @@ import type { CreateTournamentPayload } from '../types'
 import {
     generateMatches,
     generateRoundRobinMatches,
+    generateSwissMatches,
 } from './useGenerateMatches.ts'
 
 const createTournament = async (payload: CreateTournamentPayload) => {
@@ -28,6 +29,8 @@ export const useCreateTournament = () => {
         onSuccess: async (data) => {
             if (data?.format?.name === 'Round Robin') {
                 await generateRoundRobinMatches(data.id)
+            } else if (data?.format?.name === 'Swiss') {
+                await generateSwissMatches(data.id)
             } else {
                 await generateMatches(data.id)
             }

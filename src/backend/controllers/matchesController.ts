@@ -177,13 +177,11 @@ export const generateSwissMatches = async (
 
         if (tournamentTeams.length < 2)
             return res.status(400).json('Not enough teams to generate matches')
-        if (tournamentTeams.length % 2 !== 0)
-            return res.status(400).json('Number of teams must be even')
 
         const shuffled = [...tournamentTeams].sort(() => Math.random() - 0.5)
         const matchesData = []
 
-        for (let i = 0; i < shuffled.length; i += 2) {
+        for (let i = 0; i < shuffled.length - 1; i += 2) {
             matchesData.push({
                 tournamentId,
                 teamAId: shuffled[i].teamId,
@@ -283,11 +281,9 @@ export const advanceSwissRound = async (
 
         while (unpaired.length >= 2) {
             const teamA = unpaired.shift()!
-
             const partnerIdx = unpaired.findIndex(
                 (id) => !played[teamA].has(id)
             )
-
             if (partnerIdx === -1) {
                 const teamB = unpaired.shift()!
                 pairings.push({ teamAId: teamA, teamBId: teamB })
