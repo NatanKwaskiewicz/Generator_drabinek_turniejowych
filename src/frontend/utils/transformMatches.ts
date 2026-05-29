@@ -45,6 +45,14 @@ export const computeRoundRobinStandings = (
         const a = standingsMap[m.teamAId]
         const b = standingsMap[m.teamBId]
         if (!a || !b) continue
+
+        if (m.teamAId === m.teamBId) {
+            a.played++
+            a.won++
+            a.points += 3
+            continue
+        }
+
         a.played++
         b.played++
         a.pointsFor += m.teamAScore

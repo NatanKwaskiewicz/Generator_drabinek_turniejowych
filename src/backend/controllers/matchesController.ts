@@ -193,6 +193,19 @@ export const generateSwissMatches = async (
             })
         }
 
+        if (shuffled.length % 2 !== 0) {
+            const byeTeamId = shuffled[shuffled.length - 1].teamId
+            matchesData.push({
+                tournamentId,
+                teamAId: byeTeamId,
+                teamBId: byeTeamId,
+                round: 1,
+                teamAScore: 1,
+                teamBScore: 0,
+                played: true,
+            })
+        }
+
         await prisma.match.createMany({ data: matchesData })
 
         const created = await prisma.match.findMany({
@@ -224,7 +237,9 @@ export const advanceSwissRound = async (
         if (currentMatches.length === 0)
             return res.status(404).json('No matches found for this round')
 
-        const unplayed = currentMatches.filter((m) => !m.played)
+        const unplayed = currentMatches.filter(
+            (m) => !m.played && m.teamAId !== m.teamBId
+        )
         if (unplayed.length > 0)
             return res
                 .status(422)
@@ -260,6 +275,10 @@ export const advanceSwissRound = async (
 
         for (const m of allMatches) {
             if (!m.played) continue
+            if (m.teamAId === m.teamBId) {
+                points[m.teamAId] += 2
+                continue
+            }
             played[m.teamAId].add(m.teamBId)
             played[m.teamBId].add(m.teamAId)
             if (m.teamAScore > m.teamBScore) {
@@ -308,6 +327,19 @@ export const advanceSwissRound = async (
             teamBScore: 0,
             played: false,
         }))
+
+        if (unpaired.length === 1) {
+            const byeTeamId = unpaired[0]
+            matchesData.push({
+                tournamentId,
+                teamAId: byeTeamId,
+                teamBId: byeTeamId,
+                round: nextRound,
+                teamAScore: 1,
+                teamBScore: 0,
+                played: true,
+            })
+        }
 
         await prisma.match.createMany({ data: matchesData })
 

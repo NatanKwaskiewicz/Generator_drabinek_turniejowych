@@ -1,7 +1,7 @@
 import styles from './SwissTable.module.scss'
 import type { Tournament, Match } from '../../types'
 import { computeRoundRobinStandings } from '../../utils/transformMatches.ts'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useUpdateMatchScore } from '../../hooks/useUpdateMatchScore.ts'
 import ChangeScore from '../ChangeScore'
 import TeamHeader from '../TeamHeader'
@@ -19,15 +19,9 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
         new Set(tournament.Match.map((m) => m.round))
     ).sort((a, b) => a - b)
 
-    const [activeRound, setActiveRound] = useState<number>(() =>
-        rounds.length > 0 ? Math.max(...rounds) : 1
-    )
-
-    useEffect(() => {
-        if (rounds.length > 0) {
-            setActiveRound(Math.max(...rounds))
-        }
-    }, [rounds.length])
+    const latestRound = rounds.length > 0 ? Math.max(...rounds) : 1
+    const [selectedRound, setSelectedRound] = useState<number | null>(null)
+    const activeRound = selectedRound ?? latestRound
 
     const [selectedMatch, setSelectedMatch] = useState<{
         id: number
@@ -66,7 +60,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
     const standings = computeRoundRobinStandings(tournament)
 
     const activeRoundMatches = tournament.Match.filter(
-        (m) => m.round === activeRound
+        (m) => m.round === activeRound && m.teamAId !== m.teamBId
     )
 
     return (
@@ -78,7 +72,7 @@ const SwissTable = ({ tournament }: SwissTableProps) => {
                             <button
                                 key={r}
                                 className={`${styles.SwissRoundTab} ${r === activeRound ? styles.SwissRoundTabActive : ''}`}
-                                onClick={() => setActiveRound(r)}
+                                onClick={() => setSelectedRound(r)}
                                 type="button"
                             >
                                 Round {r}
