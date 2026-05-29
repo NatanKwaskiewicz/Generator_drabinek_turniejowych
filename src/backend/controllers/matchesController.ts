@@ -27,7 +27,7 @@ export const generateMatches = async (
         })
 
         if (tournamentTeams.length < 2) {
-            res.status(400).json('Not enough teams to generate matches')
+            return res.status(400).json('Not enough teams to generate matches')
         }
 
         if (tournamentTeams.length % 2 !== 0)
