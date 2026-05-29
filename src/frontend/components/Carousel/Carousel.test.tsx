@@ -32,8 +32,14 @@ describe('Carousel', () => {
 
     it('renders each image with the correct src', () => {
         render(<Carousel data={slides} />)
-        expect(screen.getByAltText('Slide one')).toHaveAttribute('src', '/img1.jpg')
-        expect(screen.getByAltText('Slide two')).toHaveAttribute('src', '/img2.jpg')
+        expect(screen.getByAltText('Slide one')).toHaveAttribute(
+            'src',
+            '/img1.jpg'
+        )
+        expect(screen.getByAltText('Slide two')).toHaveAttribute(
+            'src',
+            '/img2.jpg'
+        )
     })
 
     it('renders a single slide without crashing', () => {

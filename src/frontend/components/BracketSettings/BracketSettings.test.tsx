@@ -33,13 +33,17 @@ describe('BracketSettings', () => {
 
     it('collapses when the toggle button is clicked', () => {
         render(wrap(<BracketSettings {...baseProps} />))
-        fireEvent.click(screen.getByRole('button', { name: 'Collapse settings' }))
+        fireEvent.click(
+            screen.getByRole('button', { name: 'Collapse settings' })
+        )
         expect(screen.queryByText('Tournament name')).not.toBeInTheDocument()
     })
 
     it('expands again after a second toggle click', () => {
         render(wrap(<BracketSettings {...baseProps} />))
-        fireEvent.click(screen.getByRole('button', { name: 'Collapse settings' }))
+        fireEvent.click(
+            screen.getByRole('button', { name: 'Collapse settings' })
+        )
         fireEvent.click(screen.getByRole('button', { name: 'Expand settings' }))
         expect(screen.getByText('Tournament name')).toBeInTheDocument()
     })
@@ -85,8 +89,12 @@ describe('BracketSettings', () => {
                 />
             )
         )
-        expect(screen.getByRole('button', { name: 'Leg 1' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: 'Leg 2' })).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Leg 1' })
+        ).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Leg 2' })
+        ).toBeInTheDocument()
     })
 
     it('calls onAdvanceLeg with the correct leg number when a leg button is clicked', () => {
