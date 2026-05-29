@@ -20,7 +20,6 @@ const Carousel = ({ data }: { data: Slide[] }) => {
         const raw = getComputedStyle(trackRef.current)
             .getPropertyValue('--carousel-slide-width')
             .trim()
-        console.log(parseFloat(raw))
         return parseFloat(raw) || 0
     }
 
