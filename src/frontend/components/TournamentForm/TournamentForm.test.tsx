@@ -29,8 +29,18 @@ const wrap = (ui: React.ReactElement) => (
 )
 
 const formats = [
-    { id: 1, name: 'Single elimination', description: 'Knockout', image_path: '' },
-    { id: 2, name: 'Round Robin', description: 'Everyone plays', image_path: '' },
+    {
+        id: 1,
+        name: 'Single elimination',
+        description: 'Knockout',
+        image_path: '',
+    },
+    {
+        id: 2,
+        name: 'Round Robin',
+        description: 'Everyone plays',
+        image_path: '',
+    },
     { id: 3, name: 'Swiss', description: 'Adaptive', image_path: '' },
 ]
 
@@ -49,7 +59,11 @@ const defaultMocks = () => {
         error: null,
     })
     mockUseTeams.mockReturnValue({ data: teams, isLoading: false })
-    mockUseFormats.mockReturnValue({ data: formats, isLoading: false, isError: false })
+    mockUseFormats.mockReturnValue({
+        data: formats,
+        isLoading: false,
+        isError: false,
+    })
 }
 
 describe('TournamentForm', () => {
@@ -75,22 +89,36 @@ describe('TournamentForm', () => {
 
     it('renders the Create Tournament button', () => {
         render(wrap(<TournamentForm />))
-        expect(screen.getByRole('button', { name: 'Create Tournament' })).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Create Tournament' })
+        ).toBeInTheDocument()
     })
 
     it('renders a button for each format', () => {
         render(wrap(<TournamentForm />))
-        expect(screen.getByRole('button', { name: 'Single elimination' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: 'Round Robin' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: 'Swiss' })).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Single elimination' })
+        ).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Round Robin' })
+        ).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Swiss' })
+        ).toBeInTheDocument()
     })
 
     it('renders a button for each available team', () => {
         render(wrap(<TournamentForm />))
-        expect(screen.getByRole('button', { name: 'Alpha' })).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Alpha' })
+        ).toBeInTheDocument()
         expect(screen.getByRole('button', { name: 'Beta' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: 'Gamma' })).toBeInTheDocument()
-        expect(screen.getByRole('button', { name: 'Delta' })).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Gamma' })
+        ).toBeInTheDocument()
+        expect(
+            screen.getByRole('button', { name: 'Delta' })
+        ).toBeInTheDocument()
     })
 
     it('shows "No teams registered yet." when the teams list is empty', () => {
@@ -106,26 +134,40 @@ describe('TournamentForm', () => {
     })
 
     it('shows a loading message while formats are fetching', () => {
-        mockUseFormats.mockReturnValue({ data: undefined, isLoading: true, isError: false })
+        mockUseFormats.mockReturnValue({
+            data: undefined,
+            isLoading: true,
+            isError: false,
+        })
         render(wrap(<TournamentForm />))
         expect(screen.getByText('Loading formats...')).toBeInTheDocument()
     })
 
     it('shows an error message when formats fail to load', () => {
-        mockUseFormats.mockReturnValue({ data: undefined, isLoading: false, isError: true })
+        mockUseFormats.mockReturnValue({
+            data: undefined,
+            isLoading: false,
+            isError: true,
+        })
         render(wrap(<TournamentForm />))
         expect(screen.getByText('Failed to load formats.')).toBeInTheDocument()
     })
 
     it('shows a validation error when submitting without a tournament name', () => {
         render(wrap(<TournamentForm />))
-        fireEvent.click(screen.getByRole('button', { name: 'Create Tournament' }))
-        expect(screen.getByText('Tournament name is required')).toBeInTheDocument()
+        fireEvent.click(
+            screen.getByRole('button', { name: 'Create Tournament' })
+        )
+        expect(
+            screen.getByText('Tournament name is required')
+        ).toBeInTheDocument()
     })
 
     it('shows allowed-sizes hint when Single elimination format is selected', () => {
         render(wrap(<TournamentForm />))
-        expect(screen.getByText('Allowed sizes: 2, 4, 8, 16, 32, 64, 128')).toBeInTheDocument()
+        expect(
+            screen.getByText('Allowed sizes: 2, 4, 8, 16, 32, 64, 128')
+        ).toBeInTheDocument()
     })
 
     it('hides allowed-sizes hint after switching to Round Robin', () => {
@@ -142,7 +184,9 @@ describe('TournamentForm', () => {
         fireEvent.click(alphaBtn)
         expect(alphaBtn).toHaveClass('TournamentFormFieldTeamOptionSelected')
         fireEvent.click(alphaBtn)
-        expect(alphaBtn).not.toHaveClass('TournamentFormFieldTeamOptionSelected')
+        expect(alphaBtn).not.toHaveClass(
+            'TournamentFormFieldTeamOptionSelected'
+        )
     })
 
     it('calls mutate with correct payload when form is submitted with valid data', () => {
@@ -160,7 +204,9 @@ describe('TournamentForm', () => {
         )
         fireEvent.click(screen.getByRole('button', { name: 'Alpha' }))
         fireEvent.click(screen.getByRole('button', { name: 'Beta' }))
-        fireEvent.click(screen.getByRole('button', { name: 'Create Tournament' }))
+        fireEvent.click(
+            screen.getByRole('button', { name: 'Create Tournament' })
+        )
         expect(mutate).toHaveBeenCalledWith(
             expect.objectContaining({
                 name: 'My Cup',
@@ -179,7 +225,9 @@ describe('TournamentForm', () => {
         fireEvent.click(screen.getByRole('button', { name: 'Alpha' }))
         fireEvent.click(screen.getByRole('button', { name: 'Beta' }))
         fireEvent.click(screen.getByRole('button', { name: 'Gamma' }))
-        fireEvent.click(screen.getByRole('button', { name: 'Create Tournament' }))
+        fireEvent.click(
+            screen.getByRole('button', { name: 'Create Tournament' })
+        )
         expect(
             screen.getByText(
                 'Single elimination format requires 2, 4, 8, 16, 32, 64, or 128 teams.'
