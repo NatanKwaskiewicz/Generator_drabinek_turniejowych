@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import Arrow from '../../components/Arrow'
 import FormatGrid from '../../components/FormatGrid'
 import { useFormats } from '../../hooks/useFormats.ts'
+import Loading from '../../components/Loading'
 
 const Home = () => {
     const { data: formats, isLoading, isError } = useFormats()
@@ -34,7 +35,9 @@ const Home = () => {
                 <Arrow size={40} color={'#e8edf2'} />
             </div>
             {isLoading && (
-                <p className={styles.HomeLoading}>Loading formats...</p>
+                <p className={styles.HomeLoading}>
+                    <Loading />
+                </p>
             )}
             {isError && (
                 <p className={styles.HomeError}>Error loading formats.</p>

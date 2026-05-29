@@ -4,6 +4,7 @@ import Format from '../Format'
 import { useCreateTournament } from '../../hooks/useCreateTournament.ts'
 import { useTeams } from '../../hooks/useTeams.ts'
 import { useFormats } from '../../hooks/useFormats.ts'
+import Loading from '../../components/Loading'
 
 const TournamentForm = () => {
     const [name, setName] = useState('')
@@ -90,7 +91,7 @@ const TournamentForm = () => {
                 <div className={styles.TournamentFormFieldFormatPicker}>
                     {formatsLoading ? (
                         <p className={styles.TournamentFormInfo}>
-                            Loading formats...
+                            <Loading />
                         </p>
                     ) : formatsError ? (
                         <p className={styles.TournamentFormError}>
@@ -144,7 +145,7 @@ const TournamentForm = () => {
                 <label className={styles.TournamentFormFieldLabel}>Teams</label>
                 {teamsLoading ? (
                     <p className={styles.TournamentFormInfo}>
-                        Loading teams...
+                        <Loading />
                     </p>
                 ) : !teams?.length ? (
                     <p className={styles.TournamentFormInfo}>

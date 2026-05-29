@@ -1,6 +1,7 @@
 import styles from './TournamentList.module.scss'
 import { useTournaments } from '../../hooks/useTournaments'
 import TournamentCard from '../TournamentCard'
+import Loading from '../Loading'
 
 const TournamentList = () => {
     const { data: tournaments, isLoading, isError, error } = useTournaments()
@@ -9,7 +10,7 @@ const TournamentList = () => {
             <h2 className={styles.TournamentListTitle}>Tournaments</h2>
             {isLoading && (
                 <p className={styles.TournamentListInfo}>
-                    Loading tournaments...
+                    <Loading />
                 </p>
             )}
             {isError && (

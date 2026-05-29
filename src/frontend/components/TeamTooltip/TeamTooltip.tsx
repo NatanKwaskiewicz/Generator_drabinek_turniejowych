@@ -2,6 +2,7 @@ import styles from './TeamTooltip.module.scss'
 import { useTeam } from '../../hooks/useTeam'
 import { useCountries } from '../../hooks/useCountries'
 import { createPortal } from 'react-dom'
+import Loading from '../Loading'
 
 interface TeamTooltipProps {
     teamId: number
@@ -28,7 +29,9 @@ const TeamTooltip = ({ teamId, position }: TeamTooltipProps) => {
             style={{ top: position.top, left: position.left }}
         >
             {isLoading && (
-                <span className={styles.TeamTooltipLoading}>Loading...</span>
+                <span className={styles.TeamTooltipLoading}>
+                    <Loading />
+                </span>
             )}
             {!isLoading && team && (
                 <>

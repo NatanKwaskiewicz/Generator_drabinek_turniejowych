@@ -106,6 +106,10 @@ $dark-grey: #1a1c22;
         animation: fadeInHome 0.25s ease-in-out;
     }
 
+    &Loading {
+        display: flex;
+        justify-content: center;
+    }
     @media (max-width: 768px) {
         h1 {
             font-size: 3.2rem;
