@@ -15,8 +15,18 @@ jest.mock('../../hooks/useCreateTeam', () => ({
 jest.mock('../../hooks/useCountries', () => ({
     useCountries: () => ({
         data: [
-            { code: 'PL', name: 'Poland', flag: '🇵🇱', flagUrl: 'https://example.com/pl.svg' },
-            { code: 'DE', name: 'Germany', flag: '🇩🇪', flagUrl: 'https://example.com/de.svg' },
+            {
+                code: 'PL',
+                name: 'Poland',
+                flag: '🇵🇱',
+                flagUrl: 'https://example.com/pl.svg',
+            },
+            {
+                code: 'DE',
+                name: 'Germany',
+                flag: '🇩🇪',
+                flagUrl: 'https://example.com/de.svg',
+            },
         ],
         isLoading: false,
     }),
@@ -43,7 +53,9 @@ describe('TeamForm', () => {
 
     it('renders team name input', () => {
         renderForm()
-        expect(screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha')).toBeInTheDocument()
+        expect(
+            screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha')
+        ).toBeInTheDocument()
     })
 
     it('renders Create Team button', () => {
@@ -65,9 +77,12 @@ describe('TeamForm', () => {
 
     it('submits with team name when filled', () => {
         renderForm()
-        fireEvent.change(screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha'), {
-            target: { value: 'ZSK Alpha' },
-        })
+        fireEvent.change(
+            screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha'),
+            {
+                target: { value: 'ZSK Alpha' },
+            }
+        )
         fireEvent.click(screen.getByText('Create Team'))
         expect(mockMutate).toHaveBeenCalledWith(
             expect.objectContaining({ name: 'ZSK Alpha' })
@@ -112,9 +127,12 @@ describe('TeamForm', () => {
 
     it('trims whitespace from team name before submit', () => {
         renderForm()
-        fireEvent.change(screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha'), {
-            target: { value: '  ZSK Alpha  ' },
-        })
+        fireEvent.change(
+            screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha'),
+            {
+                target: { value: '  ZSK Alpha  ' },
+            }
+        )
         fireEvent.click(screen.getByText('Create Team'))
         expect(mockMutate).toHaveBeenCalledWith(
             expect.objectContaining({ name: 'ZSK Alpha' })
@@ -123,9 +141,12 @@ describe('TeamForm', () => {
 
     it('submits with undefined teamMember when all member fields are empty', () => {
         renderForm()
-        fireEvent.change(screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha'), {
-            target: { value: 'ZSK Alpha' },
-        })
+        fireEvent.change(
+            screen.getByPlaceholderText('e.g. ZSK Counter-Strike Team Alpha'),
+            {
+                target: { value: 'ZSK Alpha' },
+            }
+        )
         fireEvent.click(screen.getByText('Create Team'))
         expect(mockMutate).toHaveBeenCalledWith(
             expect.objectContaining({ teamMember: undefined })

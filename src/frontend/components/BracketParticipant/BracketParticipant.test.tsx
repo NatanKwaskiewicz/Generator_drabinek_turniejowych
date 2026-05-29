@@ -23,7 +23,9 @@ describe('BracketParticipant', () => {
     })
 
     it('does not render a score element when score is undefined', () => {
-        const { container } = render(wrap(<BracketParticipant name="Team Alpha" />))
+        const { container } = render(
+            wrap(<BracketParticipant name="Team Alpha" />)
+        )
         expect(container.querySelectorAll('span').length).toBe(1)
     })
 
