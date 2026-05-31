@@ -117,9 +117,10 @@ describe('SwissTable', () => {
     it('opens the ChangeScore modal when a match row is clicked', () => {
         render(wrap(<SwissTable tournament={makeTournament()} />))
         fireEvent.click(screen.getByText('Round 1'))
-        const matchRow = screen.getAllByText('Alpha')
-            .map(el => el.closest('[class*="SwissMatch"]'))
-            .find(el => el !== null) as HTMLElement
+        const matchRow = screen
+            .getAllByText('Alpha')
+            .map((el) => el.closest('[class*="SwissMatch"]'))
+            .find((el) => el !== null) as HTMLElement
         fireEvent.click(matchRow)
         expect(screen.getByText('Update Score')).toBeInTheDocument()
     })
@@ -127,9 +128,10 @@ describe('SwissTable', () => {
     it('closes the ChangeScore modal when Cancel is clicked', () => {
         render(wrap(<SwissTable tournament={makeTournament()} />))
         fireEvent.click(screen.getByText('Round 1'))
-        const matchRow = screen.getAllByText('Alpha')
-            .map(el => el.closest('[class*="SwissMatch"]'))
-            .find(el => el !== null) as HTMLElement
+        const matchRow = screen
+            .getAllByText('Alpha')
+            .map((el) => el.closest('[class*="SwissMatch"]'))
+            .find((el) => el !== null) as HTMLElement
         fireEvent.click(matchRow)
         fireEvent.click(screen.getByText('Cancel'))
         expect(screen.queryByText('Update Score')).not.toBeInTheDocument()

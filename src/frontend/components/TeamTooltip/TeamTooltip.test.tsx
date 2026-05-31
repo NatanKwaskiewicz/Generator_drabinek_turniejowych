@@ -30,8 +30,22 @@ const teamWithMembers: Team = {
     id: 1,
     name: 'Alpha',
     teamMembers: [
-        { id: 1, name: 'Jan', surname: 'Kowalski', nickname: 'JK', countryCode: 'PL', teamId: 1 },
-        { id: 2, name: 'Piotr', surname: 'Nowak', nickname: null, countryCode: null, teamId: 1 },
+        {
+            id: 1,
+            name: 'Jan',
+            surname: 'Kowalski',
+            nickname: 'JK',
+            countryCode: 'PL',
+            teamId: 1,
+        },
+        {
+            id: 2,
+            name: 'Piotr',
+            surname: 'Nowak',
+            nickname: null,
+            countryCode: null,
+            teamId: 1,
+        },
     ],
 }
 
@@ -104,17 +118,19 @@ describe('TeamTooltip', () => {
         render(
             wrap(<TeamTooltip teamId={1} position={{ top: 50, left: 75 }} />)
         )
-        const tooltip = document.body.querySelector('[class*="TeamTooltip"]') as HTMLElement
+        const tooltip = document.body.querySelector(
+            '[class*="TeamTooltip"]'
+        ) as HTMLElement
         expect(tooltip.style.top).toBe('50px')
         expect(tooltip.style.left).toBe('75px')
     })
 
     it('renders nothing visible when data is undefined and not loading', () => {
         mockUseTeam.mockReturnValue({ data: undefined, isLoading: false })
-        render(
-            wrap(<TeamTooltip teamId={1} position={position} />)
-        )
-        const tooltip = document.body.querySelector('[class*="TeamTooltip"]') as HTMLElement
+        render(wrap(<TeamTooltip teamId={1} position={position} />))
+        const tooltip = document.body.querySelector(
+            '[class*="TeamTooltip"]'
+        ) as HTMLElement
         expect(tooltip.textContent).toBe('')
     })
 })
